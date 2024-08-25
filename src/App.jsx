@@ -1,14 +1,18 @@
 // pages and components imports
-import Home from "./modules/user/Home";
+import Header from "./modules/common/components/Header";
+import Home from "./modules/user/pages/Home";
 
 // react router
 import { Route, Routes } from "react-router-dom";
 
 const App = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-    </Routes>
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </>
   );
 };
 
