@@ -10,13 +10,16 @@ body {
   min-height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
+  font-family: "Inter", sans-serif;
 }
 
 .container {
   width: 100%;
-  max-width: 1200px;
-  padding: 0 16px;
-  margin: 0 auto !important;
+  max-width: 1400px;
+  /* padding-left: 16px; */
+  /* padding-right: 16px; */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 a {
@@ -82,4 +85,23 @@ ul {
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+
+/* The Circle on featuresList */
+
+.icon-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.icon-wrapper::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 10px;
+  width: 40px;
+  height: 40px;
+  background-color: #00ccff27;
+  border-radius: 50%;
+  z-index: 1;
 }

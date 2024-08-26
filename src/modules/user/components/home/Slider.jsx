@@ -20,8 +20,8 @@ export default function Slider() {
       >
         {slider.map((image) => (
           <div key={image.src} className="relative h-full w-full">
-            <div className="absolute left-28 top-1/2 transform -translate-y-1/2 text-balck text-[59px]  cursor-default flex-col flex  max-w-[500px]">
-              <p>{image.text}</p>
+            <div className="absolute left-52 top-1/2 transform -translate-y-1/2 text-balck text-[59px]  cursor-default flex-col flex  max-w-[500px]">
+              <h2 dangerouslySetInnerHTML={{ __html: image.text }} />
               <Link to="/procuctDetail">
                 <button className="text-white rounded-2xl te py-5 px-9 bg-[#d94945] text-[24px] font-semibold ">
                   Shop Now!
