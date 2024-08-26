@@ -1,0 +1,27 @@
+.products-page {
+  max-width: 1920px;
+  min-height: 100vh;
+  background-color: #f3f4f6;
+
+  .shop-grid {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-areas:
+      "filter products";
+
+    .filter {
+      grid-area: filter;
+    }
+
+    .products-list {
+      grid-area: products;
+
+      .products {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+
+        .product-image {}
+      }
+    }
+  }
+}
