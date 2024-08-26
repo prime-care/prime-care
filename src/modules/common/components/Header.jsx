@@ -7,7 +7,7 @@ import { IoCartOutline } from "react-icons/io5"; // cart icon
 
 export default function Header() {
   return (
-    <header className=" px-11 py-4 flex justify-between items-center text-white bg-primary">
+    <header className=" px-11 py-2 flex justify-between items-center text-white bg-primary">
       <Link to="/" className=" pr-24">
         <img src="images/logo.png" alt="" className="w-32" />
       </Link>
