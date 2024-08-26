@@ -24,16 +24,6 @@ export default function SubscribeBox() {
       <span className="font-bold text-2xl px-7">
         Get Our Best Deals Straight to Your Inbox!
       </span>
-      {/* <form action="">
-        <input
-          placeholder="Enter Your Email Address"
-          type="text"
-          className="rounded-[1rem] text-[1rem] p-4 w-[400px] text-black "
-        />
-        <button className="text-xl py-[1rem] px-[2rem bg-[#4abfd9] rounded-[1rem]">
-          Sign Up
-        </button>
-      </form> */}
       <div className="flex items-center">
         <input
           type="text"

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import { categories } from "../../../../constants";
-export default function CustomCarousel() {
+export default function Categories() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const visibleCategories = 4;
 

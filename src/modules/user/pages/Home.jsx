@@ -4,7 +4,6 @@ import Slider from "../components/home/Slider";
 import BestSellers from "../components/home/BestSellers";
 import SubscribeBox from "../components/home/SubscribeBox";
 import FeaturesList from "../components/home/FeaturesList";
-import Footer from "../../../modules/common/components/Footer";
 
 const Home = () => {
   return (
@@ -15,7 +14,6 @@ const Home = () => {
       <BestSellers />
       <SubscribeBox />
       <FeaturesList />
-      <Footer></Footer>
     </>
   );
 };
