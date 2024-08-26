@@ -227,7 +227,7 @@ const ProductPage = () => {
             <img
               src={selectedImage}
               alt="Product Image"
-              className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-full rounded-lg"
+              className="h-80 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-full rounded-lg"
             />
           </div>
           <Slider {...settings}>
@@ -337,8 +337,8 @@ const ProductPage = () => {
         </div>
 
         {/* Right Column: Sidebar */}
-        <div className="lg:col-span-1">
-          <div className="bg-gray-50 p-4 lg:w-64 rounded-lg space-y-4">
+        <div className="lg:col-span-1 ">
+          <div className="bg-gray-50 p-4 lg:ml-24 sm:ml-0 md:ml-0 rounded-lg space-y-4">
             <div className="flex justify-start items-center gap-2">
               <span>
                 <i className="pi pi-truck" style={{ fontSize: "2rem" }}></i>
