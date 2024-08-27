@@ -16,11 +16,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
-<<<<<<< HEAD
         <Route path="/cart" element={<Cart />} />
-=======
-        <Route path="/my-account" element={<MyAccount />} />
->>>>>>> aeae048526aa8d59a2e3e96167e44bc37085eaeb
+        <Route path="/profile" element={<MyAccount />} />
       </Routes>
       <Footer />
     </>
