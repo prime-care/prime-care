@@ -33,16 +33,13 @@ const Footer = () => (
             </h4>
             <ul className="list-none mt-4">
               {footerlink.links.map((link, index) => (
-                <>
-                  {link.icon?.icon}
-                  <li
-                    dangerouslySetInnerHTML={{ __html: link.name }}
-                    key={link.name}
-                    className={` text-gray-400 font-normal text-[16px] leading-[24px] text-dimWhite duration-200 hover:text-white cursor-pointer ${
-                      index !== footerlink.links.length - 1 ? "mb-4" : "mb-0"
-                    }`}
-                  ></li>
-                </>
+                <li
+                  dangerouslySetInnerHTML={{ __html: link.name }}
+                  key={link.name}
+                  className={` text-gray-400 font-normal text-[16px] leading-[24px] text-dimWhite duration-200 hover:text-white cursor-pointer ${
+                    index !== footerlink.links.length - 1 ? "mb-4" : "mb-0"
+                  }`}
+                ></li>
               ))}
             </ul>
           </div>
