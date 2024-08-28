@@ -6,7 +6,7 @@ import { categories } from "../../../../constants";
 
 export default function Categories() {
   const { currentIndex, visibleCategories, handlePrev, handleNext } =
-    useCarousel();
+    useCarousel(categories);
 
   return (
     <section className=" mx-20 relative mt-14">

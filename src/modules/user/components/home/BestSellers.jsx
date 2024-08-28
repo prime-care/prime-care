@@ -5,12 +5,12 @@ import { Rating, RatingStar } from "flowbite-react";
 
 export default function BestSellers() {
   return (
-    <section>
+    <section className="hidden xl:block">
       <h3 className="mb-4 font-bold text-center text-[#2e3133] text-[24px]">
         Best Sellers
       </h3>
 
-      <ul className="flex justify-center gap-4 font-semibold  text-[#26658c] mb-5">
+      <ul className="flex justify-center gap-4 text-[20px]  text-[#26658c] mb-5">
         <li className="px-6 py-2 bg-[#26658c] text-white rounded-[1rem]">
           <a href="">All</a>
         </li>
@@ -22,7 +22,7 @@ export default function BestSellers() {
       </ul>
 
       <div className="container flex gap-4 mx-[4rem] mb-5 rounded-[1rem] pt-7  border-x border-t border-[#dce3e6]">
-        {/* Right Product */}
+        {/* Left Product */}
         <div className="w-1/4 flex flex-col border-r border-[#dce3e6] px-7 ">
           <div>
             <img
@@ -31,9 +31,9 @@ export default function BestSellers() {
               className="w-full h-80 object-cover rounded-lg"
             />
             <p className="text-gray-500 mt-4">COVID-19 Essentials</p>
-            <h2 className="text-2xl font-bold text-blue-800">
+            <a href="" className="text-2xl font-bold text-[#26658c]">
               Medisou Antibacterial Hand Sanitiser 250ml
-            </h2>
+            </a>
           </div>
           <div>
             <div className="flex items-center mt-2">
@@ -49,8 +49,8 @@ export default function BestSellers() {
             </div>
             <div className="flex items-center justify-between">
               <p className="text-2xl text-[#46a69c] mt-2 font-bold">$19.99</p>
-              <div className=" hover:bg-primary duration-300 rounded-full p-2 bg-[#edf1f2]">
-                <IoCartOutline className="text-2xl hover:text-white" />
+              <div className=" hover:bg-primary duration-300 rounded-full p-2 bg-[#edf1f2]  cursor-pointer">
+                <IoCartOutline className=" text-2xl hover:text-white" />
               </div>
             </div>
             <p className="text-gray-500 mt-2">Stock Level</p>
@@ -63,7 +63,7 @@ export default function BestSellers() {
           </div>
         </div>
 
-        {/* left products */}
+        {/* Right products */}
         <div className="w-3/4 grid grid-cols-3 gap-4">
           {[...Array(9)].map((_, index) => (
             <div

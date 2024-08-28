@@ -5,9 +5,9 @@ import { IoMdCheckmark } from "react-icons/io";
 
 export default function Banner() {
   return (
-    <section className="mx-[4rem] mt-14 mb-20  flex justify-center text-white gap-8 ">
+    <section className=" flex mx-[4rem] mt-14 mb-20   flex-wrap lg:flex-nowrap justify-center text-white gap-8 ">
       {/* right*/}
-      <Link className="rounded-2xl overflow-hidden bg-[url('images/banner-1.jpg')] bg-cover bg-center py-12 px-14 w-[650px] min-h-[300px] sm:min-h-[200px]">
+      <Link className="rounded-2xl overflow-hidden  sm:bg-[url('images/banner-1.jpg')] bg-cover bg-center py-12 px-14 bg-[#27668c]   w-[600px]">
         <SaveUp />
         <p className="text-5xl mt-1 mb-8">
           On All Aktins <br /> Products
@@ -35,7 +35,7 @@ export default function Banner() {
         </div>
       </Link>
 
-      <Link className="rounded-2xl overflow-hidden bg-[url('images/banner-2.jpg')] bg-cover bg-center py-12 px-14 w-[650px] min-h-[300px] sm:min-h-[200px]">
+      <Link className="rounded-2xl overflow-hidden  sm:bg-[url('images/banner-2.jpg')] bg-cover bg-center bg-[#4abcd6] py-12 px-14  w-[600px]  ">
         <div className="flex flex-col text-5xl font-extrabold text-white">
           <span className="text-xl mt-[-3px]">Buy 1, Get 1 </span>
           FREE

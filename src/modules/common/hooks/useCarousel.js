@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { categories } from "../../../constants";
 
-const useCarousel = () => {
+const useCarousel = (categories) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [visibleCategories, setVisibleCategories] = useState(4);
 
