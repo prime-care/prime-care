@@ -3,8 +3,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "primeicons/primeicons.css";
-import Recommendations from "../components/home/Recommandation";
-import ProductTabs from "../components/home/ProductTabs";
+import Recommendations from "../components/product/Recommandation";
+import ProductTabs from "../components/product/ProductTabs";
+import { features } from "../../../constants";
 
 const ProductPage = () => {
   const [selectedImage, setSelectedImage] = useState(
@@ -146,46 +147,23 @@ const ProductPage = () => {
         {/* Right Column: Sidebar */}
         <div className="lg:col-span-1 ">
           <div className="bg-gray-50 p-4 lg:ml-24 sm:ml-0 md:ml-0 rounded-lg space-y-4">
-            <div className="flex justify-start items-center gap-2">
-              <span>
-                <i className="pi pi-truck" style={{ fontSize: "2rem" }}></i>
-              </span>
-              <span>
-                <h2 className="text-lg font-semibold">Fast Delivery</h2>
-                <p className="text-sm text-gray-500">
-                  Within 1-4 business days
-                </p>
-              </span>
-            </div>
-            <div className="flex justify-start items-center gap-2">
-              <span>
-                <i className="pi pi-undo" style={{ fontSize: "2rem" }}></i>
-              </span>
-              <span>
-                <h2 className="text-lg font-semibold">Return & Refund</h2>
-                <p className="text-sm text-gray-500">30 days return policy</p>
-              </span>
-            </div>
-            <div className="flex justify-start items-center gap-2">
-              <span>
-                <i className="pi pi-wallet" style={{ fontSize: "2rem" }}></i>
-              </span>
-              <span>
-                <h2 className="text-lg font-semibold">Safe Shopping</h2>
-                <p className="text-sm text-gray-500">100% secure payment</p>
-              </span>
-            </div>
-            <div className="flex justify-start items-center gap-2">
-              <span>
-                <i className="pi pi-shop" style={{ fontSize: "2rem" }}></i>
-              </span>
-              <span>
-                <h2 className="text-lg font-semibold">Click & Collect</h2>
-                <p className="text-sm text-gray-500">
-                  Collect in any of our stores
-                </p>
-              </span>
-            </div>
+            {features.map((feature, index) => (
+              <div key={index} className="flex gap-4 items-center">
+                <div className="icon-wrapper">
+                  <img
+                    src={feature.icon}
+                    className="w-12 h-12"
+                    alt={feature.title}
+                  />
+                </div>
+                <div>
+                  <p className="mt-2 text-lg">{feature.title}</p>
+                  <p className="mt-2 text-sm text-gray-500">
+                    {feature.description}
+                  </p>
+                </div>
+              </div>
+            ))}
             <div className="flex justify-around mt-4">
               <img
                 src="../../../../public/images/R.png"
