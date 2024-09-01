@@ -44,6 +44,13 @@ const products = [
   },
 ];
 
+// components
+import PaginationComponent from "../../../common/components/Pagination";
+
+function addToCart(id) {
+  console.log(id);
+}
+
 const ProductsList = () => {
   return (
     <mian className="products-list rounded-md">
@@ -60,7 +67,11 @@ const ProductsList = () => {
                 className="rounded-md h-full w-full object-cover"
               />
 
-              <div className="bg-primary absolute p-3 w-1/4 flex justify-center items-center top-0 right-0 rounded-r-md h-full cursor-pointer">
+              <div
+                onClick={() => {
+                  addToCart(product.id);
+                }}
+                className="add-to-cart bg-primary absolute p-3 w-1/4 flex justify-center items-center top-0 rounded-r-md h-full cursor-pointer">
                 <IoCartOutline className="text-2xl text-white" />
               </div>
             </div>
@@ -74,6 +85,8 @@ const ProductsList = () => {
           </div>
         ))}
       </div>
+
+      <PaginationComponent />
     </mian>
   );
 };

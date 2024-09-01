@@ -1,7 +1,8 @@
 .products-page {
   max-width: 1920px;
   min-height: 100vh;
-  background-color: #f3f4f6;
+  margin: 0 auto;
+  background-color: #f9f9f9;
 
   .shop-grid {
     display: grid;
@@ -19,8 +20,23 @@
       .products {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
+        
+        margin-bottom: 40px;
 
-        .product-image {}
+        .product-image {
+          overflow: hidden;
+
+          &:hover {
+            .add-to-cart {
+              right: 0;
+            }
+          }
+
+          .add-to-cart {
+            transition: all 0.4s;
+            right: -100%;
+          }
+        }
       }
     }
   }
