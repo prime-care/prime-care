@@ -5,7 +5,7 @@ import { CiSearch } from "react-icons/ci";
 export default function Search() {
   return (
     <div className="max-w-md">
-      <TextInput type="text" icon={CiSearch} placeholder="Search..." required />
+      <TextInput type="text" icon={CiSearch} placeholder="Search..." />
     </div>
   );
 }

@@ -1,96 +1,87 @@
-// icons
-import { IoCartOutline } from "react-icons/io5";
-
-const products = [
-  {
-    id: 1,
-    image:
-      "https://images.pexels.com/photos/287237/pexels-photo-287237.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    name: "Dental Chair",
-    price: "1,260,000",
-    currency: "EGP",
-  },
-  {
-    id: 2,
-    image:
-      "https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    name: "Light Microscopy",
-    price: "18,000",
-    currency: "EGP",
-  },
-  {
-    id: 3,
-    image:
-      "https://images.pexels.com/photos/5998514/pexels-photo-5998514.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    name: "Vitamine D3",
-    price: "1,200",
-    currency: "EGP",
-  },
-  {
-    id: 4,
-    image:
-      "https://images.pexels.com/photos/2565761/pexels-photo-2565761.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    name: "Hemp Oil",
-    price: "370",
-    currency: "EGP",
-  },
-  {
-    id: 5,
-    image:
-      "https://images.pexels.com/photos/7055286/pexels-photo-7055286.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    name: "Toothbrush",
-    price: "36",
-    currency: "EGP",
-  },
-];
+import { useState, useEffect } from "react";
 
 // components
 import Search from "../../../common/components/Search";
 import PaginationComponent from "../../../common/components/Pagination";
+import { Spinner } from "flowbite-react";
+// icons
+import { IoCartOutline } from "react-icons/io5";
 
 function addToCart(id) {
   console.log(id);
 }
 
 const ProductsList = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Fetch products from the API
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("https://fakestoreapi.com/products");
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
-    <mian className="products-list rounded-md">
+    <main className="products-list rounded-md">
       <Search />
 
-      <div className="products gap-3">
-        {products.map((product) => (
-          <div
-            key={product.id}
-            className="single-product p-3 border border-gray-300 rounded-md flex flex-col gap-1">
-            <div className="product-image relative h-52">
-              <img
-                src={product.image}
-                alt={product.name}
-                title={product.name}
-                className="rounded-md h-full w-full object-cover"
-              />
+      {loading ? (
+        <div className="loading text-center my-4 text-xl font-semibold">
+          <Spinner aria-label="Extra large spinner example" size="xl" />
+        </div>
+      ) : products.length === 0 ? (
+        <div className="py-10 mt-4 bg-secondaryBg rounded-lg">
+          <p className="no-data text-center text-xl font-semibold text-gray-700">
+            No Products Found
+          </p>
+        </div>
+      ) : (
+        <div className="products gap-3 my-4">
+          {products.map((product) => (
+            <div
+              key={product.id}
+              className="single-product p-3 border border-gray-300 rounded-md flex flex-col gap-1">
+              <div className="product-image relative h-52">
+                <img
+                  src={product.image}
+                  alt={product.title}
+                  title={product.title}
+                  className="rounded-md h-full w-full object-contain"
+                />
 
-              <div
-                onClick={() => {
-                  addToCart(product.id);
-                }}
-                className="add-to-cart bg-primary absolute p-3 w-1/4 flex justify-center items-center top-0 rounded-r-md h-full cursor-pointer">
-                <IoCartOutline className="text-2xl text-white" />
+                <div
+                  onClick={() => {
+                    addToCart(product.id);
+                  }}
+                  className="add-to-cart bg-primary absolute p-3 w-1/4 flex justify-center items-center top-0 rounded-r-md h-full cursor-pointer">
+                  <IoCartOutline className="text-2xl text-white" />
+                </div>
               </div>
+              <h3 className="text-base font-medium text-gray-700">
+                {product.title}
+              </h3>
+              <span className="text-base font-bold text-primary">
+                {product.price}{" "}
+                <span className="text-sm text-gray-500">USD</span>
+              </span>
             </div>
-            <h3 className="text-base font-medium text-gray-700">
-              {product.name}
-            </h3>
-            <span className="text-base font-bold text-primary">
-              {product.price}{" "}
-              <span className="text-sm text-gray-500">{product.currency}</span>
-            </span>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
-      <PaginationComponent />
-    </mian>
+      {products.length > 0 && <PaginationComponent />}
+    </main>
   );
 };
 

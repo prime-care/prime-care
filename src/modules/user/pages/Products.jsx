@@ -4,7 +4,7 @@ import ProductsList from "../components/products/ProductsList";
 
 const Products = () => {
   return (
-    <div className="products-page p-3">
+    <div className="products-page p-4">
       <div className="container">
         <div className="shop-grid gap-3">
           <Filter />
