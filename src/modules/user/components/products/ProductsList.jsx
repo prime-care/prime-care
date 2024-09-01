@@ -45,6 +45,7 @@ const products = [
 ];
 
 // components
+import Search from "../../../common/components/Search";
 import PaginationComponent from "../../../common/components/Pagination";
 
 function addToCart(id) {
@@ -54,6 +55,8 @@ function addToCart(id) {
 const ProductsList = () => {
   return (
     <mian className="products-list rounded-md">
+      <Search />
+
       <div className="products gap-3">
         {products.map((product) => (
           <div
