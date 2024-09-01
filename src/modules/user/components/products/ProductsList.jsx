@@ -57,7 +57,7 @@ const ProductsList = () => {
             <div
               key={product.id}
               className="single-product p-3 border border-gray-300 rounded-md flex flex-col gap-1">
-              <div className="product-image relative h-52">
+              <div className="product-image mb-2 relative h-52">
                 <img
                   src={product.image}
                   alt={product.title}

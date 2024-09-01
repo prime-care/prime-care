@@ -6,7 +6,7 @@ const Products = () => {
   return (
     <div className="products-page p-4">
       <div className="container">
-        <div className="shop-grid gap-3">
+        <div className="shop-grid gap-4">
           <Filter />
           <ProductsList />
         </div>
