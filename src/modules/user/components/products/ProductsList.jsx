@@ -6,10 +6,7 @@ import PaginationComponent from "../../../common/components/Pagination";
 import { Spinner } from "flowbite-react";
 // icons
 import { IoCartOutline } from "react-icons/io5";
-
-function addToCart(id) {
-  console.log(id);
-}
+import { FaRegHeart } from "react-icons/fa";
 
 const ProductsList = () => {
   const [products, setProducts] = useState([]);
@@ -31,6 +28,14 @@ const ProductsList = () => {
 
     fetchProducts();
   }, []);
+
+  function addToCart(id) {
+    console.log(id);
+  }
+
+  function addToWishlist(id) {
+    console.log(id);
+  }
 
   return (
     <main className="products-list rounded-md">
@@ -60,12 +65,22 @@ const ProductsList = () => {
                   className="rounded-md h-full w-full object-contain"
                 />
 
-                <div
-                  onClick={() => {
-                    addToCart(product.id);
-                  }}
-                  className="add-to-cart bg-primary absolute p-3 w-1/4 flex justify-center items-center top-0 rounded-r-md h-full cursor-pointer">
-                  <IoCartOutline className="text-2xl text-white" />
+                <div className="product-actions absolute w-1/4 h-full top-0 bg-primary rounded-r-md overflow-hidden">
+                  <div
+                    onClick={() => {
+                      addToCart(product.id);
+                    }}
+                    className="add-to-cart flex justify-center items-center h-1/2 cursor-pointer transition-all duration-300">
+                    <IoCartOutline className="text-2xl text-white" />
+                  </div>
+
+                  <div
+                    onClick={() => {
+                      addToWishlist(product.id);
+                    }}
+                    className="add-to-wishlist flex justify-center items-center h-1/2 cursor-pointer transition-all duration-300">
+                    <FaRegHeart className="text-2xl text-white" />
+                  </div>
                 </div>
               </div>
               <h3 className="text-base font-medium text-gray-700">
@@ -80,7 +95,11 @@ const ProductsList = () => {
         </div>
       )}
 
-      {products.length > 0 && <PaginationComponent />}
+      {products.length > 0 && (
+        <div className="mb-10">
+          <PaginationComponent />
+        </div>
+      )}
     </main>
   );
 };

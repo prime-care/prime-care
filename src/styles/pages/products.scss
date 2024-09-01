@@ -25,14 +25,21 @@
           overflow: hidden;
 
           &:hover {
-            .add-to-cart {
+            .product-actions {
               right: 0;
             }
           }
 
-          .add-to-cart {
+          .product-actions {
             transition: all 0.4s;
             right: -100%;
+
+            .add-to-cart,
+            .add-to-wishlist {
+              &:hover {
+                background-color: #184059;
+              }
+            }
           }
         }
       }
