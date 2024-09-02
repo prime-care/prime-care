@@ -9,6 +9,7 @@ import Cart from "./modules/user/pages/Cart";
 
 // react router
 import { Route, Routes } from "react-router-dom";
+import AboutUs from "./modules/user/pages/AboutUs";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/products/:id" element={<ProductPage />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile" element={<MyAccount />} />
+        <Route path="/about" element={<AboutUs />} />
       </Routes>
       <Footer />
     </>
