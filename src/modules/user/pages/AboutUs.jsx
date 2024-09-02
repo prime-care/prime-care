@@ -1,6 +1,6 @@
 import React from "react";
-import Card from "../../common/components/AboutCard";
 import Slider from "react-slick";
+import Card from "../components/about/AboutCard";
 
 import { RiShieldStarFill } from "react-icons/ri";
 import { FaFaceGrinStars } from "react-icons/fa6";
