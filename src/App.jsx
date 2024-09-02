@@ -11,6 +11,7 @@ import Cart from "./modules/user/pages/Cart";
 import { Route, Routes } from "react-router-dom";
 import AboutUs from "./modules/user/pages/AboutUs";
 import LoginPage from "./modules/auth/pages/Login";
+import Signup from "./modules/auth/pages/Signup";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth/login" element={<LoginPage />} />
+        <Route path="/auth/signup" element={<Signup />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductPage />} />
         <Route path="/cart" element={<Cart />} />
