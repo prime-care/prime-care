@@ -8,9 +8,13 @@ import { Spinner } from "flowbite-react";
 import { IoCartOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 
+// navigate
+import { useNavigate } from "react-router-dom";
+
 const ProductsList = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); // Initialize the navigate function
 
   useEffect(() => {
     // Fetch products from the API
@@ -37,6 +41,11 @@ const ProductsList = () => {
     console.log(id);
   }
 
+  // Navigate to the product details page
+  const navigateToProduct = (id) => {
+    navigate(`/products/${id}`);
+  };
+
   return (
     <main className="products-list rounded-md">
       <Search />
@@ -56,7 +65,8 @@ const ProductsList = () => {
           {products.map((product) => (
             <div
               key={product.id}
-              className="single-product p-3 border border-gray-300 rounded-md flex flex-col gap-1">
+              className="single-product p-3 border border-gray-300 rounded-md flex flex-col gap-1 cursor-pointer"
+              onClick={() => navigateToProduct(product.id)}>
               <div className="product-image mb-2 relative h-52">
                 <img
                   src={product.image}
