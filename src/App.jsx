@@ -10,6 +10,7 @@ import Cart from "./modules/user/pages/Cart";
 // react router
 import { Route, Routes } from "react-router-dom";
 import AboutUs from "./modules/user/pages/AboutUs";
+import LoginPage from "./modules/auth/pages/Login";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/auth/login" element={<LoginPage />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductPage />} />
         <Route path="/cart" element={<Cart />} />
