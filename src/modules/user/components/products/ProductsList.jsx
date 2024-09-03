@@ -11,27 +11,8 @@ import { FaRegHeart } from "react-icons/fa";
 // navigate
 import { useNavigate } from "react-router-dom";
 
-const ProductsList = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+const ProductsList = ({ products, loading }) => {
   const navigate = useNavigate(); // Initialize the navigate function
-
-  useEffect(() => {
-    // Fetch products from the API
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch("https://fakestoreapi.com/products");
-        const data = await response.json();
-        setProducts(data);
-      } catch (error) {
-        console.error("Failed to fetch products:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
 
   function addToCart(id) {
     console.log(id);
@@ -49,7 +30,6 @@ const ProductsList = () => {
   return (
     <main className="products-list rounded-md">
       <Search />
-
       {loading ? (
         <div className="loading text-center my-4 text-xl font-semibold">
           <Spinner aria-label="Extra large spinner example" size="xl" />
@@ -66,13 +46,14 @@ const ProductsList = () => {
             <div
               key={product.id}
               className="single-product p-3 border border-gray-300 rounded-md flex flex-col gap-1 cursor-pointer"
-              onClick={() => navigateToProduct(product.id)}>
+            >
               <div className="product-image mb-2 relative h-52">
                 <img
                   src={product.image}
-                  alt={product.title}
-                  title={product.title}
+                  alt={product.name}
+                  title={product.name}
                   className="rounded-md h-full w-full object-contain"
+                  onClick={() => navigateToProduct(product.productId)}
                 />
 
                 <div className="product-actions absolute w-1/4 h-full top-0 bg-primary rounded-r-md overflow-hidden">
@@ -80,7 +61,8 @@ const ProductsList = () => {
                     onClick={() => {
                       addToCart(product.id);
                     }}
-                    className="add-to-cart flex justify-center items-center h-1/2 cursor-pointer transition-all duration-300">
+                    className="add-to-cart flex justify-center items-center h-1/2 cursor-pointer transition-all duration-300"
+                  >
                     <IoCartOutline className="text-2xl text-white" />
                   </div>
 
@@ -88,13 +70,23 @@ const ProductsList = () => {
                     onClick={() => {
                       addToWishlist(product.id);
                     }}
-                    className="add-to-wishlist flex justify-center items-center h-1/2 cursor-pointer transition-all duration-300">
+                    className="add-to-wishlist flex justify-center items-center h-1/2 cursor-pointer transition-all duration-300"
+                  >
                     <FaRegHeart className="text-2xl text-white" />
                   </div>
                 </div>
               </div>
-              <h3 className="text-base font-medium text-gray-700">
-                {product.title}
+              <h3
+                className="text-sm font-medium text-gray-500"
+                onClick={() => navigateToProduct(product.productId)}
+              >
+                {product.categoryName}
+              </h3>
+              <h3
+                className="text-base font-medium text-gray-700"
+                onClick={() => navigateToProduct(product.productId)}
+              >
+                {product.name}
               </h3>
               <span className="text-base font-bold text-primary">
                 {product.price}{" "}

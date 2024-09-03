@@ -1,7 +1,7 @@
 import { Checkbox, Table } from "flowbite-react";
 import { MdOutlineModeEdit, MdOutlineDeleteSweep } from "react-icons/md";
 
-export default function DashCategories() {
+export default function DashCustomers() {
   const users = [
     {
       userId: "u1",
@@ -32,6 +32,8 @@ export default function DashCategories() {
             <Table.HeadCell>phone</Table.HeadCell>
             <Table.HeadCell>address</Table.HeadCell>
             <Table.HeadCell>actions</Table.HeadCell>
+
+
           </Table.Head>
           <Table.Body className="divide-y">
             {users.map((user) => (

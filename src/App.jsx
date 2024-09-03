@@ -6,13 +6,18 @@ import Products from "./modules/user/pages/Products";
 import ProductPage from "./modules/user/pages/ProductPage";
 import Footer from "./modules/common/components/Footer";
 import Cart from "./modules/user/pages/Cart";
-
-// react router
-import { Route, Routes } from "react-router-dom";
+import Dashboard from "./modules/Dashboard/pages/Dashboard";
+import DashProducts from "./modules/Dashboard/pages/DashProducts";
+import DashCustomers from "./modules/Dashboard/pages/DashCustomers";
+import DashCategories from "./modules/Dashboard/pages/DashCategories";
+import DashOrdes from "./modules/Dashboard/pages/DashOrdes";
 import AboutUs from "./modules/user/pages/AboutUs";
 import LoginPage from "./modules/auth/pages/Login";
 import Signup from "./modules/auth/pages/Signup";
 import Checkout from "./modules/user/components/checkout/Checkout";
+
+// react router
+import { Route, Routes } from "react-router-dom";
 
 const App = () => {
   return (
@@ -26,6 +31,12 @@ const App = () => {
         <Route path="/products/:id" element={<ProductPage />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile" element={<MyAccount />} />
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route path="products" element={<DashProducts />} />
+          <Route path="customers" element={<DashCustomers />} />
+          <Route path="categories" element={<DashCategories />} />
+          <Route path="orders" element={<DashOrdes />} />
+        </Route>
         <Route path="/about" element={<AboutUs />} />
         <Route path="/checkout" element={<Checkout />} />
       </Routes>

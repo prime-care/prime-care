@@ -1,14 +1,46 @@
 // components
+import { or } from "firebase/firestore";
 import { Accordion } from "flowbite-react";
 import { Checkbox, Radio, Label } from "flowbite-react";
+import { useState } from "react";
 // icons
 import { FaFilter } from "react-icons/fa";
 
-// categories
-import { categories } from "../../../../constants/index";
-console.log(categories);
+export default function Filter({ categories, onFilterChange }) {
+  const [selectedCategories, setSelectedCategories] = useState([]); // ex: ["c1","c2"]
+  const [sortOrder, setSortOrder] = useState("");
 
-export default function Filter() {
+  const updateFilters = (newFilters) => {
+    onFilterChange(newFilters);
+  };
+
+  const handleCategoryChange = (event) => {
+    const category = event.target.value; // ex: c1 or c5
+
+    let updatedCategories = [...selectedCategories];
+
+    if (updatedCategories.includes(category)) {
+      updatedCategories = updatedCategories.filter((c) => c !== category); // ex: if (c1 exist in the arr) {remove it} else {push it}
+    } else {
+      updatedCategories.push(category);
+    }
+    setSelectedCategories(updatedCategories);
+    updateFilters({
+      categories: updatedCategories,
+      sortOrder,
+    });
+  };
+  const handleSortOrderChange = (event) => {
+    const order = event.target.value;
+    console.log(order);
+
+    setSortOrder(order);
+    updateFilters({
+      categories: selectedCategories,
+      sortOrder: order,
+    });
+  };
+
   return (
     <aside className="filter rounded-md">
       <div className="head p-3 mb-1 flex justify-start items-center gap-3">
@@ -21,11 +53,18 @@ export default function Filter() {
           <Accordion.Title>Category</Accordion.Title>
           <Accordion.Content>
             <div className="flex flex-col gap-4" id="checkbox">
-              {categories.map((item) => (
-                <div key={item.id} className="flex items-center gap-2">
-                  <Checkbox id="accept" />
+              {categories.map((category) => (
+                <div
+                  key={category.categoryId}
+                  className="flex items-center gap-2"
+                >
+                  <Checkbox
+                    id="accept"
+                    onChange={handleCategoryChange}
+                    value={category.categoryId}
+                  />
                   <Label htmlFor="accept" className="flex">
-                    {item.text}
+                    {category.name}
                   </Label>
                 </div>
               ))}
@@ -37,12 +76,24 @@ export default function Filter() {
           <Accordion.Content>
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-2">
-                <Radio id="htl" name="price" value="htl" defaultChecked />
-                <Label htmlFor="htl">Hightest to lowest</Label>
+                <Radio
+                  id="htl"
+                  name="price"
+                  value="desc"
+                  checked={sortOrder === "desc"}
+                  onChange={handleSortOrderChange}
+                />
+                <Label htmlFor="htl">Highest to lowest</Label>
               </div>
 
               <div className="flex items-center gap-2">
-                <Radio id="lth" name="price" value="lth" defaultChecked />
+                <Radio
+                  id="lth"
+                  name="price"
+                  value="asc"
+                  checked={sortOrder === "asc"}
+                  onChange={handleSortOrderChange}
+                />
                 <Label htmlFor="lth">Lowest to highest</Label>
               </div>
             </div>
