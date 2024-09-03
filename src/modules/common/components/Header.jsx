@@ -1,10 +1,39 @@
 import { navLinks } from "../../../constants";
 import { Link } from "react-router-dom";
+
+// redux
+import { useSelector } from "react-redux";
+import { selectTotal } from "../../../redux/slices/cartSlice";
+
+// icons
 import { IoIosSearch } from "react-icons/io"; // search icon
 import { FiUser } from "react-icons/fi"; // user icon
 import { IoCartOutline } from "react-icons/io5"; // cart icon
+import { useEffect, useState } from "react";
 
 export default function Header() {
+  // select total and the cart from redux
+  const total = useSelector(selectTotal);
+  const cart = useSelector((state) => state.cart.items);
+
+  // bump animation
+  const [btnIsBumbed, setBtnIsBumbed] = useState(false);
+
+  useEffect(() => {
+    if (cart.length === 0) {
+      return;
+    }
+    setBtnIsBumbed(true);
+
+    const timer = setTimeout(() => {
+      setBtnIsBumbed(false);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [cart]);
+
   return (
     <header className="px-4 sm:px-8 lg:px-11 py-2 flex justify-between items-center text-white bg-primary">
       <Link to="/" className="pr-5 sm:pr-12 lg:pr-24">
@@ -16,7 +45,8 @@ export default function Header() {
             <li key={link.name} className="hover:text-secondary">
               <Link
                 to={link.path}
-                className="text-sm sm:text-base lg:text-lg font-medium">
+                className="text-sm sm:text-base lg:text-lg font-medium"
+              >
                 {link.name}
               </Link>
             </li>
@@ -30,14 +60,23 @@ export default function Header() {
         <Link to="/profile">
           <FiUser className="text-2xl sm:text-3xl" />
         </Link>
-        <Link to="/cart" className="flex items-center gap-1">
+        <Link
+          to="/cart"
+          className={`flex items-center gap-1 ${btnIsBumbed && "bump"}`}
+        >
           <div className="relative">
             <IoCartOutline className="text-2xl sm:text-3xl" />
-            <span className="font-semibold absolute w-4 h-4 bg-[#d94945] rounded-full text-center text-[10px] sm:text-[11px] leading-[16px] sm:leading-[17px] top-4 right-[-3px]">
-              3
-            </span>
+            {cart.length !== 0 && (
+              <span className="font-semibold absolute w-4 h-4 bg-[#d94945] rounded-full text-center text-[10px] sm:text-[11px] leading-[16px] sm:leading-[17px] top-4 right-[-3px]">
+                {cart.length}
+              </span>
+            )}
           </div>
-          <span className="text-sm sm:text-base font-semibold">48.99$</span>
+          {cart.length !== 0 && (
+            <span className="text-sm sm:text-base font-semibold">
+              {total.toFixed(2)}
+            </span>
+          )}
         </Link>
       </div>
     </header>

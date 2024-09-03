@@ -1,4 +1,3 @@
-
 const EditProfile = () => {
   return (
     <div className="max-w-xl container mx-auto bg-white p-6 rounded-lg ">
@@ -43,12 +42,14 @@ const EditProfile = () => {
             type="text"
             value="Zhenya Rynzhuk"
             className="w-full px-3  text-gray-500   py-2 border border-gray-300 rounded focus:border-none focus:ring focus:ring-secondary"
+            onChange={() => {}}
           />
         </div>
         <div>
           <label className="block text-sm font-semibold">Email</label>
           <div className="relative">
             <input
+              onChange={() => {}}
               type="email"
               value="zhenyarynzhuk@gmail.com"
               className="w-full px-3  text-gray-500 py-2 border border-gray-300 rounded focus:border-none focus:ring focus:ring-secondary"
@@ -62,6 +63,7 @@ const EditProfile = () => {
           <label className="block text-sm font-semibold">Number</label>
           <div className="relative">
             <input
+              onChange={() => {}}
               type="text"
               value="587-556-998-02"
               className="w-full px-3  text-gray-500 py-2 border border-gray-300 rounded focus:border-none focus:ring focus:ring-secondary"
@@ -74,6 +76,7 @@ const EditProfile = () => {
         <div>
           <label className="block text-sm font-semibold">City</label>
           <input
+            onChange={() => {}}
             type="text"
             value="Sanghai, China"
             className="w-full px-3  text-gray-500 py-2 border border-gray-300 rounded focus:border-none focus:ring focus:ring-secondary"
@@ -83,6 +86,7 @@ const EditProfile = () => {
           <div className="flex-1">
             <label className="block text-sm font-semibold">State</label>
             <input
+              onChange={() => {}}
               type="text"
               value="Mallen"
               className="w-full px-3  text-gray-500 py-2 border border-gray-300 rounded focus:border-none focus:ring focus:ring-secondary"
@@ -91,6 +95,7 @@ const EditProfile = () => {
           <div className="flex-1">
             <label className="block text-sm font-semibold">Zip Code</label>
             <input
+              onChange={() => {}}
               type="text"
               value="7789"
               className="w-full px-3  text-gray-500 py-2 border border-gray-300 rounded focus:border-none focus:ring focus:ring-secondary"
@@ -100,6 +105,7 @@ const EditProfile = () => {
         <div>
           <label className="block text-sm font-semibold">Country</label>
           <input
+            onChange={() => {}}
             type="text"
             value="China"
             className="w-full px-3  text-gray-500 text-gray-500 py-2 border border-gray-300 rounded focus:border-none focus:ring focus:ring-secondary"

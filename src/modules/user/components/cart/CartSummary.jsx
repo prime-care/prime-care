@@ -1,15 +1,11 @@
 // redux
 import { useSelector } from "react-redux";
+import { selectTotal } from "../../../../redux/slices/cartSlice";
 import { Link } from "react-router-dom";
 
 export default function CartSummary() {
-  const cartItems = useSelector((state) => state.cart.items);
+  const total = useSelector(selectTotal);
 
-  const getTotal = () => {
-    return cartItems
-      .reduce((total, item) => total + item.price * item.quantity, 0)
-      .toFixed(2);
-  };
   return (
     <div className=" h-fit p-6 rounded-[1rem] border">
       <h2 className="text-xl font-semibold border-b pb-4 text-[#46a69c]">
@@ -19,7 +15,7 @@ export default function CartSummary() {
         <div className=" border-b pb-4 ">
           <span className="font-semibold py-6 px-8">Subtotal</span>
           <span className="text-xl font-bold text-primary">
-            {`${getTotal()}`}
+            {total}
             <span className="text-sm font-medium text-gray-500"> EGP</span>
           </span>
         </div>
@@ -40,7 +36,7 @@ export default function CartSummary() {
         <div className=" mt-4 border-t pt-4 text-[#46a69c] font-semibold">
           <span className="py-6 px-8 ">Total</span>
           <span className="text-xl font-bold">
-            {`${getTotal()}`}
+            {total}
             <span className="text-sm font-medium text-gray-500"> EGP</span>
           </span>
         </div>
