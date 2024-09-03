@@ -1,29 +1,8 @@
-import { useState, useEffect } from "react";
-
 // components
-import PaginationComponent from "../../../common/components/Pagination";
 import { Spinner } from "flowbite-react";
 import ProductCard from "../../../common/components/ProductCard";
 
-// navigate
-import { useNavigate } from "react-router-dom";
-
 const ProductsList = ({ products, loading }) => {
-  const navigate = useNavigate(); // Initialize the navigate function
-
-  function addToCart(id) {
-    console.log(id);
-  }
-
-  function addToWishlist(id) {
-    console.log(id);
-  }
-
-  // Navigate to the product details page
-  const navigateToProduct = (id) => {
-    navigate(`/products/${id}`);
-  };
-
   return (
     <>
       {loading ? (

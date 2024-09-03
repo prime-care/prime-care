@@ -1,9 +1,28 @@
+// redux
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../../redux/slices/cartSlice";
+
 // icons
 import { IoCartOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { Rating } from "flowbite-react";
 
 export default function ProductsCard({ product }) {
+  const dispatch = useDispatch();
+
+  const handleAddToCart = (product) => {
+    const quantity = 1;
+    dispatch(
+      addToCart({
+        id: product.id,
+        name: product.name,
+        image: product.image, // {id: 2,name:chair,image:"dsfmks",price:25}
+        price: product.price,
+        quantity,
+      })
+    );
+  };
+
   return (
     <div className="single-product p-3 border border-gray-300 rounded-md flex flex-col gap-1 cursor-pointer">
       <div className="product-image mb-2 relative h-52">
@@ -12,13 +31,12 @@ export default function ProductsCard({ product }) {
           alt={product?.name}
           title={product?.name}
           className="rounded-md h-full w-full object-contain"
-          onClick={() => navigateToProduct(product?.productId)}
         />
 
         <div className="product-actions absolute w-1/4 h-full top-0 bg-primary rounded-r-md overflow-hidden">
           <div
             onClick={() => {
-              addToCart(product?.id);
+              handleAddToCart(product);
             }}
             className="add-to-cart flex justify-center items-center h-1/2 cursor-pointer transition-all duration-300"
           >

@@ -1,28 +1,33 @@
 import React from "react";
+
+// redux
+import { useDispatch, useSelector } from "react-redux";
+import {
+  removeFromCart,
+  adjustQuantity,
+} from "../../../../redux/slices/cartSlice";
+
+// icons
 import { AiOutlineMinus } from "react-icons/ai";
 import { AiOutlinePlus } from "react-icons/ai";
 import { AiOutlineDelete } from "react-icons/ai";
 
-const cartItems = [
-  {
-    id: 1,
-    image: "../../../../../public/images/product-2.jpg",
-    name: "Jack Phunkett SuperFade Face Cream 40ml",
-    price: 17.99,
-    quantity: 1,
-    subtotal: 17.99,
-  },
-  {
-    id: 2,
-    image: "../../../../../public/images/product-7.jpg",
-    name: "Minea For Men Extra Moisturising Shaving Gel 200ml",
-    price: 7.95,
-    quantity: 1,
-    subtotal: 7.95,
-  },
-];
-
 export default function CartItems() {
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+
+  const handleIncreaseQuantity = (id) => {
+    dispatch(adjustQuantity({ id, quantity: 1 }));
+  };
+
+  const handleDecreaseQuantity = (id) => {
+    dispatch(adjustQuantity({ id, quantity: -1 }));
+  };
+
+  const handleRemoveItem = (id) => {
+    dispatch(removeFromCart(id));
+  };
+
   return (
     <div className="lg:col-span-2 bg-white  rounded-[1rem] border ">
       <table className="w-full">
@@ -31,7 +36,6 @@ export default function CartItems() {
             <th className="text-left py-6 px-8">Product</th>
             <th className="text-left p-4">Price</th>
             <th className="text-left p-4">Quantity</th>
-            <th className="text-left p-4">Subtotal</th>
           </tr>
         </thead>
         <tbody>
@@ -41,7 +45,11 @@ export default function CartItems() {
               className="border-b hover:bg-[#f6f8f8] duration-200"
             >
               <td className="px-8 py-7 flex gap-6 items-center font-bold text-[#26658c] ">
-                <AiOutlineDelete className=" cursor-pointer w-8 h-8 text-[#515759]" />
+                {/* delete */}
+                <AiOutlineDelete
+                  className=" cursor-pointer w-8 h-8 text-[#515759]"
+                  onClick={() => handleRemoveItem(item.id)}
+                />
                 <img
                   src={item.image}
                   alt={item.name}
@@ -52,17 +60,22 @@ export default function CartItems() {
               <td className="px-8 py-7">${item.price}</td>
               <td className="px-8 py-7 text-gray-500">
                 <div className="border border-gray-200 rounded-[1rem] p-2">
-                  <button className=" px-2 py-1">
+                  {/* minus */}
+                  <button
+                    className=" px-2 py-1"
+                    onClick={() => handleDecreaseQuantity(item.id)}
+                  >
                     <AiOutlineMinus />
                   </button>
                   <span className="mx-4">{item.quantity}</span>
-                  <button className=" px-2 py-1">
+                  {/* plus */}
+                  <button
+                    className=" px-2 py-1"
+                    onClick={() => handleIncreaseQuantity(item.id)}
+                  >
                     <AiOutlinePlus />
                   </button>
                 </div>
-              </td>
-              <td className="px-8 py-7 text-[#46a69c] font-bold">
-                ${item.subtotal.toFixed(2)}
               </td>
             </tr>
           ))}
