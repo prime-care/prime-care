@@ -8,6 +8,11 @@ import Cart from "./modules/user/pages/Cart";
 
 // react router
 import { Route, Routes } from "react-router-dom";
+import Dashboard from "./modules/Dashboard/pages/Dashboard";
+import DashProducts from "./modules/Dashboard/pages/DashProducts";
+import DashCustomers from "./modules/Dashboard/pages/DashCustomers";
+import DashCategories from "./modules/Dashboard/pages/DashCategories";
+import DashOrdes from "./modules/Dashboard/pages/DashOrdes";
 
 const App = () => {
   return (
@@ -18,6 +23,12 @@ const App = () => {
         <Route path="/products" element={<Products />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile" element={<MyAccount />} />
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route path="dashproducts" element={<DashProducts />} />
+          <Route path="dashcustomers" element={<DashCustomers />} />
+          <Route path="dashcategories" element={<DashCategories />} />
+          <Route path="dashorders" element={<DashOrdes />} />
+        </Route>
       </Routes>
       <Footer />
     </>
