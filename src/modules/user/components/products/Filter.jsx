@@ -3,6 +3,7 @@ import { or } from "firebase/firestore";
 import { Accordion } from "flowbite-react";
 import { Checkbox, Radio, Label } from "flowbite-react";
 import { useState } from "react";
+import { Rating } from "flowbite-react";
 // icons
 import { FaFilter } from "react-icons/fa";
 
@@ -56,8 +57,7 @@ export default function Filter({ categories, onFilterChange }) {
               {categories.map((category) => (
                 <div
                   key={category.categoryId}
-                  className="flex items-center gap-2"
-                >
+                  className="flex items-center gap-2">
                   <Checkbox
                     id="accept"
                     onChange={handleCategoryChange}
@@ -95,6 +95,107 @@ export default function Filter({ categories, onFilterChange }) {
                   onChange={handleSortOrderChange}
                 />
                 <Label htmlFor="lth">Lowest to highest</Label>
+              </div>
+            </div>
+          </Accordion.Content>
+        </Accordion.Panel>
+        <Accordion.Panel>
+          <Accordion.Title>Rate</Accordion.Title>
+          <Accordion.Content>
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="1start"
+                  name="price"
+                  value="desc"
+                  checked={sortOrder === "desc"}
+                  onChange={handleSortOrderChange}
+                />
+                <Label htmlFor="1start">
+                  <Rating>
+                    <Rating.Star />
+                    <Rating.Star filled={false} />
+                    <Rating.Star filled={false} />
+                    <Rating.Star filled={false} />
+                    <Rating.Star filled={false} />
+                  </Rating>
+                </Label>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="2start"
+                  name="price"
+                  value="desc"
+                  checked={sortOrder === "desc"}
+                  onChange={handleSortOrderChange}
+                />
+                <Label htmlFor="2start">
+                  <Rating>
+                    <Rating.Star />
+                    <Rating.Star />
+                    <Rating.Star filled={false} />
+                    <Rating.Star filled={false} />
+                    <Rating.Star filled={false} />
+                  </Rating>
+                </Label>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="3start"
+                  name="price"
+                  value="desc"
+                  checked={sortOrder === "desc"}
+                  onChange={handleSortOrderChange}
+                />
+                <Label htmlFor="3start">
+                  <Rating>
+                    <Rating.Star />
+                    <Rating.Star />
+                    <Rating.Star />
+                    <Rating.Star filled={false} />
+                    <Rating.Star filled={false} />
+                  </Rating>
+                </Label>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="4start"
+                  name="price"
+                  value="desc"
+                  checked={sortOrder === "desc"}
+                  onChange={handleSortOrderChange}
+                />
+                <Label htmlFor="4start">
+                  <Rating>
+                    <Rating.Star />
+                    <Rating.Star />
+                    <Rating.Star />
+                    <Rating.Star />
+                    <Rating.Star filled={false} />
+                  </Rating>
+                </Label>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="5start"
+                  name="price"
+                  value="desc"
+                  checked={sortOrder === "desc"}
+                  onChange={handleSortOrderChange}
+                />
+                <Label htmlFor="5start">
+                  <Rating>
+                    <Rating.Star />
+                    <Rating.Star />
+                    <Rating.Star />
+                    <Rating.Star />
+                    <Rating.Star />
+                  </Rating>
+                </Label>
               </div>
             </div>
           </Accordion.Content>
