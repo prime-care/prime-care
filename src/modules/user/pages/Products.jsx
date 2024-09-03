@@ -120,8 +120,12 @@ const Products = () => {
     if (searchTerm) {
       filtered = filtered.filter(
         (product) =>
-          product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          product.categoryName.toLowerCase().includes(searchTerm.toLowerCase())
+          product.name
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase().trim()) ||
+          product.categoryName
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase().trim())
       );
     }
 
