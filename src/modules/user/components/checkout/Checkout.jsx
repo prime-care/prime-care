@@ -1,23 +1,22 @@
-
-import React, { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState } from "react";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 const Checkout = () => {
   const [step, setStep] = useState(1);
   const [billingDetails, setBillingDetails] = useState({
-    fullName: '',
-    email: '',
-    address: '',
-    city: '',
-    postalCode: '',
+    fullName: "",
+    email: "",
+    address: "",
+    city: "",
+    postalCode: "",
   });
-  const [paymentMethod, setPaymentMethod] = useState('creditcard');
+  const [paymentMethod, setPaymentMethod] = useState("creditcard");
   const [cardDetails, setCardDetails] = useState({
-    cardNumber: '',
-    cardName: '',
-    expiryDate: '',
-    cvv: '',
+    cardNumber: "",
+    cardName: "",
+    expiryDate: "",
+    cvv: "",
   });
 
   const handleBillingChange = (e) => {
@@ -38,24 +37,28 @@ const Checkout = () => {
 
   const handlePayment = (e) => {
     e.preventDefault();
-    if (paymentMethod === 'creditcard') {
-      if (Object.values(cardDetails).every((field) => field.trim() !== '')) {
-        toast.success('Payment Successful!');
+    if (paymentMethod === "creditcard") {
+      if (Object.values(cardDetails).every((field) => field.trim() !== "")) {
+        toast.success("Payment Successful!");
         setStep(4);
       } else {
-        toast.error('Please fill in all credit card details.');
+        toast.error("Please fill in all credit card details.");
       }
     } else {
-      toast.success(`${paymentMethod.charAt(0).toUpperCase() + paymentMethod.slice(1)} Payment Selected!`);
+      toast.success(
+        `${
+          paymentMethod.charAt(0).toUpperCase() + paymentMethod.slice(1)
+        } Payment Selected!`
+      );
       setStep(4);
     }
   };
 
   const handleNextStep = () => {
-    if (Object.values(billingDetails).every((field) => field.trim() !== '')) {
+    if (Object.values(billingDetails).every((field) => field.trim() !== "")) {
       setStep(2);
     } else {
-      toast.error('Please fill in all billing details.');
+      toast.error("Please fill in all billing details.");
     }
   };
 
@@ -66,16 +69,34 @@ const Checkout = () => {
 
         {/* Step Indicator */}
         <div className="flex justify-between mb-6">
-          <div className={`flex-1 ${step === 1 ? 'text-indigo-600' : 'text-gray-400'}`}>
-            <div className="flex items-center justify-center w-10 h-10 bg-indigo-600 text-white rounded-full">1</div>
+          <div
+            className={`flex-1 ${
+              step === 1 ? "text-indigo-600" : "text-gray-400"
+            }`}
+          >
+            <div className="flex items-center justify-center w-10 h-10 bg-indigo-600 text-white rounded-full">
+              1
+            </div>
             <p className="text-center mt-2">Billing</p>
           </div>
-          <div className={`flex-1 ${step === 2 ? 'text-indigo-600' : 'text-gray-400'}`}>
-            <div className="flex items-center justify-center w-10 h-10 bg-indigo-600 text-white rounded-full">2</div>
+          <div
+            className={`flex-1 ${
+              step === 2 ? "text-indigo-600" : "text-gray-400"
+            }`}
+          >
+            <div className="flex items-center justify-center w-10 h-10 bg-indigo-600 text-white rounded-full">
+              2
+            </div>
             <p className="text-center mt-2">Payment</p>
           </div>
-          <div className={`flex-1 ${step === 3 ? 'text-indigo-600' : 'text-gray-400'}`}>
-            <div className="flex items-center justify-center w-10 h-10 bg-indigo-600 text-white rounded-full">3</div>
+          <div
+            className={`flex-1 ${
+              step === 3 ? "text-indigo-600" : "text-gray-400"
+            }`}
+          >
+            <div className="flex items-center justify-center w-10 h-10 bg-indigo-600 text-white rounded-full">
+              3
+            </div>
             <p className="text-center mt-2">Place Order</p>
           </div>
         </div>
@@ -127,7 +148,9 @@ const Checkout = () => {
                   />
                 </div>
                 <div className="flex-1">
-                  <label className="block text-sm font-medium">Postal Code</label>
+                  <label className="block text-sm font-medium">
+                    Postal Code
+                  </label>
                   <input
                     type="text"
                     name="postalCode"
@@ -159,17 +182,19 @@ const Checkout = () => {
                     type="radio"
                     name="payment"
                     value="creditcard"
-                    checked={paymentMethod === 'creditcard'}
+                    checked={paymentMethod === "creditcard"}
                     onChange={(e) => setPaymentMethod(e.target.value)}
                     className="form-radio text-indigo-600"
                   />
                   <span className="ml-2">Credit Card</span>
                 </label>
               </div>
-              {paymentMethod === 'creditcard' && (
+              {paymentMethod === "creditcard" && (
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium">Card Number</label>
+                    <label className="block text-sm font-medium">
+                      Card Number
+                    </label>
                     <input
                       type="text"
                       name="cardNumber"
@@ -180,7 +205,9 @@ const Checkout = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium">Name on Card</label>
+                    <label className="block text-sm font-medium">
+                      Name on Card
+                    </label>
                     <input
                       type="text"
                       name="cardName"
@@ -192,7 +219,9 @@ const Checkout = () => {
                   </div>
                   <div className="flex gap-4">
                     <div>
-                      <label className="block text-sm font-medium">Expiry Date</label>
+                      <label className="block text-sm font-medium">
+                        Expiry Date
+                      </label>
                       <input
                         type="text"
                         name="expiryDate"
@@ -223,7 +252,7 @@ const Checkout = () => {
                     type="radio"
                     name="payment"
                     value="paypal"
-                    checked={paymentMethod === 'paypal'}
+                    checked={paymentMethod === "paypal"}
                     onChange={(e) => setPaymentMethod(e.target.value)}
                     className="form-radio text-indigo-600"
                   />
@@ -237,7 +266,7 @@ const Checkout = () => {
                     type="radio"
                     name="payment"
                     value="cash"
-                    checked={paymentMethod === 'cash'}
+                    checked={paymentMethod === "cash"}
                     onChange={(e) => setPaymentMethod(e.target.value)}
                     className="form-radio text-indigo-600"
                   />
@@ -272,8 +301,13 @@ const Checkout = () => {
         {/* Order Success */}
         {step === 4 && (
           <div className="text-center">
-            <h3 className="text-xl font-medium mb-4">Order Placed Successfully!</h3>
-            <p>Thank you for your purchase. Your order has been placed successfully.</p>
+            <h3 className="text-xl font-medium mb-4">
+              Order Placed Successfully!
+            </h3>
+            <p>
+              Thank you for your purchase. Your order has been placed
+              successfully.
+            </p>
           </div>
         )}
       </div>

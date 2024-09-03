@@ -10,6 +10,7 @@ import { FaFilter } from "react-icons/fa";
 export default function Filter({ categories, onFilterChange }) {
   const [selectedCategories, setSelectedCategories] = useState([]); // ex: ["c1","c2"]
   const [sortOrder, setSortOrder] = useState("");
+  const [rating, setRating] = useState(0);
 
   const updateFilters = (newFilters) => {
     onFilterChange(newFilters);
@@ -29,8 +30,10 @@ export default function Filter({ categories, onFilterChange }) {
     updateFilters({
       categories: updatedCategories,
       sortOrder,
+      rating,
     });
   };
+
   const handleSortOrderChange = (event) => {
     const order = event.target.value;
     console.log(order);
@@ -39,6 +42,18 @@ export default function Filter({ categories, onFilterChange }) {
     updateFilters({
       categories: selectedCategories,
       sortOrder: order,
+      rating,
+    });
+  };
+
+  const handleRatingChange = (event) => {
+    const ratingValue = Number(event.target.value);
+
+    setRating(ratingValue);
+    updateFilters({
+      categories: selectedCategories,
+      sortOrder,
+      rating: ratingValue,
     });
   };
 
@@ -57,7 +72,8 @@ export default function Filter({ categories, onFilterChange }) {
               {categories.map((category) => (
                 <div
                   key={category.categoryId}
-                  className="flex items-center gap-2">
+                  className="flex items-center gap-2"
+                >
                   <Checkbox
                     id="accept"
                     onChange={handleCategoryChange}
@@ -103,100 +119,23 @@ export default function Filter({ categories, onFilterChange }) {
           <Accordion.Title>Rate</Accordion.Title>
           <Accordion.Content>
             <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-2">
-                <Radio
-                  id="1start"
-                  name="price"
-                  value="desc"
-                  checked={sortOrder === "desc"}
-                  onChange={handleSortOrderChange}
-                />
-                <Label htmlFor="1start">
-                  <Rating>
-                    <Rating.Star />
-                    <Rating.Star filled={false} />
-                    <Rating.Star filled={false} />
-                    <Rating.Star filled={false} />
-                    <Rating.Star filled={false} />
-                  </Rating>
-                </Label>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Radio
-                  id="2start"
-                  name="price"
-                  value="desc"
-                  checked={sortOrder === "desc"}
-                  onChange={handleSortOrderChange}
-                />
-                <Label htmlFor="2start">
-                  <Rating>
-                    <Rating.Star />
-                    <Rating.Star />
-                    <Rating.Star filled={false} />
-                    <Rating.Star filled={false} />
-                    <Rating.Star filled={false} />
-                  </Rating>
-                </Label>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Radio
-                  id="3start"
-                  name="price"
-                  value="desc"
-                  checked={sortOrder === "desc"}
-                  onChange={handleSortOrderChange}
-                />
-                <Label htmlFor="3start">
-                  <Rating>
-                    <Rating.Star />
-                    <Rating.Star />
-                    <Rating.Star />
-                    <Rating.Star filled={false} />
-                    <Rating.Star filled={false} />
-                  </Rating>
-                </Label>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Radio
-                  id="4start"
-                  name="price"
-                  value="desc"
-                  checked={sortOrder === "desc"}
-                  onChange={handleSortOrderChange}
-                />
-                <Label htmlFor="4start">
-                  <Rating>
-                    <Rating.Star />
-                    <Rating.Star />
-                    <Rating.Star />
-                    <Rating.Star />
-                    <Rating.Star filled={false} />
-                  </Rating>
-                </Label>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Radio
-                  id="5start"
-                  name="price"
-                  value="desc"
-                  checked={sortOrder === "desc"}
-                  onChange={handleSortOrderChange}
-                />
-                <Label htmlFor="5start">
-                  <Rating>
-                    <Rating.Star />
-                    <Rating.Star />
-                    <Rating.Star />
-                    <Rating.Star />
-                    <Rating.Star />
-                  </Rating>
-                </Label>
-              </div>
+              {[1, 2, 3, 4, 5].map((rating) => (
+                <div key={rating} className="flex items-center gap-2">
+                  <Radio
+                    id={`${rating}star`}
+                    name="rating"
+                    value={rating}
+                    onChange={handleRatingChange}
+                  />
+                  <Label htmlFor={`${rating}star`}>
+                    <Rating>
+                      {Array.from({ length: 5 }, (_, i) => (
+                        <Rating.Star key={i} filled={i < rating} />
+                      ))}
+                    </Rating>
+                  </Label>
+                </div>
+              ))}
             </div>
           </Accordion.Content>
         </Accordion.Panel>

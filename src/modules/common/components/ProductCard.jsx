@@ -20,7 +20,8 @@ export default function ProductsCard({ product }) {
             onClick={() => {
               addToCart(product?.id);
             }}
-            className="add-to-cart flex justify-center items-center h-1/2 cursor-pointer transition-all duration-300">
+            className="add-to-cart flex justify-center items-center h-1/2 cursor-pointer transition-all duration-300"
+          >
             <IoCartOutline className="text-2xl text-white" />
           </div>
 
@@ -28,7 +29,8 @@ export default function ProductsCard({ product }) {
             onClick={() => {
               addToWishlist(product?.id);
             }}
-            className="add-to-wishlist flex justify-center items-center h-1/2 cursor-pointer transition-all duration-300">
+            className="add-to-wishlist flex justify-center items-center h-1/2 cursor-pointer transition-all duration-300"
+          >
             <FaRegHeart className="text-2xl text-white" />
           </div>
         </div>
@@ -39,13 +41,15 @@ export default function ProductsCard({ product }) {
       <h3 className="text-base font-semibold text-primary truncate overflow-hidden whitespace-nowrap">
         {product?.name}
       </h3>
-      <Rating>
-        <Rating.Star />
-        <Rating.Star />
-        <Rating.Star />
-        <Rating.Star />
-        <Rating.Star filled={false} />
-      </Rating>
+      {product.averageRating !== 0 && (
+        <Rating>
+          <Rating>
+            {Array.from({ length: 5 }, (_, i) => (
+              <Rating.Star key={i} filled={i < product.averageRating} />
+            ))}
+          </Rating>
+        </Rating>
+      )}
       <span className="text-base font-bold text-primary">
         {product?.price} <span className="text-sm text-gray-500">USD</span>
       </span>

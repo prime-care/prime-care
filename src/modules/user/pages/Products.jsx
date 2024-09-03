@@ -77,19 +77,30 @@ const Products = () => {
   }, []);
 
   // filter function
-  const handleFilterChange = async ({ categories, sortOrder }) => {
+  const handleFilterChange = async ({ categories, sortOrder, rating }) => {
     try {
+      // clone products
       let filtered = [...products];
 
+      // categories filter
       if (categories.length > 0) {
         filtered = filtered.filter((product) =>
           categories.includes(product.categoryId)
         );
       }
+
+      // price filter
       if (sortOrder === "asc") {
         filtered.sort((a, b) => a.price - b.price);
       } else if (sortOrder === "desc") {
         filtered = filtered.sort((a, b) => b.price - a.price);
+      }
+
+      // rating filter
+      if (rating) {
+        filtered = filtered.filter(
+          (product) => Math.round(product.averageRating) >= rating
+        );
       }
 
       setFilteredProducts(filtered);
