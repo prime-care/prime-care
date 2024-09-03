@@ -14,6 +14,7 @@ import DashOrdes from "./modules/Dashboard/pages/DashOrdes";
 import AboutUs from "./modules/user/pages/AboutUs";
 import LoginPage from "./modules/auth/pages/Login";
 import Signup from "./modules/auth/pages/Signup";
+import Checkout from "./modules/user/components/checkout/Checkout";
 
 // react router
 import { Route, Routes } from "react-router-dom";
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="orders" element={<DashOrdes />} />
         </Route>
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
       <Footer />
     </>
