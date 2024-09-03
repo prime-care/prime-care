@@ -12,6 +12,7 @@ import { Route, Routes } from "react-router-dom";
 import AboutUs from "./modules/user/pages/AboutUs";
 import LoginPage from "./modules/auth/pages/Login";
 import Signup from "./modules/auth/pages/Signup";
+import Checkout from "./modules/user/components/checkout/Checkout";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile" element={<MyAccount />} />
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
       <Footer />
     </>
