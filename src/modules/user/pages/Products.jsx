@@ -14,6 +14,7 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
 
   // fetch products, reviews, categories and calc avg rating and put it into products array
@@ -106,6 +107,7 @@ const Products = () => {
       }
 
       setFilteredProducts(filtered);
+      setCurrentPage(1);
     } catch (error) {
       console.error("Error filtering products:", error);
     }
@@ -124,7 +126,24 @@ const Products = () => {
     }
 
     setFilteredProducts(filtered);
+    setCurrentPage(1);
   };
+
+  // pagination logic
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const itemsPerPage = 6;
+
+  const indexOfLastProduct = currentPage * itemsPerPage; //ex : 1*8 = 8 || 2*8 = 16
+  const indexOfFirstProduct = indexOfLastProduct - itemsPerPage; // ex: 8-8 = 0 || 16 -8 =8
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct // not include the end
+  );
+
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
   return (
     <div className="products-page p-4">
@@ -133,9 +152,13 @@ const Products = () => {
           <Filter categories={categories} onFilterChange={handleFilterChange} />
           <main className="products-list rounded-md">
             <Search onSearch={handleSearch} />
-            <ProductsList products={filteredProducts} loading={loading} />
+            <ProductsList products={currentProducts} loading={loading} />
             <div className="mb-10">
-              <PaginationComponent />
+              <PaginationComponent
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
             </div>
           </main>
         </div>
