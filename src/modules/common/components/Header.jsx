@@ -1,4 +1,3 @@
-import React from "react";
 import { navLinks } from "../../../constants";
 import { Link } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io"; // search icon
@@ -17,8 +16,7 @@ export default function Header() {
             <li key={link.name} className="hover:text-secondary">
               <Link
                 to={link.path}
-                className="text-sm sm:text-base lg:text-lg font-medium"
-              >
+                className="text-sm sm:text-base lg:text-lg font-medium">
                 {link.name}
               </Link>
             </li>
