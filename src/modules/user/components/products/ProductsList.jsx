@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
 // components
-import Search from "../../../common/components/Search";
 import PaginationComponent from "../../../common/components/Pagination";
 import { Spinner } from "flowbite-react";
 import ProductCard from "../../../common/components/ProductCard";
@@ -26,8 +25,7 @@ const ProductsList = ({ products, loading }) => {
   };
 
   return (
-    <main className="products-list rounded-md">
-      <Search />
+    <>
       {loading ? (
         <div className="loading text-center my-4 text-xl font-semibold">
           <Spinner aria-label="Extra large spinner example" size="xl" />
@@ -45,13 +43,7 @@ const ProductsList = ({ products, loading }) => {
           ))}
         </div>
       )}
-
-      {products.length > 0 && (
-        <div className="mb-10">
-          <PaginationComponent />
-        </div>
-      )}
-    </main>
+    </>
   );
 };
 

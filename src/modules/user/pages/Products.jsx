@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 // components
 import Filter from "../components/products/Filter";
 import ProductsList from "../components/products/ProductsList";
+import Search from "../../common/components/Search";
+import PaginationComponent from "../../common/components/Pagination";
 
 // firebase
 import { collection, getDocs } from "firebase/firestore";
@@ -114,7 +116,13 @@ const Products = () => {
       <div className="container">
         <div className="shop-grid gap-4">
           <Filter categories={categories} onFilterChange={handleFilterChange} />
-          <ProductsList products={filteredProducts} loading={loading} />
+          <main className="products-list rounded-md">
+            <Search />
+            <ProductsList products={filteredProducts} loading={loading} />
+            <div className="mb-10">
+              <PaginationComponent />
+            </div>
+          </main>
         </div>
       </div>
     </div>
