@@ -9,7 +9,7 @@ export default function Header() {
   return (
     <header className="px-4 sm:px-8 lg:px-11 py-2 flex justify-between items-center text-white bg-primary">
       <Link to="/" className="pr-5 sm:pr-12 lg:pr-24">
-        <img src="images/logo.png" alt="" className="w-24 sm:w-28 lg:w-32" />
+        <img src="/images/logo.png" alt="" className="w-24 sm:w-28 lg:w-32" />
       </Link>
       <nav className="hidden md:flex flex-1">
         <ul className="flex gap-4 sm:gap-8 lg:gap-10">
