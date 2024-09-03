@@ -1,5 +1,3 @@
-import React from "react";
-
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -7,10 +5,14 @@ import {
   adjustQuantity,
 } from "../../../../redux/slices/cartSlice";
 
+// components
+import { Button } from "flowbite-react";
+
 // icons
 import { AiOutlineMinus } from "react-icons/ai";
 import { AiOutlinePlus } from "react-icons/ai";
 import { AiOutlineDelete } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 export default function CartItems() {
   const dispatch = useDispatch();
@@ -36,46 +38,61 @@ export default function CartItems() {
             <th className="text-left py-6 px-8">Product</th>
             <th className="text-left p-4">Price</th>
             <th className="text-left p-4">Quantity</th>
+            <th className="text-left p-4">Actions</th>
           </tr>
         </thead>
         <tbody>
           {cartItems.map((item) => (
             <tr
               key={item.id}
-              className="border-b hover:bg-[#f6f8f8] duration-200"
-            >
-              <td className="px-8 py-7 flex gap-6 items-center font-bold text-[#26658c] ">
-                {/* delete */}
-                <AiOutlineDelete
-                  className=" cursor-pointer w-8 h-8 text-[#515759]"
-                  onClick={() => handleRemoveItem(item.id)}
-                />
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-24 h-24  mr-4"
-                />
-                <span className=" max-w-52">{item.name}</span>
+              className="border-b hover:bg-[#f6f8f8] duration-200">
+              <td className="px-4 py-7 flex gap-6 items-center font-bold text-[#26658c] ">
+                <Link
+                  to={`/products/${item.id}`}
+                  className="flex gap-3 items-center">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-24 h-24  mr-4"
+                  />
+                  <span className=" max-w-52">{item.name}</span>
+                </Link>
               </td>
-              <td className="px-8 py-7">${item.price}</td>
-              <td className="px-8 py-7 text-gray-500">
-                <div className="border border-gray-200 rounded-[1rem] p-2">
+              <td className="px-4 py-7">
+                <span className="text-xl font-bold text-primary">
+                  {item.price}
+                  <span className="text-sm font-medium text-gray-500">
+                    {" "}
+                    EGP
+                  </span>
+                </span>
+              </td>
+              <td className="px-4 py-7 text-gray-500">
+                <div className="p-2 flex gap-6 w-fit border border-gray-200 rounded-xl">
                   {/* minus */}
                   <button
-                    className=" px-2 py-1"
-                    onClick={() => handleDecreaseQuantity(item.id)}
-                  >
+                    className="hover:text-red-600 transition-all duration-300"
+                    onClick={() => handleDecreaseQuantity(item.id)}>
                     <AiOutlineMinus />
                   </button>
-                  <span className="mx-4">{item.quantity}</span>
+                  <span>{item.quantity}</span>
                   {/* plus */}
                   <button
-                    className=" px-2 py-1"
-                    onClick={() => handleIncreaseQuantity(item.id)}
-                  >
+                    className="hover:text-green-600 transition-all duration-300"
+                    onClick={() => handleIncreaseQuantity(item.id)}>
                     <AiOutlinePlus />
                   </button>
                 </div>
+              </td>
+
+              <td className="px-4 py-7">
+                {/* delete */}
+                <Button
+                  color="failure"
+                  onClick={() => handleRemoveItem(item.id)}>
+                  <AiOutlineDelete className="mr-2 h-5 w-5" />
+                  Delete
+                </Button>
               </td>
             </tr>
           ))}

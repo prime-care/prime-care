@@ -154,11 +154,13 @@ const Products = () => {
             <Search onSearch={handleSearch} />
             <ProductsList products={currentProducts} loading={loading} />
             <div className="mb-10">
-              <PaginationComponent
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-              />
+              {currentProducts.length > 0 && (
+                <PaginationComponent
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
+              )}
             </div>
           </main>
         </div>
