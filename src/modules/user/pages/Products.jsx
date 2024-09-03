@@ -111,13 +111,28 @@ const Products = () => {
     }
   };
 
+  // search function
+  const handleSearch = (searchTerm) => {
+    let filtered = [...products];
+
+    if (searchTerm) {
+      filtered = filtered.filter(
+        (product) =>
+          product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          product.categoryName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    setFilteredProducts(filtered);
+  };
+
   return (
     <div className="products-page p-4">
       <div className="container">
         <div className="shop-grid gap-4">
           <Filter categories={categories} onFilterChange={handleFilterChange} />
           <main className="products-list rounded-md">
-            <Search />
+            <Search onSearch={handleSearch} />
             <ProductsList products={filteredProducts} loading={loading} />
             <div className="mb-10">
               <PaginationComponent />
