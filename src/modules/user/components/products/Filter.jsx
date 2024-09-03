@@ -1,4 +1,5 @@
 // components
+import { or } from "firebase/firestore";
 import { Accordion } from "flowbite-react";
 import { Checkbox, Radio, Label } from "flowbite-react";
 import { useState } from "react";
@@ -7,6 +8,7 @@ import { FaFilter } from "react-icons/fa";
 
 export default function Filter({ categories, onFilterChange }) {
   const [selectedCategories, setSelectedCategories] = useState([]); // ex: ["c1","c2"]
+  const [sortOrder, setSortOrder] = useState("");
 
   const updateFilters = (newFilters) => {
     onFilterChange(newFilters);
@@ -22,10 +24,20 @@ export default function Filter({ categories, onFilterChange }) {
     } else {
       updatedCategories.push(category);
     }
-
     setSelectedCategories(updatedCategories);
     updateFilters({
       categories: updatedCategories,
+      sortOrder,
+    });
+  };
+  const handleSortOrderChange = (event) => {
+    const order = event.target.value;
+    console.log(order);
+
+    setSortOrder(order);
+    updateFilters({
+      categories: selectedCategories,
+      sortOrder: order,
     });
   };
 
@@ -64,12 +76,24 @@ export default function Filter({ categories, onFilterChange }) {
           <Accordion.Content>
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-2">
-                <Radio id="htl" name="price" value="htl" defaultChecked />
-                <Label htmlFor="htl">Hightest to lowest</Label>
+                <Radio
+                  id="htl"
+                  name="price"
+                  value="desc"
+                  checked={sortOrder === "desc"}
+                  onChange={handleSortOrderChange}
+                />
+                <Label htmlFor="htl">Highest to lowest</Label>
               </div>
 
               <div className="flex items-center gap-2">
-                <Radio id="lth" name="price" value="lth" defaultChecked />
+                <Radio
+                  id="lth"
+                  name="price"
+                  value="asc"
+                  checked={sortOrder === "asc"}
+                  onChange={handleSortOrderChange}
+                />
                 <Label htmlFor="lth">Lowest to highest</Label>
               </div>
             </div>

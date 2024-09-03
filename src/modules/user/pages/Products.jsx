@@ -77,7 +77,7 @@ const Products = () => {
   }, []);
 
   // filter function
-  const handleFilterChange = async ({ categories }) => {
+  const handleFilterChange = async ({ categories, sortOrder }) => {
     try {
       let filtered = [...products];
 
@@ -85,6 +85,11 @@ const Products = () => {
         filtered = filtered.filter((product) =>
           categories.includes(product.categoryId)
         );
+      }
+      if (sortOrder === "asc") {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (sortOrder === "desc") {
+        filtered = filtered.sort((a, b) => b.price - a.price);
       }
 
       setFilteredProducts(filtered);
