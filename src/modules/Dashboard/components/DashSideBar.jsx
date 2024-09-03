@@ -6,7 +6,7 @@ import { GiMedicines } from "react-icons/gi";
 import { TbCategoryPlus, TbCalculator } from "react-icons/tb";
 import { BiShoppingBag } from "react-icons/bi";
 
-import { NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 export function DashSideBar() {
   return (
     <div className="bg-white w-52 h-screen border-r border-gray-200">
@@ -21,7 +21,7 @@ export function DashSideBar() {
             Dashboard
           </NavLink>
           <NavLink
-            to="dashcustomers"
+            to="customers"
             className={({ isActive }) =>
               `flex items-center p-2 rounded ${
                 isActive
@@ -34,7 +34,7 @@ export function DashSideBar() {
             Customers
           </NavLink>
           <NavLink
-            to="dashproducts"
+            to="products"
             className={({ isActive }) =>
               `flex items-center p-2 rounded ${
                 isActive
@@ -47,7 +47,7 @@ export function DashSideBar() {
             Products
           </NavLink>
           <NavLink
-            to="dashcategories"
+            to="categories"
             className={({ isActive }) =>
               `flex items-center p-2 rounded ${
                 isActive
@@ -60,7 +60,7 @@ export function DashSideBar() {
             Categories
           </NavLink>
           <NavLink
-            to="dashorders"
+            to="orders"
             className={({ isActive }) =>
               `flex items-center p-2 rounded ${
                 isActive
@@ -72,13 +72,13 @@ export function DashSideBar() {
             <BiShoppingBag className="mr-3" />
             Orders
           </NavLink>
-          <NavLink
-            to="dashaccounting"
+          {/* <NavLink
+            to="accounting"
             className="flex items-center text-gray-500 hover:bg-primary hover:text-slate-200 p-2 rounded"
           >
             <TbCalculator className="mr-3" />
             Accounting
-          </NavLink>
+          </NavLink> */}
         </div>
 
         {/* Additional items */}

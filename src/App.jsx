@@ -31,10 +31,10 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile" element={<MyAccount />} />
         <Route path="/dashboard" element={<Dashboard />}>
-          <Route path="dashproducts" element={<DashProducts />} />
-          <Route path="dashcustomers" element={<DashCustomers />} />
-          <Route path="dashcategories" element={<DashCategories />} />
-          <Route path="dashorders" element={<DashOrdes />} />
+          <Route path="products" element={<DashProducts />} />
+          <Route path="customers" element={<DashCustomers />} />
+          <Route path="categories" element={<DashCategories />} />
+          <Route path="orders" element={<DashOrdes />} />
         </Route>
         <Route path="/about" element={<AboutUs />} />
       </Routes>
