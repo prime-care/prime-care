@@ -11,6 +11,7 @@ import { BrowserRouter } from "react-router-dom";
 
 // styles
 import "./styles/index.css";
+import "./styles/pages/home.scss";
 import "./styles/pages/products.scss";
 
 createRoot(document.getElementById("root")).render(
