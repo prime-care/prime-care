@@ -1,7 +1,6 @@
-import React from "react";
-
 // redux
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 export default function CartSummary() {
   const cartItems = useSelector((state) => state.cart.items);
@@ -19,7 +18,10 @@ export default function CartSummary() {
       <div className="mt-4">
         <div className=" border-b pb-4 ">
           <span className="font-semibold py-6 px-8">Subtotal</span>
-          <span className="py-6 px-8 text-gray-600">{`${getTotal()}`}</span>
+          <span className="text-xl font-bold text-primary">
+            {`${getTotal()}`}
+            <span className="text-sm font-medium text-gray-500"> EGP</span>
+          </span>
         </div>
         <div className="mt-4 flex text-gray-600">
           <span className=" self-start  px-8 font-semibold">Shipping</span>
@@ -37,11 +39,16 @@ export default function CartSummary() {
         </div>
         <div className=" mt-4 border-t pt-4 text-[#46a69c] font-semibold">
           <span className="py-6 px-8 ">Total</span>
-          <span className="py-6 px-8">{`${getTotal()}`}</span>
+          <span className="text-xl font-bold">
+            {`${getTotal()}`}
+            <span className="text-sm font-medium text-gray-500"> EGP</span>
+          </span>
         </div>
-        <button className=" duration-300 py-4 px-8 bg-[#4abfd9] hover:bg-[#41a8bf] text-white w-full mt-4 rounded-[1rem] text-xl font-semibold">
-          Proceed to Checkout →
-        </button>
+        <Link to={"/checkout"}>
+          <button className=" duration-300 py-4 px-8 bg-[#4abfd9] hover:bg-[#41a8bf] text-white w-full mt-4 rounded-[1rem] text-xl font-semibold">
+            Proceed to Checkout →
+          </button>
+        </Link>
       </div>
     </div>
   );
