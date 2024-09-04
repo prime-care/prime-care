@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaRegUser } from "react-icons/fa";
+import { MdPayment } from "react-icons/md";
+import { FaCheck } from "react-icons/fa";
 
 const Checkout = () => {
   const [step, setStep] = useState(1);
@@ -40,7 +43,7 @@ const Checkout = () => {
     if (paymentMethod === "creditcard") {
       if (Object.values(cardDetails).every((field) => field.trim() !== "")) {
         toast.success("Payment Successful!");
-        setStep(4);
+        setStep(3);
       } else {
         toast.error("Please fill in all credit card details.");
       }
@@ -50,7 +53,7 @@ const Checkout = () => {
           paymentMethod.charAt(0).toUpperCase() + paymentMethod.slice(1)
         } Payment Selected!`
       );
-      setStep(4);
+      setStep(3);
     }
   };
 
@@ -65,37 +68,43 @@ const Checkout = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg">
-        <h2 className="text-2xl font-semibold mb-6">Checkout</h2>
+        <h1 className="text-center text-2xl font-semibold mb-6">Checkout</h1>
 
         {/* Step Indicator */}
         <div className="flex justify-between mb-6">
           <div
-            className={`flex-1 ${
-              step === 1 ? "text-indigo-600" : "text-gray-400"
-            }`}
-          >
-            <div className="flex items-center justify-center w-10 h-10 bg-indigo-600 text-white rounded-full">
-              1
+            className={`flex  flex-1 flex-col items-center ${
+              step === 1 ? "text-primary" : "text-gray-400"
+            }`}>
+            <div
+              className={`flex items-center justify-center w-10 h-10 text-white rounded-full ${
+                step === 1 ? "bg-primary" : "bg-gray-500"
+              }`}>
+              <FaRegUser />
             </div>
             <p className="text-center mt-2">Billing</p>
           </div>
           <div
-            className={`flex-1 ${
-              step === 2 ? "text-indigo-600" : "text-gray-400"
-            }`}
-          >
-            <div className="flex items-center justify-center w-10 h-10 bg-indigo-600 text-white rounded-full">
-              2
+            className={`flex  flex-1 flex-col items-center ${
+              step === 2 ? "text-primary" : "text-gray-400"
+            }`}>
+            <div
+              className={`flex items-center justify-center w-10 h-10 text-white rounded-full ${
+                step === 2 ? "bg-primary" : "bg-gray-500"
+              }`}>
+              <MdPayment />
             </div>
             <p className="text-center mt-2">Payment</p>
           </div>
           <div
-            className={`flex-1 ${
-              step === 3 ? "text-indigo-600" : "text-gray-400"
-            }`}
-          >
-            <div className="flex items-center justify-center w-10 h-10 bg-indigo-600 text-white rounded-full">
-              3
+            className={`flex  flex-1 flex-col items-center ${
+              step === 3 ? "text-primary" : "text-gray-400"
+            }`}>
+            <div
+              className={`flex items-center justify-center w-10 h-10 text-white rounded-full ${
+                step === 3 ? "bg-primary" : "bg-gray-500"
+              }`}>
+              <FaCheck />
             </div>
             <p className="text-center mt-2">Place Order</p>
           </div>
@@ -163,8 +172,7 @@ const Checkout = () => {
               <button
                 type="button"
                 onClick={handleNextStep}
-                className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-700"
-              >
+                className="w-full py-2 px-4 bg-primary text-white font-semibold rounded-md shadow-md hover:bg-gray-700 transition-all duration-300">
                 Next
               </button>
             </form>
@@ -184,7 +192,7 @@ const Checkout = () => {
                     value="creditcard"
                     checked={paymentMethod === "creditcard"}
                     onChange={(e) => setPaymentMethod(e.target.value)}
-                    className="form-radio text-indigo-600"
+                    className="form-radio text-primary"
                   />
                   <span className="ml-2">Credit Card</span>
                 </label>
@@ -251,20 +259,6 @@ const Checkout = () => {
                   <input
                     type="radio"
                     name="payment"
-                    value="paypal"
-                    checked={paymentMethod === "paypal"}
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                    className="form-radio text-indigo-600"
-                  />
-                  <span className="ml-2">PayPal</span>
-                </label>
-              </div>
-
-              <div className="mt-6">
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="payment"
                     value="cash"
                     checked={paymentMethod === "cash"}
                     onChange={(e) => setPaymentMethod(e.target.value)}
@@ -276,8 +270,7 @@ const Checkout = () => {
 
               <button
                 type="submit"
-                className="w-full py-2 px-4 mt-6 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-700"
-              >
+                className="w-full py-2 px-4 mt-6 bg-primary text-white font-semibold rounded-md shadow-md hover:bg-gray-700 transition-all duration-300">
                 Confirm Payment
               </button>
             </form>
@@ -291,8 +284,7 @@ const Checkout = () => {
             <p>Review your order and place it by clicking the button below.</p>
             <button
               onClick={() => setStep(4)}
-              className="mt-6 w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-700"
-            >
+              className="mt-6 w-full py-2 px-4 bg-primary text-white font-semibold rounded-md shadow-md hover:bg-gray-700 transition-all duration-300">
               Place Order
             </button>
           </div>
