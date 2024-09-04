@@ -1,5 +1,6 @@
 // pages and components imports
 import Header from "./modules/common/components/Header";
+import ScrollToTop from "./modules/common/components/ScrollToTop";
 import Home from "./modules/user/pages/Home";
 import MyAccount from "./modules/user/pages/MyAccount";
 import Products from "./modules/user/pages/Products";
@@ -23,6 +24,7 @@ const App = () => {
   return (
     <>
       <Header />
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth/login" element={<LoginPage />} />
