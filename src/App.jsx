@@ -19,6 +19,9 @@ import Checkout from "./modules/user/components/checkout/Checkout";
 
 // react router
 import { Route, Routes } from "react-router-dom";
+import UserOrders from "./modules/user/components/my-account/userOrders";
+import EditProfile from "./modules/user/components/my-account/EditProfile";
+import WishList from "./modules/user/components/my-account/WishList";
 
 const App = () => {
   return (
@@ -32,7 +35,12 @@ const App = () => {
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductPage />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/profile" element={<MyAccount />} />
+        <Route path="/profile" element={<MyAccount />}>
+          <Route index element={<EditProfile />} />{" "}
+          {/* Default content for /profile */}
+          <Route path="orders" element={<UserOrders />} />
+          <Route path="wishlist" element={<WishList />} />
+        </Route>
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="products" element={<DashProducts />} />
           <Route path="customers" element={<DashCustomers />} />
