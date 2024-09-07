@@ -11,7 +11,7 @@ const DashHeader = () => {
       </div>
 
       {/* Search Bar */}
-      <div className="mx-4 ju flex-1">
+      <div className="mx-4 flex-1">
         <input
           type="text"
           placeholder="Search"
@@ -20,7 +20,7 @@ const DashHeader = () => {
       </div>
 
       {/* Icons and User Profile */}
-      <div className="flex items-center  space-x-4">
+      <div className="flex items-center lg:space-x-10 space-x-3">
         <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-primary hover:text-white ">
           <MdNotificationsActive />
         </div>

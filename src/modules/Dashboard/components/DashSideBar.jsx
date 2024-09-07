@@ -9,7 +9,7 @@ import { BiShoppingBag } from "react-icons/bi";
 import { NavLink } from "react-router-dom";
 export function DashSideBar() {
   return (
-    <div className="bg-white w-52 h-screen border-r border-gray-200">
+    <div className="bg-white w-52 hidden md:block border-r border-gray-200">
       <div className="flex flex-col p-4 space-y-4">
         {/* Main items */}
         <div className="space-y-2 border-b ">
