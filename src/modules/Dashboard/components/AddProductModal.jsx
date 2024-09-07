@@ -1,6 +1,45 @@
 import { Checkbox, Label } from "flowbite-react";
 
 function AddProductModal({ isOpen, onClose }) {
+
+  const categories = [
+    {
+      categoryId: "c1",
+      name: "Skincare",
+      description: "Products for healthy and glowing skin.",
+      image: "skincare_image_url",
+    },
+    {
+      categoryId: "c2",
+      name: "Vitamins",
+      description: "Essential vitamins and supplements.",
+      image: "vitamins_image_url",
+    },
+    {
+      categoryId: "c3",
+      name: "Haircare",
+      description: "Products for healthy and shiny hair.",
+      image: "haircare_image_url",
+    },
+    {
+      categoryId: "c4",
+      name: "Fitness",
+      description: "Fitness supplements and equipment.",
+      image: "fitness_image_url",
+    },
+    {
+      categoryId: "c5",
+      name: "Beauty",
+      description: "Beauty and personal care products.",
+      image: "beauty_image_url",
+    },
+    {
+      categoryId: "c6",
+      name: "Diet",
+      description: "Diet and weight loss products.",
+      image: "diet_image_url",
+    },
+  ];
   if (!isOpen) return null;
 
   return (
@@ -100,9 +139,12 @@ function AddProductModal({ isOpen, onClose }) {
                 Category
               </label>
               <select className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none ring-0 focus:border-secondary">
-                <option>Anti-inflammatory</option>
+                {categories.map((category) => (
+                  <option key={category.categoryId}>{ category.name}</option>
+                ))}
+                {/* <option>Anti-inflammatory</option>
                 <option>Antibiotic</option>
-                <option>Analgesics</option>
+                <option>Analgesics</option> */}
               </select>
             </div>
             <div className="flex flex-col lg:flex-row gap-4 mb-6">
