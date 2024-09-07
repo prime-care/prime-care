@@ -1,8 +1,7 @@
 const EditProfile = () => {
   return (
     <div className="max-w-xl container mx-auto bg-white p-6 rounded-lg ">
-      <div className="flex justify-between items-center mt-6">
-        <h2 className="text-2xl font-bold mb-4">Profile</h2>
+      <div className=" absolute right-12 mt-6">
         <button className="bg-secondary text-white px-4 py-2 rounded hover:bg-secondary">
           Edit profile
         </button>

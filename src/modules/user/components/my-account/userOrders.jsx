@@ -1,16 +1,15 @@
-
 const UserOrders = () => {
   return (
-    <div className=" container">
+    <div className="container mx-auto p-4">
       <h2 className="text-2xl font-semibold mb-4">Order History</h2>
-      <div className="border rounded-lg p-4  mx-auto">
-        <div className="flex justify-between items-center mb-2">
-          <div>
+      <div className="border rounded-lg p-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+          <div className="mb-4 md:mb-0">
             <span className="font-semibold">Order ID: </span>
             <span className="font-bold">8924</span>
             <span className="text-secondary ml-2">Shipped</span>
           </div>
-          <div className="flex gap-3 flex-wrap">
+          <div className="flex gap-3 flex-wrap md:ml-auto">
             <button className="border border-red-500 text-red-500 px-2 py-1 rounded">
               CANCEL ORDER
             </button>
@@ -21,15 +20,15 @@ const UserOrders = () => {
         </div>
         <div className="text-sm text-gray-500 mb-4">Date: 16 December 2022</div>
 
-        <div className="grid grid-cols-3 border-t pt-4 gap-4 mb-4">
-          <div className="border-r">
+        <div className="grid grid-cols-1 md:grid-cols-3 border-t pt-4 gap-4 mb-4">
+          <div className="border-r-0 md:border-r">
             <h3 className="font-semibold">Contact</h3>
             <p>Mike Johatan</p>
             <p>Phone: 371-295-9131</p>
             <p>Email: info@mywebsite.com</p>
           </div>
 
-          <div className="border-r">
+          <div className="border-r-0 md:border-r  ">
             <h3 className="font-semibold">Shipping address</h3>
             <p>United States</p>
             <p>3601 Old Capitol Trail, Unit A-7,</p>
@@ -44,10 +43,10 @@ const UserOrders = () => {
           </div>
         </div>
 
-        <div className="flex justify-between gap-3 flex-wrap border-t pt-4">
+        <div className="flex flex-col gap-4 md:flex-row border-t pt-4">
           <div className="flex items-center space-x-2">
             <img
-              src="public\images\cat-3.png"
+              src="/images/cat-3.png"
               alt="T-shirt"
               className="w-12 h-12 object-cover"
             />
@@ -59,7 +58,7 @@ const UserOrders = () => {
 
           <div className="flex items-center space-x-2">
             <img
-              src="public\images\cat-2.png"
+              src="/images/cat-2.png"
               alt="Headset"
               className="w-12 h-12 object-cover"
             />
@@ -71,7 +70,7 @@ const UserOrders = () => {
 
           <div className="flex items-center space-x-2">
             <img
-              src="public\images\cat-1.png"
+              src="/images/cat-1.png"
               alt="Watch"
               className="w-12 h-12 object-cover"
             />
