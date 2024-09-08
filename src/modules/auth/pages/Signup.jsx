@@ -1,68 +1,92 @@
-import React from "react";
+import React, { useState } from "react";
+
+//redux
+import { useDispatch } from "react-redux";
+import { setUser } from "../../../redux/slices/userSlice";
+
+//firebase
+import { auth } from "../../../services/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
+// icons
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
-import { FaApple } from "react-icons/fa";
+import { FaFacebook, FaApple } from "react-icons/fa";
 import { IconContext } from "react-icons";
 
 const Signup = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+
+  // create account function
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      dispatch(setUser({ uid: user.uid, email: user.email, name }));
+    } catch (error) {
+      console.error("Error signing up:", error);
+    }
+  };
+
   return (
     <div className="min-h-screen flex">
       <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 lg:px-24 py-8">
         <div className="text-left">
-          <h2 className="text-3xl font-bold mb-2">creat account</h2>
+          <h2 className="text-3xl font-bold mb-2">Create Account</h2>
           <p className="text-gray-600 mb-6">
-            sign up to access your financial insights and management tools 
+            Sign up to access your financial insights and management tools
           </p>
-          <form className="space-y-6">
+          <form onSubmit={handleSignUp} className="space-y-6">
             <div>
-              <label className="block mb-1 text-gray-700" htmlFor="firstName">
-                First name
+              <label className="block mb-1 text-gray-700" htmlFor="username">
+                Username
               </label>
               <input
                 type="text"
-                id="firstName"
+                id="username"
                 className="w-full border rounded-lg px-4 py-2 focus:ring focus:outline-none"
-                placeholder="Enter First Name"
+                placeholder="Enter your username"
+                onChange={(e) => setName(e.target.value)}
+                value={name}
               />
             </div>
             <div>
-              <label className="block mb-1 text-gray-700" htmlFor="lastName">
-              Last name
-              </label>
-              <input
-                type="text"
-                id="lastName"
-                className="w-full border rounded-lg px-4 py-2 focus:ring focus:outline-none"
-                placeholder="Enter Last Name"
-              />
-            </div>
-            <div>
-            <label className="block mb-1 text-gray-700" htmlFor="email">
-                Email address
+              <label className="block mb-1 text-gray-700" htmlFor="email">
+                Email
               </label>
               <input
                 type="email"
                 id="email"
                 className="w-full border rounded-lg px-4 py-2 focus:ring focus:outline-none"
                 placeholder="Enter your email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
               />
             </div>
             <div>
-            <label className="block mb-1 text-gray-700" htmlFor="email">
-               Password
+              <label className="block mb-1 text-gray-700" htmlFor="password">
+                Password
               </label>
               <input
                 type="password"
-                id="email"
+                id="password"
                 className="w-full border rounded-lg px-4 py-2 focus:ring focus:outline-none"
-                placeholder="Createe a password"
+                placeholder="Create a password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
               />
             </div>
-          
+
             <button className="w-full bg-black text-white rounded-lg py-3 font-semibold">
-              Sign Up 
+              Sign Up
             </button>
-         
           </form>
           <div className="flex items-center justify-center my-4">
             <span className="text-gray-400">OR</span>
@@ -93,15 +117,15 @@ const Signup = () => {
         </div>
       </div>
 
-      <div className="hidden lg:block lg:w-1/2 bg-gradient-to-r from-purple-500 to-purple-700 text-white relative">
+      <div className="hidden lg:block lg:w-1/2 bg-[#1f5373] text-white relative">
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center px-12">
-            <h2 className="text-3xl font-bold mb-4">Welcome to Prime care</h2>
+            <h2 className="text-3xl font-bold mb-4">Welcome to Prime Care</h2>
             <p className="mb-8">
               Our platform provides a comprehensive online shopping experience
               for all your medicine and medical care needs, offering you a wide
               selection of trusted products, seamless ordering, and reliable
-              delivery to ensure your health and wellness are always a priority.
+              delivery.
             </p>
             <img
               src="http://localhost:5173/images/logo.png"

@@ -1,10 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
+
+//redux
+import { useDispatch } from "react-redux";
+import { setUser } from "../../../redux/slices/userSlice";
+
+//firebase
+import { auth } from "../../../services/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
+//icons
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { FaApple } from "react-icons/fa";
 import { IconContext } from "react-icons";
 
 const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      dispatch(setUser({ uid: user.uid, email: user.email }));
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
+  };
+
   return (
     <div className="min-h-screen flex">
       <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 lg:px-24 py-8">
@@ -13,7 +42,7 @@ const LoginPage = () => {
           <p className="text-gray-600 mb-6">
             Log in to access your financial insights and management tools
           </p>
-          <form className="space-y-6">
+          <form onSubmit={handleLogin} className="space-y-6">
             <div>
               <label className="block mb-1 text-gray-700" htmlFor="email">
                 Email address
@@ -23,6 +52,8 @@ const LoginPage = () => {
                 id="email"
                 className="w-full border rounded-lg px-4 py-2 focus:ring focus:outline-none"
                 placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div>
@@ -34,6 +65,8 @@ const LoginPage = () => {
                 id="password"
                 className="w-full border rounded-lg px-4 py-2 focus:ring focus:outline-none"
                 placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <div className="text-right">
