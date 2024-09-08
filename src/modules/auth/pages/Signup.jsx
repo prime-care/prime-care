@@ -5,13 +5,14 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../../../redux/slices/userSlice";
 
 //firebase
-import { auth } from "../../../services/firebase";
+import { auth, db } from "../../../services/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 // icons
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook, FaApple } from "react-icons/fa";
 import { IconContext } from "react-icons";
+import { doc, setDoc } from "firebase/firestore";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -19,9 +20,10 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
-  // create account function
+  // create account and add new user into users collection
   const handleSignUp = async (e) => {
     e.preventDefault();
+    // create account
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -29,6 +31,16 @@ const Signup = () => {
         password
       );
       const user = userCredential.user;
+
+      // store basic user data into users collection
+      await setDoc(doc(db, "users", user.uid), {
+        userId: user.uid,
+        name,
+        email,
+        phone: "", // initially empty, will be filled with the first order
+        address: "", // ~
+      });
+
       dispatch(setUser({ uid: user.uid, email: user.email, name }));
     } catch (error) {
       console.error("Error signing up:", error);
