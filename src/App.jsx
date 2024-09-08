@@ -4,7 +4,7 @@ import ScrollToTop from "./modules/common/components/ScrollToTop";
 import Home from "./modules/user/pages/Home";
 import MyAccount from "./modules/user/pages/MyAccount";
 import Products from "./modules/user/pages/Products";
-import ProductPage from "./modules/user/pages/ProductPage";
+import ProductDetails from "./modules/user/pages/ProductDetails";
 import Footer from "./modules/common/components/Footer";
 import Cart from "./modules/user/pages/Cart";
 import Dashboard from "./modules/Dashboard/pages/Dashboard";
@@ -19,7 +19,6 @@ import Checkout from "./modules/user/components/checkout/Checkout";
 
 // react router
 import { Route, Routes } from "react-router-dom";
-import UserOrders from "./modules/user/components/my-account/userOrders";
 import EditProfile from "./modules/user/components/my-account/EditProfile";
 import WishList from "./modules/user/components/my-account/WishList";
 import OrderHistory from "./modules/user/components/my-account/OrderHistory";
@@ -34,12 +33,11 @@ const App = () => {
         <Route path="/auth/login" element={<LoginPage />} />
         <Route path="/auth/signup" element={<Signup />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/products/:id" element={<ProductPage />} />
+        <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile" element={<MyAccount />}>
           <Route index element={<EditProfile />} />{" "}
           {/* Default content for /profile */}
-          {/* <Route path="orders" element={<UserOrders />} /> */}
           <Route path="orders" element={<OrderHistory />} />
           <Route path="wishlist" element={<WishList />} />
         </Route>
