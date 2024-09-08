@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
-const initialUser = {
+// get initial user data from localStorage if user already loggged in 
+const initialUser = JSON.parse(localStorage.getItem("user")) || {
     uid: null,
     email: null,
     name: null,
@@ -16,11 +16,17 @@ const userSlice = createSlice({
             state.uid = uid;
             state.email = email;
             state.name = name;
+
+            // save user data to localStorage (on sign in or login)
+            localStorage.setItem("user", JSON.stringify(state));
         },
         clearUser: (state) => {
             state.uid = null;
             state.email = null;
             state.name = null;
+
+            // clear user data from localStorage (on logout)
+            localStorage.removeItem("user");
         },
     },
 });
