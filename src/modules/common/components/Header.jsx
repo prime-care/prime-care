@@ -31,7 +31,7 @@ export default function Header() {
     return () => {
       clearTimeout(timer);
     };
-  }, [cart]);
+  }, [total]);
 
   return (
     <header className="px-4 sm:px-8 lg:px-11 py-2 flex justify-between items-center text-white bg-primary">
@@ -44,7 +44,8 @@ export default function Header() {
             <li key={link.name} className="hover:text-secondary">
               <Link
                 to={link.path}
-                className="text-sm sm:text-base lg:text-lg font-medium">
+                className="text-sm sm:text-base lg:text-lg font-medium"
+              >
                 {link.name}
               </Link>
             </li>
@@ -57,7 +58,8 @@ export default function Header() {
         </Link>
         <Link
           to="/cart"
-          className={`flex items-center gap-1 ${btnIsBumbed && "bump"}`}>
+          className={`flex items-center gap-1 ${btnIsBumbed && "bump"}`}
+        >
           <div className="relative">
             <IoCartOutline className="text-2xl sm:text-3xl" />
             {cart.length !== 0 && (
