@@ -6,6 +6,7 @@ import { addToCart } from "../../../redux/slices/cartSlice";
 import { IoCartOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { Rating } from "flowbite-react";
+import { Link } from "react-router-dom";
 
 export default function ProductsCard({ product }) {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ export default function ProductsCard({ product }) {
     const quantity = 1;
     dispatch(
       addToCart({
-        id: product.id,
+        id: product.productId,
         name: product.name,
         image: product.image, // {id: 2,name:chair,image:"dsfmks",price:25}
         price: product.price,
@@ -24,14 +25,16 @@ export default function ProductsCard({ product }) {
   };
 
   return (
-    <div className="single-product p-3 border border-gray-300 rounded-md flex flex-col gap-1 cursor-pointer">
+    <div className="single-product p-3 border border-gray-300 rounded-md flex flex-col gap-1">
       <div className="product-image mb-2 relative h-52">
-        <img
-          src={product?.image}
-          alt={product?.name}
-          title={product?.name}
-          className="rounded-md h-full w-full object-contain"
-        />
+        <Link to={`/products/${product.productId}`}>
+          <img
+            src={product?.image}
+            alt={product?.name}
+            title={product?.name}
+            className="rounded-md h-full w-full object-contain"
+          />
+        </Link>
 
         <div className="product-actions absolute w-1/4 h-full top-0 bg-primary rounded-r-md overflow-hidden">
           <div
@@ -56,9 +59,11 @@ export default function ProductsCard({ product }) {
       <span className="text-sm font-medium text-gray-500">
         {product?.categoryName}
       </span>
-      <h3 className="text-base font-semibold text-primary truncate overflow-hidden whitespace-nowrap">
-        {product?.name}
-      </h3>
+      <Link to={`/products/${product.productId}`}>
+        <h3 className="text-base font-semibold text-primary truncate overflow-hidden whitespace-nowrap">
+          {product?.name}
+        </h3>
+      </Link>
       {product.averageRating !== 0 && (
         <Rating>
           <Rating>
@@ -69,7 +74,7 @@ export default function ProductsCard({ product }) {
         </Rating>
       )}
       <span className="text-base font-bold text-primary">
-        {product?.price} <span className="text-sm text-gray-500">USD</span>
+        {product.price} <span className="text-sm text-gray-500">USD</span>
       </span>
     </div>
   );
