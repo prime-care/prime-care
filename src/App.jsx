@@ -22,6 +22,7 @@ import { Route, Routes } from "react-router-dom";
 import EditProfile from "./modules/user/components/my-account/EditProfile";
 import WishList from "./modules/user/components/my-account/WishList";
 import OrderHistory from "./modules/user/components/my-account/OrderHistory";
+import HelpCenter from "./modules/user/pages/HelpCenter";
 
 const App = () => {
   return (
@@ -48,6 +49,7 @@ const App = () => {
           <Route path="orders" element={<DashOrdes />} />
         </Route>
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/help-center" element={<HelpCenter />} />
         <Route path="/checkout" element={<Checkout />} />
       </Routes>
       <Footer />
