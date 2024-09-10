@@ -1,26 +1,39 @@
-import React, { useState } from "react";
-
-//redux
+// redux
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../redux/slices/userSlice";
 
-//firebase
+// firebase
 import { auth } from "../../../services/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
-//icons
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
-import { FaApple } from "react-icons/fa";
-import { IconContext } from "react-icons";
+// components
+import { Button, TextInput } from "flowbite-react";
+import { HiMail, HiLockClosed } from "react-icons/hi";
+
+// validation
+import { Formik, Form, ErrorMessage, Field } from "formik";
+import * as Yup from "yup";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  // Yup validation schema
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .required("Email is required")
+      .email("Invalid email address"),
+    password: Yup.string()
+      .required("Password is required")
+      .min(6, "Password must be at least 6 characters"),
+  });
+
+  const initialValues = {
+    email: "",
+    password: "",
+  };
+
+  const handleLogin = async (values, { setSubmitting }) => {
+    const { email, password } = values;
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -31,73 +44,74 @@ const LoginPage = () => {
       dispatch(setUser({ uid: user.uid, email: user.email }));
     } catch (error) {
       console.error("Error logging in:", error);
+    } finally {
+      setSubmitting(false); // stop the submitting/loading state
     }
   };
 
   return (
-    <div className="min-h-screen flex">
+    <div className="py-[100px] flex container">
       <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 lg:px-24 py-8">
         <div className="text-left">
-          <h2 className="text-3xl font-bold mb-2">Get started</h2>
-          <p className="text-gray-600 mb-6">
-            Log in to access your financial insights and management tools
+          <h1 className="mb-2 text-3xl font-bold text-gray-700">Get started</h1>
+          <p className="text-gray-500 mb-6">
+            Log in to access a wide range of trusted medications and healthcare
+            products, with reliable delivery and personalized health tracking.
           </p>
-          <form onSubmit={handleLogin} className="space-y-6">
-            <div>
-              <label className="block mb-1 text-gray-700" htmlFor="email">
-                Email address
-              </label>
-              <input
-                type="email"
-                id="email"
-                className="w-full border rounded-lg px-4 py-2 focus:ring focus:outline-none"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div>
-              <label className="block mb-1 text-gray-700" htmlFor="password">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                className="w-full border rounded-lg px-4 py-2 focus:ring focus:outline-none"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="text-right">
-              <a href="#" className="text-sm text-gray-500 hover:underline">
-                Forgot password?
-              </a>
-            </div>
-            <button className="w-full bg-black text-white rounded-lg py-3 font-semibold">
-              Log in
-            </button>
-          </form>
-          <div className="flex items-center justify-center my-4">
-            <span className="text-gray-400">OR</span>
-          </div>
-          <div className="flex justify-center space-x-4">
-            <button className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200">
-              <IconContext.Provider value={{ size: "20px" }}>
-                <FaApple />
-              </IconContext.Provider>
-            </button>
-            <button className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200">
-              <IconContext.Provider value={{ size: "20px" }}>
-                <FcGoogle />
-              </IconContext.Provider>
-            </button>
-            <button className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200">
-              <IconContext.Provider value={{ size: "20px" }}>
-                <FaFacebook />
-              </IconContext.Provider>
-            </button>
-          </div>
+
+          <Formik
+            initialValues={initialValues}
+            onSubmit={handleLogin}
+            validationSchema={validationSchema}>
+            {({ isSubmitting }) => (
+              <Form>
+                {/* Email Field */}
+                <div className="flex flex-col gap-2 mb-3">
+                  <label htmlFor="email">Email</label>
+                  <Field
+                    as={TextInput}
+                    icon={HiMail}
+                    id="email"
+                    name="email"
+                    autoComplete="email"
+                    placeholder="Enter your email address"
+                  />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="text-sm font-medium text-red-500"
+                  />
+                </div>
+
+                {/* Password Field */}
+                <div className="flex flex-col gap-2 mb-5">
+                  <label htmlFor="password">Password</label>
+                  <Field
+                    as={TextInput}
+                    type="password"
+                    icon={HiLockClosed}
+                    id="password"
+                    name="password"
+                    autoComplete="current-password"
+                    placeholder="Enter your password"
+                  />
+                  <ErrorMessage
+                    name="password"
+                    component="div"
+                    className="text-sm font-medium text-red-500"
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <Button
+                  className="w-full"
+                  type="submit"
+                  disabled={isSubmitting}>
+                  {isSubmitting ? "Logging in..." : "Login"}
+                </Button>
+              </Form>
+            )}
+          </Formik>
           <div className="text-center mt-8">
             <span className="text-gray-500">Don’t have an account? </span>
             <a href="#" className="text-purple-600 hover:underline">
@@ -107,22 +121,9 @@ const LoginPage = () => {
         </div>
       </div>
 
-      <div className="hidden lg:block lg:w-1/2 bg-gradient-to-r from-purple-500 to-purple-700 text-white relative">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center px-12">
-            <h2 className="text-3xl font-bold mb-4">Welcome to Prime care</h2>
-            <p className="mb-8">
-              Our platform provides a comprehensive online shopping experience
-              for all your medicine and medical care needs, offering you a wide
-              selection of trusted products, seamless ordering, and reliable
-              delivery to ensure your health and wellness are always a priority.
-            </p>
-            <img
-              src="http://localhost:5173/images/logo.png"
-              alt=""
-              className="rounded-lg shadow-lg"
-            />
-          </div>
+      <div className="hidden lg:flex justify-center items-center lg:w-1/2 text-center">
+        <div>
+          <img src="/images/login-image.svg" alt="" className="max-w-[500px]" />
         </div>
       </div>
     </div>
