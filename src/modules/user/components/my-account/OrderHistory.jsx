@@ -46,8 +46,7 @@ const OrderHistory = () => {
       <h2 className="text-2xl font-semibold mb-4">Order History</h2>
       <Table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
         <Table.Head>
-          <Table.HeadCell>Order #</Table.HeadCell>
-          <Table.HeadCell>User ID</Table.HeadCell>
+          <Table.HeadCell>Order</Table.HeadCell>
           <Table.HeadCell>Date</Table.HeadCell>
           <Table.HeadCell>Status</Table.HeadCell>
           <Table.HeadCell>Total</Table.HeadCell>
@@ -57,22 +56,21 @@ const OrderHistory = () => {
           {orders.map((order) => (
             <Table.Row key={order.orderId}>
               <Table.Cell>
-                <a href={`/order/${order.orderId}`} className="text-blue-500">
+                <a href={`/order/${order.orderId}`} className="text-primary">
                   {order.orderId}
                 </a>
               </Table.Cell>
-              <Table.Cell>{order.userId}</Table.Cell>
               <Table.Cell>
-                {new Date(order.createdAt).toLocaleDateString()}
+                {new Date(order.createdAt).toLocaleString()}
               </Table.Cell>
               <Table.Cell>{order.status}</Table.Cell>
               <Table.Cell>${order.totalAmount}</Table.Cell>
               <Table.Cell>
                 <button
                   onClick={() => handleShowDetails(order)}
-                  className="text-blue-500"
+                  className="text-primary"
                 >
-                  Show Details
+                  Show Details...
                 </button>
               </Table.Cell>
             </Table.Row>

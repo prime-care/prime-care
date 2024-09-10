@@ -1,17 +1,10 @@
 import { useState } from "react";
-import {
-  Checkbox,
-  Table,
-  Modal,
-  Button,
-  Label,
-  TextInput,
-} from "flowbite-react";
-import { MdOutlineModeEdit, MdOutlineDeleteSweep } from "react-icons/md";
+import { Checkbox, Table, Modal, Button, Label } from "flowbite-react";
+import { MdOutlineDeleteSweep } from "react-icons/md";
 
 export default function DashOrders() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedOrderProducts, setSelectedOrderProducts] = useState([]);
 
   const orders = [
     {
@@ -39,25 +32,75 @@ export default function DashOrders() {
     },
   ];
 
-  const handleEditClick = (order) => {
-    setSelectedOrder(order);
+  const products = [
+    {
+      productId: "p1",
+      name: "Face Cream",
+      description: "A moisturizing face cream.",
+      price: 50,
+      categoryId: "c1",
+      categoryName: "Skincare",
+      image: "face_cream_image_url",
+      bestSeller: true,
+    },
+    {
+      productId: "p2",
+      name: "Vitamin C",
+      description: "Essential Vitamin C supplement.",
+      price: 20,
+      categoryId: "c2",
+      categoryName: "Vitamins",
+      image: "vitamin_c_image_url",
+      bestSeller: false,
+    },
+    {
+      productId: "p3",
+      name: "Hair Oil",
+      description: "Nourishing hair oil.",
+      price: 30,
+      categoryId: "c3",
+      categoryName: "Haircare",
+      image: "hair_oil_image_url",
+      bestSeller: true,
+    },
+    {
+      productId: "p4",
+      name: "Protein Powder",
+      description: "High-quality protein powder.",
+      price: 40,
+      categoryId: "c4",
+      categoryName: "Fitness",
+      image: "protein_powder_image_url",
+      bestSeller: false,
+    },
+  ];
+
+  const orderStatusOptions = [
+    { value: "pending", label: "Pending" },
+    { value: "shipped", label: "Shipped" },
+    { value: "delivered", label: "Delivered" },
+    { value: "canceled", label: "Canceled" },
+  ];
+
+  const handleShowOrderClick = (orderProducts) => {
+    // Map the order's products to include details from the products array
+    const detailedProducts = orderProducts.map((orderProduct) => {
+      const productDetails = products.find(
+        (product) => product.productId === orderProduct.productId
+      );
+      return {
+        ...productDetails,
+        quantity: orderProduct.quantity,
+        totalPrice: orderProduct.quantity * productDetails.price,
+      };
+    });
+    setSelectedOrderProducts(detailedProducts);
     setIsModalOpen(true);
   };
 
   const handleModalClose = () => {
     setIsModalOpen(false);
-    setSelectedOrder(null);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setSelectedOrder((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSaveChanges = () => {
-    // firebase logic
-    console.log("Updated order data:", selectedOrder);
-    handleModalClose();
+    setSelectedOrderProducts([]);
   };
 
   return (
@@ -92,26 +135,33 @@ export default function DashOrders() {
                 </Table.Cell>
                 <Table.Cell>{order.userId}</Table.Cell>
                 <Table.Cell>
-                  {order.products.map((product) => (
-                    <div key={product.productId}>
-                      {product.productId} - Qty: {product.quantity}
-                    </div>
-                  ))}
+                  <button
+                    className="text-blue-500 underline"
+                    onClick={() => handleShowOrderClick(order.products)}
+                  >
+                    Show order
+                  </button>
                 </Table.Cell>
                 <Table.Cell>{order.totalAmount}</Table.Cell>
-                <Table.Cell>{order.status}</Table.Cell>
+                <Table.Cell>
+                  <select
+                    name="status"
+                    value={order.status}
+                    className="bg-white border border-gray-300 rounded-md p-2"
+                  >
+                    {orderStatusOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </Table.Cell>
                 <Table.Cell>
                   {new Date(order.createdAt).toLocaleString()}
                 </Table.Cell>
                 <Table.Cell>{order.phoneNumber}</Table.Cell>
                 <Table.Cell>{order.address}</Table.Cell>
                 <Table.Cell className="flex gap-4 items-center">
-                  <button
-                    className="text-secondary text-xl"
-                    onClick={() => handleEditClick(order)}
-                  >
-                    <MdOutlineModeEdit />
-                  </button>
                   <button className="text-pink-700 text-xl">
                     <MdOutlineDeleteSweep />
                   </button>
@@ -122,61 +172,48 @@ export default function DashOrders() {
         </Table>
       </div>
 
-      {/* Modal for Editing Order */}
+      {/* Modal for showing order details */}
       <Modal show={isModalOpen} onClose={handleModalClose}>
-        <Modal.Header>Edit Order</Modal.Header>
+        <Modal.Header>Order Details</Modal.Header>
         <Modal.Body>
-          <div className="space-y-6">
-            <div>
-              <Label className="text-primary" htmlFor="userId" value="User ID" />
-              <TextInput
-                id="userId"
-                name="userId"
-                value={selectedOrder?.userId || ""}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <Label className="text-primary" htmlFor="totalAmount" value="Total Amount" />
-              <TextInput
-                id="totalAmount"
-                name="totalAmount"
-                type="number"
-                value={selectedOrder?.totalAmount || ""}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <Label className="text-primary" htmlFor="status" value="Status" />
-              <TextInput
-                id="status"
-                name="status"
-                value={selectedOrder?.status || ""}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <Label className="text-primary" htmlFor="phoneNumber" value="Phone Number" />
-              <TextInput
-                id="phoneNumber"
-                name="phoneNumber"
-                value={selectedOrder?.phoneNumber || ""}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <Label className="text-primary" htmlFor="address" value="Address" />
-              <TextInput
-                id="address"
-                name="address"
-                value={selectedOrder?.address || ""}
-                onChange={handleInputChange}
-              />
-            </div>
+          <div className="space-y-4">
+            {selectedOrderProducts.map((product) => (
+              <div
+                key={product.productId}
+                className="flex gap-4 items-center border-b py-2"
+              >
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-20 h-20 object-cover rounded-lg"
+                />
+                <div className="flex-1">
+                  <Label className="block text-primary">Product Name</Label>
+                  <p className="font-semibold">{product.name}</p>
+
+                  <div className="grid grid-cols-2 gap-4 mt-2">
+                    <div>
+                      <Label className="block text-primary">Price</Label>
+                      <p>${product.price}</p>
+                    </div>
+                    <div>
+                      <Label className="block text-primary">Quantity</Label>
+                      <p>{product.quantity}</p>
+                    </div>
+                  </div>
+                  <div className="mt-2">
+                    <Label className="block text-primary">Total Price</Label>
+                    <p className="font-semibold text-lg">
+                      ${product.totalPrice}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleSaveChanges}>Save Changes</Button>
+          <Button onClick={handleModalClose}>Close</Button>
           <Button color="gray" onClick={handleModalClose}>
             Cancel
           </Button>
