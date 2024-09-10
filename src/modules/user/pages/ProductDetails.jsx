@@ -2,25 +2,25 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 // components
 import WishlistButton from "../../common/components/WishlistButton";
+import ProductRating from "../components/productDetails/ProductRating";
+// flowbite components
 import { Rating } from "flowbite-react";
 import { Button } from "flowbite-react";
 // icons
 import { FaMinus } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
 import { BsCartPlus } from "react-icons/bs";
-import { CiHeart } from "react-icons/ci";
 import { FaTruckFast } from "react-icons/fa6";
 import { RiRefund2Fill } from "react-icons/ri";
 import { MdOutlinePayment } from "react-icons/md";
 import { FaShop } from "react-icons/fa6";
 // redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../../redux/slices/cartSlice";
 //firebase
 import { db } from "../../../services/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
-
-import { useSelector } from "react-redux";
+import ProductReviews from "../components/productDetails/ProductReviews";
 
 const features = [
   {
@@ -53,11 +53,11 @@ const ProductDetails = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [avgRating, setQAvgRating] = useState(null); // product's average rating
+  const [avgRating, setQAvgRating] = useState(null); // state to save product's average rating
 
   const dispatch = useDispatch();
 
-  const userId = useSelector((state) => state.user.uid);
+  const userId = useSelector((state) => state.user.uid); // current user
 
   // fetch the product
   useEffect(() => {
@@ -81,7 +81,7 @@ const ProductDetails = () => {
     fetchProduct();
   }, [productId]);
 
-  // fetch product's reviews and calc average rating
+  // fetch product's reviews and calc its average rating
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -90,15 +90,18 @@ const ProductDetails = () => {
         const querySnapshot = await getDocs(q);
 
         if (!querySnapshot.empty) {
+          // if there is any review to this product
+
+          //calc avgerage rating
           const productReviews = querySnapshot.docs.map((doc) => doc.data());
-          const averageRating = productReviews.reduce((acc, cur) => {
-            return (acc + cur.rating) / productReviews.length;
-          }, 0);
+          const averageRating =
+            productReviews.reduce((acc, review) => acc + review.rating, 0) /
+            productReviews.length;
 
           setQAvgRating(averageRating);
         }
       } catch (error) {
-        console.error("Error fetching reviews:", error);
+        console.error("Error fetching reviews", error);
       }
     };
     fetchReviews();
@@ -221,6 +224,14 @@ const ProductDetails = () => {
             ))}
           </div>
         </div>
+      </div>
+
+      <div>
+        <ProductRating productId={productId} />
+      </div>
+
+      <div>
+        <ProductReviews productId={productId} />
       </div>
     </main>
   );
