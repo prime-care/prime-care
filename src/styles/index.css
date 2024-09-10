@@ -16,11 +16,23 @@ body {
 
 .container {
   width: 100%;
-  max-width: 1400px;
-  /* padding-left: 16px; */
-  /* padding-right: 16px; */
+  max-width: 1300px;
+  padding-left: 16px;
+  padding-right: 16px;
   margin-left: auto;
   margin-right: auto;
+}
+
+@media (max-width: 1200px) {
+  .container {
+    max-width: 1000px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .container {
+    max-width: 800px;
+  }
 }
 
 a {

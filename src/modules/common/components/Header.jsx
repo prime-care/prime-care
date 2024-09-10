@@ -44,8 +44,7 @@ export default function Header() {
             <li key={link.name} className="hover:text-secondary">
               <Link
                 to={link.path}
-                className="text-sm sm:text-base lg:text-lg font-medium"
-              >
+                className="text-sm sm:text-base lg:text-lg font-medium">
                 {link.name}
               </Link>
             </li>
@@ -53,13 +52,12 @@ export default function Header() {
         </ul>
       </nav>
       <div className="flex gap-4 sm:gap-6 lg:gap-8">
-        <Link to="/profile">
+        <Link to="/profile/info">
           <FiUser className="text-2xl sm:text-3xl" />
         </Link>
         <Link
           to="/cart"
-          className={`flex items-center gap-1 ${btnIsBumbed && "bump"}`}
-        >
+          className={`flex items-center gap-1 ${btnIsBumbed && "bump"}`}>
           <div className="relative">
             <IoCartOutline className="text-2xl sm:text-3xl" />
             {cart.length !== 0 && (
