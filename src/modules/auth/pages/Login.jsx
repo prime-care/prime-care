@@ -14,6 +14,9 @@ import { HiMail, HiLockClosed } from "react-icons/hi";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 
+// link
+import { Link } from "react-router-dom";
+
 const LoginPage = () => {
   const dispatch = useDispatch();
 
@@ -114,9 +117,9 @@ const LoginPage = () => {
           </Formik>
           <div className="text-center mt-8">
             <span className="text-gray-500">Don’t have an account? </span>
-            <a href="#" className="text-purple-600 hover:underline">
+            <Link to="/auth/signup" className="text-purple-600 hover:underline">
               Sign up
-            </a>
+            </Link>
           </div>
         </div>
       </div>
