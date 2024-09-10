@@ -19,7 +19,7 @@ import Checkout from "./modules/user/components/checkout/Checkout";
 
 // react router
 import { Route, Routes } from "react-router-dom";
-import EditProfile from "./modules/user/components/my-account/EditProfile";
+import Profile from "./modules/user/components/my-account/Profile";
 import WishList from "./modules/user/components/my-account/WishList";
 import OrderHistory from "./modules/user/components/my-account/OrderHistory";
 import HelpCenter from "./modules/user/pages/HelpCenter";
@@ -37,8 +37,7 @@ const App = () => {
         <Route path="/products/:productId" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile" element={<MyAccount />}>
-          <Route index element={<EditProfile />} />{" "}
-          {/* Default content for /profile */}
+          <Route path="info" element={<Profile />} />
           <Route path="orders" element={<OrderHistory />} />
           <Route path="wishlist" element={<WishList />} />
         </Route>

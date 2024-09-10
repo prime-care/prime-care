@@ -1,20 +1,56 @@
-// import MainTitle from "../components/my-account/MainTitle";
-// import OrderHistory from "../components/my-account/OrderHistory";
-// import Dashboard from "../components/my-account/Dashboard";
-// import UserOrders from "../components/my-account/userOrders";
-// import EditProfile from "../components/my-account/EditProfile";
-import { UserSideBar } from "../components/my-account/UserSideBar";
-import { Outlet } from "react-router-dom";
+// components
+import { HiUserCircle, HiClipboardList } from "react-icons/hi";
+import { FaRegHeart } from "react-icons/fa6";
+import { Outlet, NavLink } from "react-router-dom";
 
 const MyAccount = () => {
   return (
-    <div className="flex">
-      <UserSideBar className="w-1/4 bg-gray-100" />
+    <div className="account-page pt-4 container">
+      <div className="tabs flex justify-start items-center border-b border-gray-200">
+        <NavLink
+          to="info"
+          className={({ isActive }) =>
+            `tab p-3 flex items-center gap-3 border-b border-transparent rounded-t-lg transition-all duration-300 ${
+              isActive
+                ? "text-primary border-blue-900 bg-secondaryBg"
+                : "text-gray-500"
+            } hover:text-primary hover:border-blue-900 hover:bg-secondaryBg`
+          }>
+          <HiUserCircle className="w-6 h-6" />
+          <span>Profile</span>
+        </NavLink>
 
-      <div className="flex-1 p-6 overflow-auto">
-          <Outlet />
-        </div>
+        <NavLink
+          to="orders"
+          className={({ isActive }) =>
+            `tab p-3 flex items-center gap-3 border-b border-transparent rounded-t-lg transition-all duration-300 ${
+              isActive
+                ? "text-primary border-blue-900 bg-secondaryBg"
+                : "text-gray-500"
+            } hover:text-primary hover:border-blue-900 hover:bg-secondaryBg`
+          }>
+          <HiClipboardList className="w-6 h-6" />
+          <span>Orders</span>
+        </NavLink>
+
+        <NavLink
+          to="wishlist"
+          className={({ isActive }) =>
+            `tab p-3 flex items-center gap-3 border-b border-transparent rounded-t-lg transition-all duration-300 ${
+              isActive
+                ? "text-primary border-blue-900 bg-secondaryBg"
+                : "text-gray-500"
+            } hover:text-primary hover:border-blue-900 hover:bg-secondaryBg`
+          }>
+          <FaRegHeart className="w-6 h-6" />
+          <span>Wishlist</span>
+        </NavLink>
       </div>
+
+      <div className="profile-views py-8">
+        <Outlet />
+      </div>
+    </div>
   );
 };
 
