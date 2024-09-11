@@ -20,7 +20,7 @@ import { AuthLayout, DashboardLayout, PublicLayout } from "./layouts";
 import { Route, Routes } from "react-router-dom";
 import Profile from "./modules/user/components/my-account/Profile";
 import WishList from "./modules/user/components/my-account/WishList";
-import OrderHistory from "./modules/user/components/my-account/OrderHistory";
+import Orders from "./modules/user/components/my-account/Orders";
 import HelpCenter from "./modules/user/pages/HelpCenter";
 import ContactUs from "./modules/user/pages/ContactUs";
 
@@ -38,7 +38,7 @@ const App = () => {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/profile" element={<MyAccount />}>
             <Route path="info" element={<Profile />} />
-            <Route path="orders" element={<OrderHistory />} />
+            <Route path="orders" element={<Orders />} />
             <Route path="wishlist" element={<WishList />} />
           </Route>
           <Route path="/about" element={<AboutUs />} />
