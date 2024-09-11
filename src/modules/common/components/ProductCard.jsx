@@ -46,14 +46,14 @@ export default function ProductsCard({ product }) {
           />
         </Link>
 
-        <div className="product-actions absolute w-1/4 h-full top-0 bg-primary rounded-r-md overflow-hidden">
+        <div className="product-actions absolute w-[70px] h-full top-0 bg-primary rounded-r-md overflow-hidden">
           <div
             onClick={() => {
               handleAddToCart(product);
             }}
             className="add-to-cart flex justify-center items-center h-1/2 cursor-pointer transition-all duration-300"
           >
-            <IoCartOutline className="text-2xl text-white" />
+            <IoCartOutline className="text-3xl text-white" />
           </div>
 
           <div
