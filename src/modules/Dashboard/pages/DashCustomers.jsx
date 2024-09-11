@@ -14,7 +14,7 @@ export default function DashCustomers() {
   const { searchResults, handleSearch } = useSearch(users);
 
   const itemsPerPage = 8;
-  const { currentPage, currentItems, totalPages, handlePageChange } =
+  const { currentPage, currentItems, totalPages, handlePageChange, resetPage } =
     usePagination(
       searchResults.length === 0 ? users : searchResults,
       itemsPerPage
@@ -50,7 +50,7 @@ export default function DashCustomers() {
   return (
     <div>
       <div className="overflow-x-auto">
-        <Search onSearch={handleSearch} />
+        <Search onSearch={handleSearch} resetPage={resetPage} />
         <Table hoverable>
           <Table.Head className="p-4 text-primary">
             <Table.HeadCell className="p-4 text-primary">
