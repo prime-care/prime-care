@@ -1,15 +1,25 @@
+import { Link } from "react-router-dom";
 // redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../../redux/slices/cartSlice";
-
 // icons
 import { IoCartOutline } from "react-icons/io5";
+import { FaHeart } from "react-icons/fa";
+//flowbite components
 import { FaRegHeart } from "react-icons/fa";
 import { Rating } from "flowbite-react";
-import { Link } from "react-router-dom";
+// hooks
+import useWishlist from "../hooks/useWishlist";
 
 export default function ProductsCard({ product }) {
   const dispatch = useDispatch();
+
+  const userId = useSelector((state) => state.user.uid);
+
+  const { isInWishlist, toggleWishlist } = useWishlist(
+    userId,
+    product.productId
+  );
 
   const handleAddToCart = (product) => {
     const quantity = 1;
@@ -47,12 +57,14 @@ export default function ProductsCard({ product }) {
           </div>
 
           <div
-            onClick={() => {
-              addToWishlist(product?.id);
-            }}
+            onClick={toggleWishlist}
             className="add-to-wishlist flex justify-center items-center h-1/2 cursor-pointer transition-all duration-300"
           >
-            <FaRegHeart className="text-2xl text-white" />
+            {isInWishlist ? (
+              <FaHeart className="text-2xl text-white" />
+            ) : (
+              <FaRegHeart className="text-2xl text-white" />
+            )}
           </div>
         </div>
       </div>
