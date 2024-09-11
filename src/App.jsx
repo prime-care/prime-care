@@ -23,6 +23,7 @@ import Profile from "./modules/user/components/my-account/Profile";
 import WishList from "./modules/user/components/my-account/WishList";
 import OrderHistory from "./modules/user/components/my-account/OrderHistory";
 import HelpCenter from "./modules/user/pages/HelpCenter";
+import ContactUs from "./modules/user/pages/ContactUs";
 
 const App = () => {
   return (
@@ -49,6 +50,7 @@ const App = () => {
         </Route>
         <Route path="/about" element={<AboutUs />} />
         <Route path="/help-center" element={<HelpCenter />} />
+        <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/checkout" element={<Checkout />} />
       </Routes>
       <Footer />

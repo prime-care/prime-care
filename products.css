@@ -1,0 +1,44 @@
+.products-page {
+  max-width: 1920px;
+  min-height: 100vh;
+  margin: 0 auto;
+}
+.products-page .shop-grid {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  grid-template-areas: "filter products";
+}
+.products-page .shop-grid .filter {
+  grid-area: filter;
+}
+.products-page .shop-grid .products-list {
+  grid-area: products;
+}
+.products-page .shop-grid .products-list .products {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+@media screen and (max-width: 1200px) {
+  .products-page .shop-grid .products-list .products {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media screen and (max-width: 768px) {
+  .products-page .shop-grid .products-list .products {
+    grid-template-columns: 1fr;
+  }
+}
+.products-page .shop-grid .products-list .products .product-image {
+  overflow: hidden;
+}
+.products-page .shop-grid .products-list .products .product-image:hover .product-actions {
+  right: 0;
+}
+.products-page .shop-grid .products-list .products .product-image .product-actions {
+  transition: all 0.4s;
+  right: -100%;
+}
+.products-page .shop-grid .products-list .products .product-image .product-actions .add-to-cart:hover,
+.products-page .shop-grid .products-list .products .product-image .product-actions .add-to-wishlist:hover {
+  background-color: #184059;
+}/*# sourceMappingURL=products.css.map */
