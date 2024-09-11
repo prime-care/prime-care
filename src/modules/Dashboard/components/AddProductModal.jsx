@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   Button,
@@ -7,22 +8,72 @@ import {
   Textarea,
   Select,
 } from "flowbite-react";
+import { v4 as uuidv4 } from "uuid";
+import { uploadImage } from "../../../utils/uploadImage";
 
-function AddProductModal({ isOpen, onClose }) {
-  const categories = [
-    { categoryId: "c1", name: "Skincare" },
-    { categoryId: "c2", name: "Vitamins" },
-    { categoryId: "c3", name: "Haircare" },
-    { categoryId: "c4", name: "Fitness" },
-    { categoryId: "c5", name: "Beauty" },
-    { categoryId: "c6", name: "Diet" },
-  ];
+function AddProductModal({
+  onClose,
+  categories,
+  onSubmit,
+  editMode,
+  initialData,
+}) {
+  const [productName, setProductName] = useState("");
+  const [productDescription, setProductDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
+  const [isBestSeller, setIsBestSeller] = useState(false);
+
+  useEffect(() => {
+    if (editMode && initialData) {
+      setProductName(initialData.name || "");
+      setProductDescription(initialData.description || "");
+      setPrice(initialData.price || "");
+      setCategory(initialData.categoryName || "");
+      setIsBestSeller(initialData.bestSeller || false);
+      setImagePreview(initialData.image || "");
+    }
+  }, [editMode, initialData]);
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImage(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    let imageUrl = imagePreview;
+
+    if (image) {
+      imageUrl = await uploadImage(image);
+    }
+
+    const productData = {
+      name: productName,
+      description: productDescription,
+      price: parseFloat(price),
+      categoryName: category,
+      image: imageUrl,
+      bestSeller: isBestSeller,
+    };
+
+    if (editMode) {
+      onSubmit({ ...productData, productId: initialData.productId });
+    } else {
+      onSubmit({ ...productData, productId: uuidv4() });
+    }
+  };
 
   return (
-    <Modal show={isOpen} onClose={onClose}>
-      <Modal.Header>Add Product</Modal.Header>
-      <Modal.Body>
-        <div className="space-y-4">
+    <form className="space-y-4">
+      <Modal show={true} onClose={onClose}>
+        <Modal.Header>{editMode ? "Edit" : "Add"} Product</Modal.Header>
+        <Modal.Body>
           {/* Product Name */}
           <div>
             <Label
@@ -30,7 +81,12 @@ function AddProductModal({ isOpen, onClose }) {
               value="Product Name"
               className="text-primary"
             />
-            <TextInput id="productName" placeholder="brufen 600 mg" />
+            <TextInput
+              id="productName"
+              placeholder="brufen 600 mg"
+              value={productName}
+              onChange={(e) => setProductName(e.target.value)}
+            />
           </div>
 
           {/* Description */}
@@ -43,6 +99,8 @@ function AddProductModal({ isOpen, onClose }) {
             <Textarea
               id="description"
               placeholder="Enter product description here..."
+              value={productDescription}
+              onChange={(e) => setProductDescription(e.target.value)}
             />
           </div>
 
@@ -53,34 +111,40 @@ function AddProductModal({ isOpen, onClose }) {
               value="Category"
               className="text-primary"
             />
-            <Select id="category">
-              {categories.map((category) => (
-                <option className="text-gray-500" key={category.categoryId}>
-                  {category.name}
+            <Select
+              id="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="">Select a Category</option>
+              {categories.map((cat) => (
+                <option key={cat.name} value={cat.name}>
+                  {cat.name}
                 </option>
               ))}
             </Select>
           </div>
 
           {/* Price and Discount */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="price" value="Price" className="text-primary" />
-              <TextInput id="price" type="number" placeholder="366" />
-            </div>
-            <div>
-              <Label
-                htmlFor="discount"
-                value="Discount"
-                className="text-primary"
-              />
-              <TextInput id="discount" placeholder="50%" />
-            </div>
+
+          <div>
+            <Label htmlFor="price" value="Price" className="text-primary" />
+            <TextInput
+              id="price"
+              type="number"
+              placeholder="366"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+            />
           </div>
 
           {/* Best Seller */}
           <div className="flex items-center gap-2">
-            <Checkbox id="bestSeller" />
+            <Checkbox
+              id="bestSeller"
+              checked={isBestSeller}
+              onChange={(e) => setIsBestSeller(e.target.checked)}
+            />
             <Label className="text-primary" htmlFor="bestSeller">
               Best Seller
             </Label>
@@ -90,7 +154,7 @@ function AddProductModal({ isOpen, onClose }) {
           <div className="flex flex-col items-center">
             <Label
               htmlFor="imageUpload"
-              value="Product Images"
+              value="Product Image"
               className="text-primary mb-2"
             />
             <div className="flex gap-2">
@@ -98,19 +162,33 @@ function AddProductModal({ isOpen, onClose }) {
                 <div className="w-16 h-16 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center text-gray-400">
                   <span className="text-xl">+</span>
                 </div>
-                <input type="file" id="file" className="hidden" />
+                <input
+                  type="file"
+                  id="file"
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
               </label>
             </div>
+            {imagePreview && (
+              <img
+                src={imagePreview}
+                alt="Preview"
+                className="ml-4 w-32 h-32 object-cover rounded-md"
+              />
+            )}
           </div>
-        </div>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={() => console.log("Upload Product")}>Upload</Button>
-        <Button color="gray" onClick={onClose}>
-          Cancel
-        </Button>
-      </Modal.Footer>
-    </Modal>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={handleSubmit}>
+            {editMode ? "Update Product" : "Add Product"}
+          </Button>
+          <Button color="gray" onClick={onClose}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </form>
   );
 }
 
