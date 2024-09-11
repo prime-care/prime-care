@@ -12,6 +12,7 @@ export const navLinks = [
   { name: "Products", path: "/products" },
   { name: "About Us", path: "/about" },
   { name: "Help Center", path: "/help-center" },
+  { name: "Contact Us", path: "/contact-us" },
 ];
 export const slider = [
   {
