@@ -1,52 +1,56 @@
-import { useState } from "react";
-import { Checkbox, Table, Modal, Button, Label, TextInput } from "flowbite-react";
-import { MdOutlineModeEdit, MdOutlineDeleteSweep } from "react-icons/md";
+import { useState, useEffect } from "react";
+import { Checkbox, Table } from "flowbite-react";
+import { MdOutlineDeleteSweep } from "react-icons/md";
+import { db } from "../../../services/firebase";
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import Pagination from "../../common/components/Pagination";
+import usePagination from "../../common/hooks/usePagination";
+import Search from "../../common/components/Search";
+import useSearch from "../../common/hooks/useSearch";
 
 export default function DashCustomers() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [users, setUsers] = useState([]);
 
-  const users = [
-    {
-      userId: "u1",
-      name: "John Doe",
-      email: "john@example.com",
-      phone: "0123456789",
-      address: "123 Elm Street, City, Country",
-    },
-    {
-      userId: "u2",
-      name: "Jane Smith",
-      email: "jane@example.com",
-      phone: "0987654321",
-      address: "456 Maple Avenue, City, Country",
-    },
-  ];
+  const { searchResults, handleSearch } = useSearch(users);
 
-  const handleEditClick = (user) => {
-    setSelectedUser(user);
-    setIsModalOpen(true);
-  };
+  const itemsPerPage = 8;
+  const { currentPage, currentItems, totalPages, handlePageChange } =
+    usePagination(
+      searchResults.length === 0 ? users : searchResults,
+      itemsPerPage
+    );
 
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-    setSelectedUser(null);
-  };
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const usersCollection = collection(db, "users");
+        const usersSnapshot = await getDocs(usersCollection);
+        const usersList = usersSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setUsers(usersList);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setSelectedUser((prev) => ({ ...prev, [name]: value }));
-  };
+    fetchUsers();
+  }, []);
 
-  const handleSaveChanges = () => {
-    // firbase logic
-    console.log("Updated user data:", selectedUser);
-    handleModalClose();
+  const handleDelete = async (userId) => {
+    try {
+      await deleteDoc(doc(db, "users", userId));
+      setUsers(users.filter((user) => user.id !== userId));
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
   };
 
   return (
     <div>
       <div className="overflow-x-auto">
+        <Search onSearch={handleSearch} />
         <Table hoverable>
           <Table.Head className="p-4 text-primary">
             <Table.HeadCell className="p-4 text-primary">
@@ -60,10 +64,10 @@ export default function DashCustomers() {
             <Table.HeadCell>actions</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {users.map((user) => (
+            {currentItems.map((user) => (
               <Table.Row
                 className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                key={user.userId}
+                key={user.id}
               >
                 <Table.Cell className="p-4">
                   <Checkbox />
@@ -76,10 +80,10 @@ export default function DashCustomers() {
                 <Table.Cell>{user.phone}</Table.Cell>
                 <Table.Cell>{user.address}</Table.Cell>
                 <Table.Cell className="flex gap-4 items-center ">
-                  <button className="text-secondary text-xl" onClick={() => handleEditClick(user)}>
-                    <MdOutlineModeEdit />
-                  </button>
-                  <button className="text-pink-700 text-xl">
+                  <button
+                    className="text-pink-700 text-xl"
+                    onClick={() => handleDelete(user.id)}
+                  >
                     <MdOutlineDeleteSweep />
                   </button>
                 </Table.Cell>
@@ -88,58 +92,11 @@ export default function DashCustomers() {
           </Table.Body>
         </Table>
       </div>
-
-      {selectedUser && (
-        <Modal show={isModalOpen} onClose={handleModalClose}>
-          <Modal.Header>Edit User</Modal.Header>
-          <Modal.Body>
-            <div className="space-y-6">
-              <div>
-                <Label className="text-primary" htmlFor="name" value="Name" />
-                <TextInput
-                  id="name"
-                  name="name"
-                  value={selectedUser.name}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div>
-                <Label className="text-primary" htmlFor="email" value="Email" />
-                <TextInput
-                  id="email"
-                  name="email"
-                  value={selectedUser.email}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div>
-                <Label className="text-primary" htmlFor="phone" value="Phone" />
-                <TextInput
-                  id="phone"
-                  name="phone"
-                  value={selectedUser.phone}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div>
-                <Label className="text-primary" htmlFor="address" value="Address" />
-                <TextInput
-                  id="address"
-                  name="address"
-                  value={selectedUser.address}
-                  onChange={handleInputChange}
-                />
-              </div>
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={handleSaveChanges}>Save Changes</Button>
-            <Button color="gray" onClick={handleModalClose}>
-              Cancel
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }
