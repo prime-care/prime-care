@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Checkbox, Table } from "flowbite-react";
-import { MdOutlineDeleteSweep } from "react-icons/md";
+import { Table, Button } from "flowbite-react";
+import { Modal } from "flowbite-react";
 import {
   collection,
   getDocs,
@@ -14,10 +14,14 @@ import usePagination from "../../common/hooks/usePagination";
 import Search from "../../common/components/Search";
 import useSearch from "../../common/hooks/useSearch";
 import AddCategoryModal from "../components/AddCategoryModal";
+import { FaTrashAlt } from "react-icons/fa";
 
 export default function DashCategories() {
   const [categories, setCategories] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState();
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -37,14 +41,23 @@ export default function DashCategories() {
     fetchCategories();
   }, []);
 
-  const handleDelete = async (categoryId) => {
+  const openDeleteCategoryModal = (categoryId) => {
+    setCategoryToDelete(categoryId);
+    setDeleteModal(true);
+  };
+
+  const handleDelete = async () => {
     try {
-      await deleteDoc(doc(db, "categories", categoryId));
+      setIsDeleting(true);
+      await deleteDoc(doc(db, "categories", categoryToDelete));
       setCategories(
-        categories.filter((category) => category.id !== categoryId)
+        categories.filter((category) => category.id !== categoryToDelete)
       );
+      setDeleteModal(false);
     } catch (error) {
       console.error("Error deleting category:", error);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -68,20 +81,37 @@ export default function DashCategories() {
 
   return (
     <div>
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="bg-[#1f5373] text-white px-4 py-2 rounded mb-4"
-      >
-        Add New Category
-      </button>
-      <Search onSearch={handleSearch} resetPage={resetPage} />
+      {/* delete category modal */}
+      <Modal show={deleteModal} onClose={() => setDeleteModal(false)}>
+        <Modal.Header>Delete Category</Modal.Header>
+        <Modal.Body>
+          <p>Are you sure you want to delete this category?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            color="failure"
+            onClick={() => handleDelete()}
+            disabled={isDeleting}>
+            {isDeleting ? "Deleting..." : "Yes, delete"}{" "}
+          </Button>
+          <Button color="gray" onClick={() => setDeleteModal(false)}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <div className="flex justify-between items-center mb-4">
+        <Search onSearch={handleSearch} resetPage={resetPage} />
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="bg-[#1f5373] text-white px-4 py-2 rounded mb-4">
+          Add New Category
+        </button>
+      </div>
+
       <div className="overflow-x-auto">
-        <Table hoverable>
+        <Table hoverable className="mb-3">
           <Table.Head className="p-4 text-primary">
-            <Table.HeadCell className="p-4 text-primary">
-              <Checkbox />
-            </Table.HeadCell>
-            <Table.HeadCell>Category Id</Table.HeadCell>
             <Table.HeadCell>Name</Table.HeadCell>
             <Table.HeadCell>Description</Table.HeadCell>
             <Table.HeadCell>Actions</Table.HeadCell>
@@ -90,28 +120,22 @@ export default function DashCategories() {
             {currentItems.map((category) => (
               <Table.Row
                 className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                key={category.id}
-              >
-                <Table.Cell className="p-4">
-                  <Checkbox />
-                </Table.Cell>
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {category.categoryId}
-                </Table.Cell>
+                key={category.categoryId}>
                 <Table.Cell>{category.name}</Table.Cell>
                 <Table.Cell>{category.description}</Table.Cell>
                 <Table.Cell className="flex gap-4 items-center">
-                  <button
-                    className="text-pink-700 text-xl"
-                    onClick={() => handleDelete(category.id)}
-                  >
-                    <MdOutlineDeleteSweep />
-                  </button>
+                  <Button
+                    color="failure"
+                    onClick={() => openDeleteCategoryModal(category.id)}
+                    disabled={isDeleting}>
+                    <FaTrashAlt />
+                  </Button>
                 </Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
         </Table>
+
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
