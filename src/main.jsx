@@ -14,6 +14,7 @@ import "./styles/index.css";
 import "./styles/pages/home.scss";
 import "./styles/pages/products.scss";
 import "./styles/pages/product-details.scss";
+import "./styles/pages/user-wishlist.scss";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
