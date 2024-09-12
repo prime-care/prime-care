@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 //flowbite components
-import { Rating } from "flowbite-react";
+import { Rating, Label, Textarea } from "flowbite-react";
+
 //redux
 import { useSelector } from "react-redux";
 // firebase
@@ -20,7 +21,8 @@ import { v4 as uuidv4 } from "uuid";
 const ProductRating = ({ productId }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-  const [hasReviewed, setHasReviewed] = useState(false); // state to check if the current user has already reviwed this product
+  const [hasReviewed, setHasReviewed] = useState(false); // state to check if the current user has already reviewed this product
+  const [loading, setLoading] = useState(false); // loading state for button
   const userId = useSelector((state) => state.user.uid);
 
   // check if the current use has already reviewed this product
@@ -43,7 +45,9 @@ const ProductRating = ({ productId }) => {
   }, [productId, userId]);
 
   const handleRatingSubmit = async () => {
-    if (!userId) return;
+    if (!userId || loading) return; // prevent multiple submissions
+
+    setLoading(true); // start loading
 
     // check if the user has purchased the product
     const ordersQuery = query(
@@ -67,19 +71,23 @@ const ProductRating = ({ productId }) => {
     } else {
       alert("You can only review products you have purchased.");
     }
+
+    setLoading(false); // stop loading
   };
 
   if (hasReviewed) {
     return (
-      <p className="text-[#0e7490] bg-[#e0f7fa] p-4  border border-t-[#0e7490] text-center">
-        You have already reviewed this product.
-      </p>
+      <div className="container mb-4">
+        <p className="text-base font-semibold text-gray-700 text-center">
+          You have already reviewed this product.
+        </p>
+      </div>
     );
   }
 
   return (
-    <div className="p-4">
-      <h3 className="text-lg font-semibold mb-4 text-[#0e7490]">
+    <div className="container pb-4 mb-4 border-b border-gray-300">
+      <h3 className="mb-4 text-xl font-semibold text-gray-700">
         Rate this product:
       </h3>
       <div className="flex items-center mb-4">
@@ -94,17 +102,27 @@ const ProductRating = ({ productId }) => {
           ))}
         </Rating>
       </div>
-      <textarea
-        className="w-full p-2 border rounded-md focus:outline-none focus:ring focus:ring-[#0e7490]"
-        placeholder="Add your comment"
-        value={comment}
-        onChange={(e) => setComment(e.target.value)}
-      ></textarea>
+      <div className="max-w-md">
+        <div className="mb-2 block">
+          <Label htmlFor="comment" value="Your Comment" />
+        </div>
+        <Textarea
+          id="comment"
+          placeholder="Add your comment"
+          required
+          rows={4}
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        />
+      </div>
+
       <button
         onClick={handleRatingSubmit}
-        className="mt-4 px-4 py-2 bg-[#0e7490] text-white rounded-md hover:bg-[#0c6373]"
-      >
-        Submit Review
+        disabled={loading} // disable button while loading
+        className={`mt-4 px-4 py-2 bg-[#0e7490] text-white rounded-md hover:bg-[#0c6373] ${
+          loading ? "cursor-not-allowed opacity-50" : ""
+        }`}>
+        {loading ? "Submitting..." : "Submit Review"}
       </button>
     </div>
   );
