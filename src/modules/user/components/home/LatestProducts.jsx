@@ -223,7 +223,7 @@ export default function LatestProducts() {
   }, []);
 
   return (
-    <section className="latest-products mx-20 relative mt-14">
+    <section className="container latest-products mx-20 relative mt-14">
       <div className="head mb-6 flex flex-col items-center gap-2">
         <h2 className="text-center text-3xl font-bold text-gray-700">
           Explore Our Latest Products
@@ -242,19 +242,22 @@ export default function LatestProducts() {
             transform: `translateX(-${
               (currentIndex * 100) / visibleCategories
             }%)`,
-          }}>
+          }}
+        >
           {products?.map((product) => (
             <ProductCard key={product.productId} product={product} />
           ))}
         </div>
         <button
           className="absolute top-[60%] -left-10 transform -translate-y-1/2 bg-[#dce3e6] text-gray-700 text-sm sm:text-lg p-2 rounded-full"
-          onClick={handlePrev}>
+          onClick={handlePrev}
+        >
           <IoIosArrowBack />
         </button>
         <button
           className="absolute top-[60%] -right-10 transform -translate-y-1/2 bg-[#dce3e6] text-gray-700  text-sm sm:text-lg p-2 rounded-full"
-          onClick={handleNext}>
+          onClick={handleNext}
+        >
           <IoIosArrowForward />
         </button>
       </div>

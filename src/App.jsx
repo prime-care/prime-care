@@ -17,7 +17,7 @@ import Checkout from "./modules/user/components/checkout/Checkout";
 import { AuthLayout, DashboardLayout, PublicLayout } from "./layouts";
 
 // react router
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Profile from "./modules/user/components/my-account/Profile";
 import WishList from "./modules/user/components/my-account/WishList";
 import Orders from "./modules/user/components/my-account/Orders";
@@ -37,6 +37,7 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/profile" element={<MyAccount />}>
+            <Route index element={<Navigate to="info" />} />
             <Route path="info" element={<Profile />} />
             <Route path="orders" element={<Orders />} />
             <Route path="wishlist" element={<WishList />} />
