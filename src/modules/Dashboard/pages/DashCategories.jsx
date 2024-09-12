@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Table, Button } from "flowbite-react";
+import { Table, Button, Spinner } from "flowbite-react";
 import { Modal } from "flowbite-react";
 import {
   collection,
@@ -22,10 +22,12 @@ export default function DashCategories() {
   const [deleteModal, setDeleteModal] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState();
   const [isDeleting, setIsDeleting] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
+        setLoading(true);
         const categoriesCollection = collection(db, "categories");
         const categoriesSnapshot = await getDocs(categoriesCollection);
         const categoriesList = categoriesSnapshot.docs.map((doc) => ({
@@ -35,6 +37,8 @@ export default function DashCategories() {
         setCategories(categoriesList);
       } catch (error) {
         console.error("Error fetching categories:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -110,40 +114,48 @@ export default function DashCategories() {
       </div>
 
       <div className="overflow-x-auto">
-        <Table hoverable className="mb-3">
-          <Table.Head className="p-4 text-primary">
-            <Table.HeadCell>Name</Table.HeadCell>
-            <Table.HeadCell>Description</Table.HeadCell>
-            <Table.HeadCell>Actions</Table.HeadCell>
-          </Table.Head>
-          <Table.Body className="divide-y">
-            {currentItems.map((category) => (
-              <Table.Row
-                className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                key={category.categoryId}>
-                <Table.Cell>{category.name}</Table.Cell>
-                <Table.Cell>{category.description}</Table.Cell>
-                <Table.Cell className="flex gap-4 items-center">
-                  <Button
-                    color="failure"
-                    onClick={() => openDeleteCategoryModal(category.id)}
-                    disabled={isDeleting}>
-                    <FaTrashAlt />
-                  </Button>
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <Spinner aria-label="Loading spinner" size="xl" />
+          </div>
+        ) : (
+          <>
+            <Table hoverable className="mb-3">
+              <Table.Head className="p-4 text-primary">
+                <Table.HeadCell>Name</Table.HeadCell>
+                <Table.HeadCell>Description</Table.HeadCell>
+                <Table.HeadCell>Actions</Table.HeadCell>
+              </Table.Head>
+              <Table.Body className="divide-y">
+                {currentItems.map((category) => (
+                  <Table.Row
+                    className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                    key={category.categoryId}>
+                    <Table.Cell>{category.name}</Table.Cell>
+                    <Table.Cell>{category.description}</Table.Cell>
+                    <Table.Cell className="flex gap-4 items-center">
+                      <Button
+                        color="failure"
+                        onClick={() => openDeleteCategoryModal(category.id)}
+                        disabled={isDeleting}>
+                        <FaTrashAlt />
+                      </Button>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
 
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
+            {!loading && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            )}
+          </>
+        )}
       </div>
-
-      {/* Modal for Editing Category */}
 
       {isModalOpen && (
         <AddCategoryModal
