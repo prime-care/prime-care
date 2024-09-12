@@ -16,13 +16,25 @@ const Orders = () => {
   const orders = [
     {
       id: 1,
-      user: {
-        id: 1,
-        name: "John Doe",
-      },
       products: [
-        { id: 1, name: "Product 1", price: 100, quantity: 1, subtotal: 100 },
-        { id: 2, name: "Product 2", price: 75, quantity: 2, subtotal: 150 },
+        {
+          id: 1,
+          image:
+            "https://www.dvago.pk/_next/image?url=https%3A%2F%2Fdvago-assets.s3.ap-southeast-1.amazonaws.com%2FProductsImages%2F14790.webp&w=360&q=50",
+          name: "Product 1",
+          price: 100,
+          quantity: 1,
+          subtotal: 100,
+        },
+        {
+          id: 2,
+          image:
+            "https://www.dvago.pk/_next/image?url=https%3A%2F%2Fdvago-assets.s3.ap-southeast-1.amazonaws.com%2FProductsImages%2F14790.webp&w=360&q=50",
+          name: "Product 2",
+          price: 75,
+          quantity: 2,
+          subtotal: 150,
+        },
       ],
       total: 120,
       status: {
@@ -36,13 +48,6 @@ const Orders = () => {
   const openOrderProductsModal = (products) => {
     setOrderProducts(products);
     setProductsModal(true);
-  };
-
-  const openDeleteOrderModal = (id) => {
-    setOrderToDelete(id);
-    setDeleteModal(true);
-    // example
-    console.log(orderToDelete);
   };
 
   return (
@@ -62,6 +67,7 @@ const Orders = () => {
               <div
                 key={product.id}
                 className="p-3 flex justify-between items-center gap-3 border border-gray-300 rounded-lg">
+                <img src={product.image} className="w-12 h-12" alt="" />
                 <span>{product.name}</span>
                 <span>
                   {product.price}{" "}
@@ -101,10 +107,11 @@ const Orders = () => {
 
       <Table>
         <Table.Head>
-          <Table.HeadCell>User</Table.HeadCell>
+          <Table.HeadCell>ID</Table.HeadCell>
           <Table.HeadCell>Products</Table.HeadCell>
           <Table.HeadCell>Total</Table.HeadCell>
           <Table.HeadCell>Status</Table.HeadCell>
+          <Table.HeadCell>Date</Table.HeadCell>
           <Table.HeadCell>
             <span className="sr-only">Edit</span>
           </Table.HeadCell>
@@ -114,9 +121,7 @@ const Orders = () => {
             <Table.Row
               key={order.id}
               className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {order.user.name}
-              </Table.Cell>
+              <Table.Cell>{order.id}</Table.Cell>
               <Table.Cell>
                 <FaExternalLinkAlt
                   size={20}
@@ -129,15 +134,7 @@ const Orders = () => {
                 <span>EGP</span>
               </Table.Cell>
               <Table.Cell>{order.status.name}</Table.Cell>
-              <Table.Cell>
-                <div className="flex gap-3">
-                  <Button
-                    color="failure"
-                    onClick={() => openDeleteOrderModal(order.id)}>
-                    <FaTrashAlt />
-                  </Button>
-                </div>
-              </Table.Cell>
+              <Table.Cell>{order.createdAt}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
