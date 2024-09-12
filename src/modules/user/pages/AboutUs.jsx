@@ -7,6 +7,9 @@ import { FaFaceGrinStars } from "react-icons/fa6";
 import { LuListTodo } from "react-icons/lu";
 import { LuShapes } from "react-icons/lu";
 import { FaCheckCircle } from "react-icons/fa";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 
 import { IconContext } from "react-icons";
@@ -193,55 +196,58 @@ export default function AboutUs() {
       </div>
 
       <div className="relative w-full h-screen">
-        <div className="absolute inset-0 overflow-hidden">
+        {/* New layout  */}
+        <div className="absolute inset-0 z-10 bg-gray-600 bg-opacity-35"></div>
+
+        <div className="absolute inset-0 overflow-hidden z-0">
           <img
             src="https://epiccapital.com/wp-content/uploads/2020/08/61-Cost-of-Medical-Care-PIC.jpeg"
             alt="Medical Background"
-            className="w-full h-full object-cover"
+            className="w-full h-full blur-sm object-cover"
           />
         </div>
 
-        <div className="relative z-20 flex flex-wrap flex-col items-center content-start justify-center h-full  py-8 px-4 md:px-16">
+        <div className="relative z-20 flex flex-wrap flex-col items-center content-start justify-center h-full py-8 px-4 md:px-16">
           <div className="max-w-2xl text-left">
             <h2 className="text-3xl font-bold mb-6">
               Top 3 Reasons to Choose Us
             </h2>
             <div className="space-y-4">
               <div className="flex items-start justify-center">
-              <IconContext.Provider value={{ size: "20px" }}>
-              <FaCheckCircle />
-              </IconContext.Provider>
+                <IconContext.Provider value={{ size: "20px" }}>
+                  <FaCheckCircle />
+                </IconContext.Provider>
                 <div>
                   <h3 className="text-lg font-semibold">
                     The Latest Technology
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-slate-200">
                     Ut tellus dolor, dapibus eget, elementum vel, cursus
                     eleifend, elit.
                   </p>
                 </div>
               </div>
               <div className="flex items-start justify-center">
-              <IconContext.Provider value={{ size: "20px" }}>
-              <FaCheckCircle />
-              </IconContext.Provider>
+                <IconContext.Provider value={{ size: "20px" }}>
+                  <FaCheckCircle />
+                </IconContext.Provider>
                 <div>
                   <h3 className="text-lg font-semibold">Long Battery Life</h3>
-                  <p className="text-gray-600">
+                  <p className="text-slate-200">
                     Integer rutrum ante eu lacus. Vestibulum libero nisl, porta
                     vel.
                   </p>
                 </div>
               </div>
               <div className="flex items-start justify-center">
-              <IconContext.Provider value={{ size: "20px" }}>
-              <FaCheckCircle />
-              </IconContext.Provider>
+                <IconContext.Provider value={{ size: "20px" }}>
+                  <FaCheckCircle />
+                </IconContext.Provider>
                 <div>
                   <h3 className="text-lg font-semibold">
                     Durable Construction
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-slate-200">
                     Etiam cursus leo vel metus. Nulla facilisi. Aenean nec eros.
                   </p>
                 </div>
@@ -289,6 +295,7 @@ export default function AboutUs() {
           </Slider>
         </div>
       </div>
+
       <div className="py-8 my-48 bg-white">
         <h2 className="text-center text-2xl font-bold mb-6">Our Partners</h2>
         <Slider {...carouselTwoSettings} className="max-w-6xl mx-auto px-4">
