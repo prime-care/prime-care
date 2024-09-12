@@ -1,0 +1,21 @@
+.product-image {
+  overflow: hidden;
+
+  &:hover {
+    .product-actions {
+      right: 0;
+    }
+  }
+
+  .product-actions {
+    transition: all 0.4s;
+    right: -100%;
+
+    .add-to-cart,
+    .add-to-wishlist {
+      &:hover {
+        background-color: #184059;
+      }
+    }
+  }
+}
