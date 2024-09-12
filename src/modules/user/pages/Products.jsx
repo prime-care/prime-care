@@ -149,9 +149,17 @@ const Products = () => {
   return (
     <div className="products-page p-4">
       <div className="container">
-        <div className="shop-grid gap-4">
-          <Filter categories={categories} onFilterChange={handleFilterChange} />
-          <main className="products-list rounded-md">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
+          {/* Filter component takes 1 column */}
+          <div className="col-span-1">
+            <Filter
+              categories={categories}
+              onFilterChange={handleFilterChange}
+            />
+          </div>
+
+          {/* ProductsList component takes 3 columns */}
+          <main className="col-span-3 products-list rounded-md">
             <Search onSearch={handleSearch} resetPage={resetPage} />
             <ProductsList products={currentItems} loading={loading} />
             <div className="mb-10">

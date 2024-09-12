@@ -16,7 +16,7 @@ const ProductsList = ({ products, loading }) => {
           </p>
         </div>
       ) : (
-        <div className="products gap-3 my-4">
+        <div className="my-2 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
