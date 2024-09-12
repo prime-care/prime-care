@@ -19,20 +19,31 @@ const StoreLocationCard = ({ store }) => {
           {store.name}
         </h2>
         <div className="space-y-2 text-sm  md:text-base">
-          <div className="flex items-start   space-x-2">
-            <FaMapMarkerAlt className="text-teal-500" />
+          <div className="flex items-baseline   space-x-2">
+            <div>
+              <FaMapMarkerAlt className="text-teal-500" />
+            </div>
             <p className="break-words">{store.address}</p>
           </div>
-          <div className="flex items-start space-x-2">
-            <FaPhoneAlt className="text-teal-500" />
+          <div className="flex items-baseline space-x-2">
+            <div>
+              {" "}
+              <FaPhoneAlt className="text-teal-500" />
+            </div>
             <p className="break-words">{store.phone}</p>
           </div>
-          <div className="flex items-start space-x-2">
-            <FaEnvelope className="text-teal-500" />
+          <div className="flex items-baseline space-x-2">
+            <div>
+              {" "}
+              <FaEnvelope className="text-teal-500" />
+            </div>
             <p className="break-words">{store.email}</p>
           </div>
-          <div className="flex items-start space-x-2">
-            <FaClock className="text-teal-500" />
+          <div className="flex items-baseline space-x-2">
+            <div>
+              {" "}
+              <FaClock className="text-teal-500" />
+            </div>
             <p className="break-words">{store.hours}</p>
           </div>
         </div>
