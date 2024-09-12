@@ -77,7 +77,7 @@ export default function Filter({ categories, onFilterChange }) {
                   <Checkbox
                     id="accept"
                     onChange={handleCategoryChange}
-                    value={category.categoryId}
+                    value={category.name}
                   />
                   <Label htmlFor="accept" className="flex">
                     {category.name}
