@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 export default function CartSummary() {
   const total = useSelector(selectTotal);
   const cart = useSelector((state) => state.cart.items);
-  console.log(cart);
 
   // payment integration
   const makePayment = async () => {

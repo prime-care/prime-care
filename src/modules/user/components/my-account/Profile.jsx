@@ -3,6 +3,7 @@ import { Button, TextInput } from "flowbite-react";
 import { HiMail, HiUser, HiPhone, HiHome } from "react-icons/hi";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
+import { toast } from "react-toastify";
 import {
   collection,
   query,
@@ -71,7 +72,7 @@ const Profile = () => {
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0].ref;
         await updateDoc(userDoc, values);
-        alert("User information updated successfully!");
+        toast.success("User information updated successfully");
       } else {
         console.error("No user data found!");
       }

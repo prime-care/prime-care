@@ -2,6 +2,9 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 
+// toast notification
+import { ToastContainer } from "react-toastify";
+
 // redux
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
@@ -10,6 +13,7 @@ import { store } from "./redux/store";
 import { BrowserRouter } from "react-router-dom";
 
 // styles
+import "react-toastify/dist/ReactToastify.css";
 import "./styles/index.css";
 import "./styles/pages/home.scss";
 import "./styles/pages/products.scss";
@@ -21,6 +25,7 @@ createRoot(document.getElementById("root")).render(
     <Provider store={store}>
       <BrowserRouter>
         <App />
+        <ToastContainer />
       </BrowserRouter>
     </Provider>
   </StrictMode>

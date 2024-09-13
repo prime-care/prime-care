@@ -36,7 +36,6 @@ export default function Filter({ categories, onFilterChange }) {
 
   const handleSortOrderChange = (event) => {
     const order = event.target.value;
-    console.log(order);
 
     setSortOrder(order);
     updateFilters({
