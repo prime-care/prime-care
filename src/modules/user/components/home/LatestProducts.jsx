@@ -235,6 +235,22 @@ export default function LatestProducts() {
         </p>
       </div>
 
+      <div className="mb-4 flex justify-end items-center gap-3">
+        {/* Prev Button */}
+        <button
+          className="bg-[#dce3e6] text-gray-700 text-xs sm:text-sm md:text-lg p-2 rounded-full"
+          onClick={handlePrev}>
+          <IoIosArrowBack />
+        </button>
+
+        {/* Next Button */}
+        <button
+          className="bg-[#dce3e6] text-gray-700 text-xs sm:text-sm md:text-lg p-2 rounded-full"
+          onClick={handleNext}>
+          <IoIosArrowForward />
+        </button>
+      </div>
+
       <div className="overflow-hidden relative">
         <div
           className="products transition-transform duration-500"
@@ -242,28 +258,11 @@ export default function LatestProducts() {
             transform: `translateX(-${
               (currentIndex * 100) / visibleCategories
             }%)`,
-          }}
-        >
+          }}>
           {products?.map((product) => (
             <ProductCard key={product.productId} product={product} />
           ))}
         </div>
-
-        {/* Prev Button */}
-        <button
-          className="absolute top-1/2 left-2 sm:left-4 transform -translate-y-1/2 bg-[#dce3e6] text-gray-700 text-xs sm:text-sm md:text-lg p-2 rounded-full z-10"
-          onClick={handlePrev}
-        >
-          <IoIosArrowBack />
-        </button>
-
-        {/* Next Button */}
-        <button
-          className="absolute top-1/2 right-2 sm:right-4 transform -translate-y-1/2 bg-[#dce3e6] text-gray-700 text-xs sm:text-sm md:text-lg p-2 rounded-full z-10"
-          onClick={handleNext}
-        >
-          <IoIosArrowForward />
-        </button>
       </div>
     </section>
   );
