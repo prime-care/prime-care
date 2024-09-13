@@ -223,19 +223,19 @@ export default function LatestProducts() {
   }, []);
 
   return (
-    <section className="container latest-products mx-20 relative mt-14">
+    <section className="container latest-products mx-auto px-4 sm:px-6 lg:px-8 relative mt-14">
       <div className="head mb-6 flex flex-col items-center gap-2">
-        <h2 className="text-center text-3xl font-bold text-gray-700">
+        <h2 className="text-center text-2xl sm:text-3xl font-bold text-gray-700">
           Explore Our Latest Products
         </h2>
-        <p className="text-center text-base font-medium text-gray-500">
+        <p className="text-center text-sm sm:text-base font-medium text-gray-500">
           Discover a selection of our best-selling products, carefully curated{" "}
-          <br />
+          <br className="hidden sm:block" />
           to meet your needs and elevate your everyday life.
         </p>
       </div>
 
-      <div className="overflow-hidden">
+      <div className="overflow-hidden relative">
         <div
           className="products transition-transform duration-500"
           style={{
@@ -248,14 +248,18 @@ export default function LatestProducts() {
             <ProductCard key={product.productId} product={product} />
           ))}
         </div>
+
+        {/* Prev Button */}
         <button
-          className="absolute top-[60%] -left-10 transform -translate-y-1/2 bg-[#dce3e6] text-gray-700 text-sm sm:text-lg p-2 rounded-full"
+          className="absolute top-1/2 left-2 sm:left-4 transform -translate-y-1/2 bg-[#dce3e6] text-gray-700 text-xs sm:text-sm md:text-lg p-2 rounded-full z-10"
           onClick={handlePrev}
         >
           <IoIosArrowBack />
         </button>
+
+        {/* Next Button */}
         <button
-          className="absolute top-[60%] -right-10 transform -translate-y-1/2 bg-[#dce3e6] text-gray-700  text-sm sm:text-lg p-2 rounded-full"
+          className="absolute top-1/2 right-2 sm:right-4 transform -translate-y-1/2 bg-[#dce3e6] text-gray-700 text-xs sm:text-sm md:text-lg p-2 rounded-full z-10"
           onClick={handleNext}
         >
           <IoIosArrowForward />
