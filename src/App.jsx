@@ -23,12 +23,15 @@ import WishList from "./modules/user/components/my-account/WishList";
 import Orders from "./modules/user/components/my-account/Orders";
 import HelpCenter from "./modules/user/pages/HelpCenter";
 import ContactUs from "./modules/user/pages/ContactUs";
+import NotFound from "./modules/user/pages/NotFound";
 
 const App = () => {
   return (
     <>
       <ScrollToTop />
       <Routes>
+        <Route path="*" element={<NotFound/>} />
+
         {/* Public Routes */}
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Home />} />
