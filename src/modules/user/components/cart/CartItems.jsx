@@ -45,15 +45,17 @@ export default function CartItems() {
           {cartItems.map((item) => (
             <tr
               key={item.id}
-              className="border-b hover:bg-[#f6f8f8] duration-200">
+              className="border-b hover:bg-[#f6f8f8] duration-200"
+            >
               <td className="px-4 py-7 flex gap-6 items-center font-bold text-[#26658c] ">
                 <Link
                   to={`/products/${item.id}`}
-                  className="flex gap-3 items-center">
+                  className="flex gap-3 flex-col md:flex-row items-center"
+                >
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-24 h-24  mr-4"
+                    className="md:w-24 md:h-24 h-16 w-16  mr-4"
                   />
                   <span className=" max-w-52">{item.name}</span>
                 </Link>
@@ -68,28 +70,31 @@ export default function CartItems() {
                 </span>
               </td>
               <td className="px-4 py-7 text-gray-500">
-                <div className="p-2 flex gap-6 w-fit border border-gray-200 rounded-xl">
+                <div className="p-2 flex gap-5 w-fit border border-gray-200 rounded-xl">
                   {/* minus */}
                   <button
                     className="hover:text-red-600 transition-all duration-300"
-                    onClick={() => handleDecreaseQuantity(item.id)}>
+                    onClick={() => handleDecreaseQuantity(item.id)}
+                  >
                     <AiOutlineMinus />
                   </button>
                   <span>{item.quantity}</span>
                   {/* plus */}
                   <button
                     className="hover:text-green-600 transition-all duration-300"
-                    onClick={() => handleIncreaseQuantity(item.id)}>
+                    onClick={() => handleIncreaseQuantity(item.id)}
+                  >
                     <AiOutlinePlus />
                   </button>
                 </div>
               </td>
 
-              <td className="px-4 py-7">
+              <td className="px-1 py-7">
                 {/* delete */}
                 <Button
                   color="failure"
-                  onClick={() => handleRemoveItem(item.id)}>
+                  onClick={() => handleRemoveItem(item.id)}
+                >
                   <AiOutlineDelete className="mr-2 h-5 w-5" />
                   Delete
                 </Button>
@@ -99,8 +104,8 @@ export default function CartItems() {
         </tbody>
       </table>
 
-      <div className="py-5 px-7 flex items-center justify-between hover:bg-[#f6f8f8] duration-200">
-        <div className="flex w-full max-w-[36rem]">
+      <div className="py-5 px-7 flex items-center flex-col lg:flex-row gap-2 justify-between hover:bg-[#f6f8f8] duration-200">
+        <div className="flex w-full fle max-w-[36rem]">
           <input
             type="text"
             placeholder="Enter coupon code"
@@ -110,7 +115,7 @@ export default function CartItems() {
             Apply Coupon
           </button>
         </div>
-        <button className="hover:bg-primary hover:text-white duration-300 bg-[#edf1f2] px-6 py-3 rounded-[1rem] font-semibold text-lg">
+        <button className="hover:bg-primary hover:text-white duration-300 bg-[#edf1f2] px-6 py-3 rounded-[1rem] font-semibold md:text-lg ">
           Update Cart
         </button>
       </div>
