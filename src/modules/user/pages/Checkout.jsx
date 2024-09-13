@@ -69,7 +69,6 @@ const Checkout = () => {
     <div className="min-h-screen bg-gray-100 flex justify-center items-center">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg">
         <h1 className="text-center text-2xl font-semibold mb-6">Checkout</h1>
-
         {/* Step Indicator */}
         <div className="flex justify-between mb-6">
           <div
