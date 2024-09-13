@@ -10,8 +10,6 @@ import { FaCheckCircle } from "react-icons/fa";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-
-
 import { IconContext } from "react-icons";
 
 export default function AboutUs() {
@@ -213,7 +211,7 @@ export default function AboutUs() {
               Top 3 Reasons to Choose Us
             </h2>
             <div className="space-y-4">
-              <div className="flex items-start justify-center">
+              <div className="flex items-center justify-center gap-4">
                 <IconContext.Provider value={{ size: "20px" }}>
                   <FaCheckCircle />
                 </IconContext.Provider>
@@ -227,7 +225,7 @@ export default function AboutUs() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-start justify-center">
+              <div className="flex items-center justify-center gap-4">
                 <IconContext.Provider value={{ size: "20px" }}>
                   <FaCheckCircle />
                 </IconContext.Provider>
@@ -239,7 +237,7 @@ export default function AboutUs() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-start justify-center">
+              <div className="flex items-center justify-center gap-4">
                 <IconContext.Provider value={{ size: "20px" }}>
                   <FaCheckCircle />
                 </IconContext.Provider>
@@ -256,7 +254,7 @@ export default function AboutUs() {
           </div>
         </div>
 
-        <div className="relative z-20 w-full bg-gray-800 bg-opacity-90 text-white py-8">
+        {/* <div className="relative z-20 w-full bg-gray-800 bg-opacity-90 text-white py-8">
           <Slider {...carouselSettings} className="max-w-6xl mx-auto">
             <div className="px-4">
               <p className="text-lg italic mb-4">
@@ -293,10 +291,10 @@ export default function AboutUs() {
               </div>
             </div>
           </Slider>
-        </div>
+        </div> */}
       </div>
 
-      <div className="py-8 my-48 bg-white">
+      <div className="py-8 my-24 bg-white">
         <h2 className="text-center text-2xl font-bold mb-6">Our Partners</h2>
         <Slider {...carouselTwoSettings} className="max-w-6xl mx-auto px-4">
           {partners.map((partner) => (
