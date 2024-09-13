@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
-import { Checkbox, Table, Modal, Button, Label } from "flowbite-react";
-import { MdOutlineDeleteSweep } from "react-icons/md";
+import { Table, Modal, Button, Spinner } from "flowbite-react";
+import { FaExternalLinkAlt } from "react-icons/fa";
+import { FaTrashAlt } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
 
 import { db } from "../../../services/firebase";
 import {
@@ -21,10 +23,15 @@ export default function DashOrders() {
   const [orders, setOrders] = useState([]);
   const [products, setProducts] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [orderToDelete, setOrderToDelete] = useState();
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
+        setLoading(true);
         const ordersCollection = collection(db, "orders");
         const ordersSnapshot = await getDocs(ordersCollection);
         const ordersList = ordersSnapshot.docs.map((doc) => ({
@@ -34,6 +41,8 @@ export default function DashOrders() {
         setOrders(ordersList);
       } catch (error) {
         console.error("Error fetching orders:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -56,12 +65,21 @@ export default function DashOrders() {
     fetchProducts();
   }, []);
 
-  const handleDeleteOrder = async (orderId) => {
+  const openDeleteOrderModal = (categoryId) => {
+    setOrderToDelete(categoryId);
+    setDeleteModal(true);
+  };
+
+  const handleDeleteOrder = async () => {
     try {
-      await deleteDoc(doc(db, "orders", orderId));
-      setOrders(orders.filter((order) => order.id !== orderId));
+      setIsDeleting(true);
+      await deleteDoc(doc(db, "orders", orderToDelete));
+      setOrders(orders.filter((order) => order.id !== orderToDelete));
+      setDeleteModal(false);
     } catch (error) {
       console.error("Error deleting order:", error);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -111,74 +129,100 @@ export default function DashOrders() {
   };
   return (
     <div>
-      <div className="overflow-x-auto">
+      {/* delete order modal */}
+      <Modal show={deleteModal} onClose={() => setDeleteModal(false)}>
+        <Modal.Header>Delete Order</Modal.Header>
+        <Modal.Body>
+          <p>Are you sure you want to delete this order?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            color="failure"
+            onClick={() => handleDeleteOrder()}
+            disabled={isDeleting}>
+            {isDeleting ? "Deleting..." : "Yes, delete"}{" "}
+          </Button>
+          <Button color="gray" onClick={() => setDeleteModal(false)}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <div className="flex mb-4">
         <Search onSearch={handleSearch} resetPage={resetPage} />
-        <Table hoverable>
-          <Table.Head className="p-4 text-primary">
-            <Table.HeadCell className="p-4">
-              <Checkbox />
-            </Table.HeadCell>
-            <Table.HeadCell>Order Id</Table.HeadCell>
-            <Table.HeadCell>User Id</Table.HeadCell>
-            <Table.HeadCell>Products</Table.HeadCell>
-            <Table.HeadCell>Total Amount</Table.HeadCell>
-            <Table.HeadCell>Created At</Table.HeadCell>
-            <Table.HeadCell>Phone Number</Table.HeadCell>
-            <Table.HeadCell>Address</Table.HeadCell>
-            <Table.HeadCell>Actions</Table.HeadCell>
-          </Table.Head>
-          <Table.Body className="divide-y">
-            {currentItems.map((order) => (
-              <Table.Row
-                className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                key={order.id}
-              >
-                <Table.Cell className="p-4">
-                  <Checkbox />
-                </Table.Cell>
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {order.orderId}
-                </Table.Cell>
-                <Table.Cell>{order.userId}</Table.Cell>
-                <Table.Cell>
-                  <button
-                    className="text-blue-500 underline"
-                    onClick={() => handleViewProducts(order)}
-                  >
-                    View Products
-                  </button>
-                </Table.Cell>
-                <Table.Cell>{order.totalAmount}</Table.Cell>
-                <Table.Cell>
-                  {new Date(order.createdAt).toLocaleString()}
-                </Table.Cell>
-                <Table.Cell>{order.phoneNumber}</Table.Cell>
-                <Table.Cell>{order.address}</Table.Cell>
-                <Table.Cell className="flex gap-4 items-center">
-                  <button
-                    className="text-pink-700 text-xl"
-                    onClick={() => handleDeleteOrder(order.id)}
-                  >
-                    <MdOutlineDeleteSweep />
-                  </button>
-                  {order.status === "pending" && (
-                    <button
-                      onClick={() => handleUpdateStatus(order.id, "completed")}
-                      className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 ml-2"
-                    >
-                      Mark as Completed
-                    </button>
-                  )}
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
+      </div>
+
+      <div className="overflow-x-auto">
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <Spinner aria-label="Loading spinner" size="xl" />
+          </div>
+        ) : (
+          <>
+            <Table hoverable className="mb-3">
+              <Table.Head className="p-4 text-primary">
+                <Table.HeadCell>Order Id</Table.HeadCell>
+                <Table.HeadCell>User Id</Table.HeadCell>
+                <Table.HeadCell>Products</Table.HeadCell>
+                <Table.HeadCell>Total Amount</Table.HeadCell>
+                <Table.HeadCell>Created At</Table.HeadCell>
+                <Table.HeadCell>Phone Number</Table.HeadCell>
+                <Table.HeadCell>Address</Table.HeadCell>
+                <Table.HeadCell>Actions</Table.HeadCell>
+              </Table.Head>
+              <Table.Body className="divide-y">
+                {currentItems.map((order) => (
+                  <Table.Row
+                    className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                    key={order.id}>
+                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                      {order.orderId}
+                    </Table.Cell>
+                    <Table.Cell>{order.userId}</Table.Cell>
+                    <Table.Cell>
+                      <FaExternalLinkAlt
+                        onClick={() => handleViewProducts(order)}
+                        size={20}
+                        className="text-gray-500 transition-all duration-300 cursor-pointer hover:text-primary"
+                      />
+                    </Table.Cell>
+                    <Table.Cell>{order.totalAmount}</Table.Cell>
+                    <Table.Cell>
+                      {new Date(order.createdAt).toLocaleString()}
+                    </Table.Cell>
+                    <Table.Cell>{order.phoneNumber}</Table.Cell>
+                    <Table.Cell>{order.address}</Table.Cell>
+                    <Table.Cell className="flex gap-4 items-center">
+                      <Button
+                        color="failure"
+                        onClick={() => openDeleteOrderModal(order.id)}
+                        disabled={isDeleting}>
+                        <FaTrashAlt />
+                      </Button>
+
+                      {order.status === "pending" && (
+                        <Button
+                          color="success"
+                          onClick={() =>
+                            handleUpdateStatus(order.id, "completed")
+                          }>
+                          <FaCheck />
+                        </Button>
+                      )}
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+            {!loading && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            )}
+          </>
+        )}
       </div>
 
       {/* Modal for showing order details */}
@@ -192,8 +236,7 @@ export default function DashOrders() {
               return (
                 <li
                   key={orderProduct.productId}
-                  className="flex items-center bg-gray-100 p-4 rounded-lg"
-                >
+                  className="flex items-center bg-gray-100 p-4 rounded-lg">
                   {productDetails ? (
                     <>
                       <img
