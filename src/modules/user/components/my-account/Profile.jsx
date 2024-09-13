@@ -1,17 +1,50 @@
-import { useState } from "react";
-
-// components
+import { useState, useEffect } from "react";
 import { Button, TextInput } from "flowbite-react";
 import { HiMail, HiUser, HiPhone, HiHome } from "react-icons/hi";
-
-// validation
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
+import { useSelector } from "react-redux";
+import { db } from "../../../../services/firebase";
 
 const Profile = () => {
   const [isUpdating, setIsUpdating] = useState(false);
+  const [initialValues, setInitialValues] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+  });
 
-  // yup validation
+  const userId = useSelector((state) => state.user.uid);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const usersRef = collection(db, "users");
+        const q = query(usersRef, where("userId", "==", userId));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+          const userDoc = querySnapshot.docs[0];
+          setInitialValues(userDoc.data());
+        } else {
+          console.error("No user data found!");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [userId]);
+
   const validationSchema = Yup.object({
     name: Yup.string()
       .required("Name is required")
@@ -21,25 +54,32 @@ const Profile = () => {
       .email("Invalid email address"),
     phone: Yup.string()
       .required("Phone number is required")
-      .matches(/^[0-9]{10}$/, "Phone number must be 10 digits"),
+      .matches(/^[0-9]{11}$/, "Phone number must be 10 digits"),
     address: Yup.string()
       .required("Address is required")
       .min(5, "Address must be at least 5 characters"),
   });
 
-  const initialValues = {
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
-  };
-
-  // updateProfile with name, email, phone, and address
   const updateProfile = async (values, { setSubmitting }) => {
     setIsUpdating(true);
 
-    console.log(values);
+    try {
+      const usersRef = collection(db, "users");
+      const q = query(usersRef, where("userId", "==", userId));
+      const querySnapshot = await getDocs(q);
 
+      if (!querySnapshot.empty) {
+        const userDoc = querySnapshot.docs[0].ref;
+        await updateDoc(userDoc, values);
+        alert("User information updated successfully!");
+      } else {
+        console.error("No user data found!");
+      }
+    } catch (error) {
+      console.error("Error updating user data:", error);
+    }
+
+    setIsUpdating(false);
     setSubmitting(false);
   };
 
@@ -52,9 +92,11 @@ const Profile = () => {
       </div>
 
       <Formik
+        enableReinitialize
         initialValues={initialValues}
         onSubmit={updateProfile}
-        validationSchema={validationSchema}>
+        validationSchema={validationSchema}
+      >
         {({ isSubmitting }) => (
           <Form>
             {/* Name Field */}
@@ -131,7 +173,7 @@ const Profile = () => {
 
             {/* Submit Button */}
             <Button type="submit" disabled={isSubmitting || isUpdating}>
-              {isSubmitting ? "Updating..." : "Update Profile"}
+              {isSubmitting || isUpdating ? "Updating..." : "Update Profile"}
             </Button>
           </Form>
         )}

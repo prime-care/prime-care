@@ -140,7 +140,6 @@ const Products = () => {
   };
 
   const filteredProducts = getFilteredProducts();
-  console.log(filteredProducts);
 
   // pagination logic
   const { currentItems, currentPage, totalPages, handlePageChange, resetPage } =

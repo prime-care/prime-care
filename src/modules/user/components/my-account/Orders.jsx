@@ -1,55 +1,81 @@
-import { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 // components
 import { Table } from "flowbite-react";
 import { Button } from "flowbite-react";
 import { FaExternalLinkAlt } from "react-icons/fa";
-import { FaTrashAlt } from "react-icons/fa";
 import { Modal } from "flowbite-react";
 
+import { useSelector } from "react-redux";
+import { db } from "../../../../services/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
+
 const Orders = () => {
-  const [productsModal, setProductsModal] = useState(false);
-  const [orderProducts, setOrderProducts] = useState([]);
-  const [deleteModal, setDeleteModal] = useState(false);
-  const [orderToDelete, setOrderToDelete] = useState();
+  const [orders, setOrders] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const userId = useSelector((state) => state.user.uid);
 
-  const orders = [
-    {
-      id: 1,
-      products: [
-        {
-          id: 1,
-          image:
-            "https://www.dvago.pk/_next/image?url=https%3A%2F%2Fdvago-assets.s3.ap-southeast-1.amazonaws.com%2FProductsImages%2F14790.webp&w=360&q=50",
-          name: "Product 1",
-          price: 100,
-          quantity: 1,
-          subtotal: 100,
-        },
-        {
-          id: 2,
-          image:
-            "https://www.dvago.pk/_next/image?url=https%3A%2F%2Fdvago-assets.s3.ap-southeast-1.amazonaws.com%2FProductsImages%2F14790.webp&w=360&q=50",
-          name: "Product 2",
-          price: 75,
-          quantity: 2,
-          subtotal: 150,
-        },
-      ],
-      total: 120,
-      status: {
-        id: 1,
-        name: "Pending",
-      },
-      createdAt: "11-09-2024",
-    },
-  ];
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const ordersRef = collection(db, "orders");
+        const q = query(ordersRef, where("userId", "==", userId));
+        const querySnapshot = await getDocs(q);
 
-  const openOrderProductsModal = (products) => {
-    setOrderProducts(products);
-    setProductsModal(true);
+        const ordersData = await Promise.all(
+          querySnapshot.docs.map(async (orderDoc) => {
+            const orderData = orderDoc.data();
+            const productsWithDetails = await Promise.all(
+              orderData.products.map(async (product) => {
+                const productQuery = query(
+                  collection(db, "products"),
+                  where("productId", "==", product.productId)
+                );
+                const productSnapshot = await getDocs(productQuery);
+
+                if (!productSnapshot.empty) {
+                  const productDoc = productSnapshot.docs[0];
+                  const productData = productDoc.data();
+                  return {
+                    ...product,
+                    name: productData.name,
+                    price: productData.price,
+                    image: productData.image,
+                  };
+                } else {
+                  console.error(
+                    "No product found with productId:",
+                    product.productId
+                  );
+                  return product;
+                }
+              })
+            );
+            return {
+              id: orderDoc.id,
+              ...orderData,
+              products: productsWithDetails,
+            };
+          })
+        );
+
+        setOrders(ordersData);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    };
+
+    fetchOrders();
+  }, [userId]);
+
+  const openModal = (order) => {
+    setSelectedOrder(order);
+    setIsModalOpen(true);
   };
 
+  const closeModal = () => {
+    setSelectedOrder(null);
+    setIsModalOpen(false);
+  };
   return (
     <div className="overflow-x-auto">
       <div className="head">
@@ -59,14 +85,15 @@ const Orders = () => {
       </div>
 
       {/* order products modal */}
-      <Modal show={productsModal} onClose={() => setProductsModal(false)}>
+      <Modal show={selectedOrder} onClose={closeModal}>
         <Modal.Header>Order Products</Modal.Header>
         <Modal.Body>
           <div className="flex flex-col gap-3">
-            {orderProducts.map((product) => (
+            {selectedOrder?.products.map((product) => (
               <div
-                key={product.id}
-                className="p-3 flex justify-between items-center gap-3 border border-gray-300 rounded-lg">
+                key={product.productId}
+                className="p-3 flex justify-between items-center gap-3 border border-gray-300 rounded-lg"
+              >
                 <img src={product.image} className="w-12 h-12" alt="" />
                 <span>{product.name}</span>
                 <span>
@@ -75,7 +102,7 @@ const Orders = () => {
                   x {product.quantity}
                 </span>
                 <span>
-                  {product.subtotal + " "}
+                  ${(product.price * product.quantity).toFixed(2)}
                   <span className="text-sm font-medium text-gray-500">EGP</span>
                 </span>
               </div>
@@ -83,24 +110,8 @@ const Orders = () => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button color="gray" onClick={() => setProductsModal(false)}>
+          <Button color="gray" onClick={closeModal}>
             Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      {/* delete order modal */}
-      <Modal show={deleteModal} onClose={() => setDeleteModal(false)}>
-        <Modal.Header>Delete Order</Modal.Header>
-        <Modal.Body>
-          <p>Are you sure you want to delete this order?</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button color="failure" onClick={() => setDeleteModal(false)}>
-            Yes, delete
-          </Button>
-          <Button color="gray" onClick={() => setDeleteModal(false)}>
-            Cancel
           </Button>
         </Modal.Footer>
       </Modal>
@@ -120,21 +131,24 @@ const Orders = () => {
           {orders.map((order) => (
             <Table.Row
               key={order.id}
-              className="bg-white dark:border-gray-700 dark:bg-gray-800">
+              className="bg-white dark:border-gray-700 dark:bg-gray-800"
+            >
               <Table.Cell>{order.id}</Table.Cell>
               <Table.Cell>
                 <FaExternalLinkAlt
                   size={20}
                   className="text-gray-500 cursor-pointer transition-all duration-300 hover:text-primary"
-                  onClick={() => openOrderProductsModal(order.products)}
+                  onClick={() => openModal(order)}
                 />
               </Table.Cell>
               <Table.Cell>
-                {order.total + " "}
+                {order.totalAmount + " "}
                 <span>EGP</span>
               </Table.Cell>
-              <Table.Cell>{order.status.name}</Table.Cell>
-              <Table.Cell>{order.createdAt}</Table.Cell>
+              <Table.Cell>{order.status}</Table.Cell>
+              <Table.Cell>
+                {new Date(order.createdAt).toLocaleDateString()}
+              </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
