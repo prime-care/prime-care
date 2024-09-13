@@ -5,6 +5,23 @@ import { Link } from "react-router-dom";
 
 export default function CartSummary() {
   const total = useSelector(selectTotal);
+  const cart = useSelector((state) => state.cart.items);
+  console.log(cart);
+
+  // payment integration
+  const makePayment = async () => {
+    const stripe = await loadStripe(
+      "pk_test_51PyZ141ZDVTzrKJZgFt1Zzd5BbqGVUjl0pl0Zs1NVhS8smvattnP4MY1tlCmSRSSBRm6wFpZS6xHZRkq1pJHybPv00guI3jkvT"
+    );
+
+    const body = {
+      products: cart,
+    };
+
+    const headers = {
+      "Content-Type": "application/json",
+    };
+  };
 
   return (
     <div className=" h-fit p-6 rounded-[1rem] border">
@@ -40,11 +57,13 @@ export default function CartSummary() {
             <span className="text-sm font-medium text-gray-500"> EGP</span>
           </span>
         </div>
-        <Link to={"/checkout"}>
-          <button className=" duration-300 py-4 px-8 bg-[#4abfd9] hover:bg-[#41a8bf] text-white w-full mt-4 rounded-[1rem] text-xl font-semibold">
-            Proceed to Checkout →
-          </button>
-        </Link>
+        {/* <Link to={"/checkout"}> */}
+        <button
+          onClick={makePayment}
+          className=" duration-300 py-4 px-8 bg-[#4abfd9] hover:bg-[#41a8bf] text-white w-full mt-4 rounded-[1rem] text-xl font-semibold">
+          Proceed to Checkout →
+        </button>
+        {/* </Link> */}
       </div>
     </div>
   );
