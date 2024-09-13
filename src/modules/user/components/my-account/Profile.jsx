@@ -95,8 +95,7 @@ const Profile = () => {
         enableReinitialize
         initialValues={initialValues}
         onSubmit={updateProfile}
-        validationSchema={validationSchema}
-      >
+        validationSchema={validationSchema}>
         {({ isSubmitting }) => (
           <Form>
             {/* Name Field */}
@@ -127,6 +126,7 @@ const Profile = () => {
                 name="email"
                 autoComplete="email"
                 placeholder="Enter your email address"
+                disabled
               />
               <ErrorMessage
                 name="email"
