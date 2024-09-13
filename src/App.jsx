@@ -12,7 +12,7 @@ import DashCategories from "./modules/Dashboard/pages/DashCategories";
 import AboutUs from "./modules/user/pages/AboutUs";
 import LoginPage from "./modules/auth/pages/Login";
 import Signup from "./modules/auth/pages/Signup";
-import Checkout from "./modules/user/components/checkout/Checkout";
+import Checkout from "./modules/user/pages/Checkout";
 import { AuthLayout, DashboardLayout, PublicLayout } from "./layouts";
 import DashOrders from "./modules/Dashboard/pages/DashOrdes";
 

@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+
+import { toast } from "react-toastify";
+
 //flowbite components
 import { Rating, Label, Textarea } from "flowbite-react";
 
@@ -67,9 +70,9 @@ const ProductRating = ({ productId }) => {
         comment,
       });
       setHasReviewed(true);
-      alert("Thank you for your review!");
+      toast.success("Thank you for your review");
     } else {
-      alert("You can only review products you have purchased.");
+      toast.error("You can only review products you have purchased.");
     }
 
     setLoading(false); // stop loading
@@ -121,8 +124,7 @@ const ProductRating = ({ productId }) => {
         disabled={loading || rating == 0}
         className={`mt-4 px-4 py-2 bg-[#0e7490] text-white rounded-md hover:bg-[#0c6373] ${
           loading || rating == 0 ? "cursor-not-allowed opacity-50" : ""
-        }`}
-      >
+        }`}>
         {loading ? "Submitting..." : "Submit Review"}
       </button>
     </div>
