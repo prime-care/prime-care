@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../../redux/slices/cartSlice";
@@ -14,6 +14,8 @@ import useWishlist from "../hooks/useWishlist";
 export default function ProductsCard({ product }) {
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
   const userId = useSelector((state) => state.user.uid);
 
   const { isInWishlist, toggleWishlist } = useWishlist(
@@ -22,6 +24,11 @@ export default function ProductsCard({ product }) {
   );
 
   const handleAddToCart = (product) => {
+    if (!userId) {
+      navigate("/auth/login");
+      return;
+    }
+
     const quantity = 1;
     dispatch(
       addToCart({

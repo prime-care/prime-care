@@ -1,4 +1,3 @@
-// redux
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../redux/slices/userSlice";
 
@@ -16,9 +15,11 @@ import { Button, TextInput } from "flowbite-react";
 
 // link
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Validation schema
   const validationSchema = Yup.object({
@@ -39,7 +40,7 @@ const Signup = () => {
   };
 
   // Signup handler
-  const handleSignUp = async (values, { setSubmitting }) => {
+  const handleSignUp = async (values, { setSubmitting, setFieldError }) => {
     const { name, email, password } = values;
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -54,15 +55,23 @@ const Signup = () => {
         userId: user.uid,
         name,
         email,
-        phone: "", // initially empty, will be filled with the first order
+        phone: "",
         address: "",
+        role: "user",
       });
 
-      dispatch(setUser({ uid: user.uid, email: user.email, name }));
+      dispatch(
+        setUser({ uid: user.uid, email: user.email, name, role: "user" })
+      );
+      navigate("/", { replace: true });
     } catch (error) {
-      console.error("Error signing up:", error);
+      if (error.code === "auth/email-already-in-use") {
+        setFieldError("email", "This email is already in use.");
+      } else {
+        console.error("Error signing up:", error);
+      }
     } finally {
-      setSubmitting(false); // Stop form submission state
+      setSubmitting(false);
     }
   };
 
@@ -79,7 +88,8 @@ const Signup = () => {
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={handleSignUp}>
+            onSubmit={handleSignUp}
+          >
             {({ isSubmitting }) => (
               <Form className="space-y-6">
                 {/* Name Field */}
@@ -123,7 +133,8 @@ const Signup = () => {
                 <div>
                   <label
                     htmlFor="password"
-                    className="block mb-1 text-gray-700">
+                    className="block mb-1 text-gray-700"
+                  >
                     Password
                   </label>
                   <Field
@@ -144,7 +155,8 @@ const Signup = () => {
                 <Button
                   className="w-full"
                   type="submit"
-                  disabled={isSubmitting}>
+                  disabled={isSubmitting}
+                >
                   {isSubmitting ? "Signing up..." : "Sign Up"}
                 </Button>
               </Form>

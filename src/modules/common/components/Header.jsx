@@ -1,5 +1,5 @@
 import { navLinks } from "../../../constants";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // redux
 import { useSelector } from "react-redux";
@@ -11,9 +11,12 @@ import { IoCartOutline } from "react-icons/io5"; // cart icon
 import { useEffect, useState } from "react";
 
 export default function Header() {
+  const navigate = useNavigate();
+
   // select total and the cart from redux
   const total = useSelector(selectTotal);
   const cart = useSelector((state) => state.cart.items);
+  const user = useSelector((state) => state.user.uid);
 
   // bump animation
   const [btnIsBumbed, setBtnIsBumbed] = useState(false);
@@ -33,6 +36,24 @@ export default function Header() {
     };
   }, [total]);
 
+  // Handle profile click
+  const handleProfileClick = () => {
+    if (!user) {
+      navigate("/auth/login"); // Redirect to login if not authenticated
+    } else {
+      navigate("/profile/info"); // Go to profile if authenticated
+    }
+  };
+
+  // Handle cart click
+  const handleCartClick = () => {
+    if (!user) {
+      navigate("/auth/login"); // Redirect to login if not authenticated
+    } else {
+      navigate("/cart"); // Go to cart if authenticated
+    }
+  };
+
   return (
     <header className="px-4 sm:px-8 lg:px-11 py-2 flex justify-between items-center text-white bg-primary">
       <Link to="/" className="pr-5 sm:pr-12 lg:pr-24">
@@ -44,7 +65,8 @@ export default function Header() {
             <li key={link.name} className="hover:text-secondary">
               <Link
                 to={link.path}
-                className="text-sm sm:text-base lg:text-lg font-medium">
+                className="text-sm sm:text-base lg:text-lg font-medium"
+              >
                 {link.name}
               </Link>
             </li>
@@ -52,12 +74,13 @@ export default function Header() {
         </ul>
       </nav>
       <div className="flex gap-4 sm:gap-6 lg:gap-8">
-        <Link to="/profile/info">
+        <button onClick={handleProfileClick}>
           <FiUser className="text-2xl sm:text-3xl" />
-        </Link>
-        <Link
-          to="/cart"
-          className={`flex items-center gap-1 ${btnIsBumbed && "bump"}`}>
+        </button>
+        <button
+          onClick={handleCartClick}
+          className={`flex items-center gap-1 ${btnIsBumbed && "bump"}`}
+        >
           <div className="relative">
             <IoCartOutline className="text-2xl sm:text-3xl" />
             {cart.length !== 0 && (
@@ -71,7 +94,7 @@ export default function Header() {
               {total.toFixed(2)}
             </span>
           )}
-        </Link>
+        </button>
       </div>
     </header>
   );

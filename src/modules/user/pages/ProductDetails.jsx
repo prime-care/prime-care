@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 // components
 import WishlistButton from "../../common/components/WishlistButton";
@@ -60,6 +60,8 @@ const ProductDetails = () => {
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [avgRating, setQAvgRating] = useState(null); // state to save product's average rating
+
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -123,6 +125,11 @@ const ProductDetails = () => {
 
   // add to cart
   const handleAddToCart = () => {
+    if (!userId) {
+      navigate("/auth/login");
+      return;
+    }
+
     if (product) {
       dispatch(
         addToCart({
@@ -194,7 +201,8 @@ const ProductDetails = () => {
                 </div>
                 <Button
                   className="flex justify-center items-center"
-                  onClick={handleAddToCart}>
+                  onClick={handleAddToCart}
+                >
                   <BsCartPlus className="mr-2 h-5 w-5" />
                   Add To Cart
                 </Button>
@@ -218,7 +226,8 @@ const ProductDetails = () => {
               {features.map((feature) => (
                 <div
                   key={feature.id}
-                  className="feature flex justify-start items-center gap-4">
+                  className="feature flex justify-start items-center gap-4"
+                >
                   {feature?.icon}
                   <div className="flex flex-col">
                     <span className="text-base font-semibold text-gray-900">
@@ -235,9 +244,11 @@ const ProductDetails = () => {
         </div>
       </div>
 
-      <div>
-        <ProductRating productId={productId} />
-      </div>
+      {userId && (
+        <div>
+          <ProductRating productId={productId} />
+        </div>
+      )}
 
       <div>
         <ProductReviews productId={productId} />

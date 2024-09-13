@@ -76,6 +76,7 @@ const Orders = () => {
     setSelectedOrder(null);
     setIsModalOpen(false);
   };
+
   return (
     <div className="overflow-x-auto">
       <div className="head">
@@ -84,75 +85,87 @@ const Orders = () => {
         </h1>
       </div>
 
-      {/* order products modal */}
-      <Modal show={selectedOrder} onClose={closeModal}>
-        <Modal.Header>Order Products</Modal.Header>
-        <Modal.Body>
-          <div className="flex flex-col gap-3">
-            {selectedOrder?.products.map((product) => (
-              <div
-                key={product.productId}
-                className="p-3 flex justify-between items-center gap-3 border border-gray-300 rounded-lg"
-              >
-                <img src={product.image} className="w-12 h-12" alt="" />
-                <span>{product.name}</span>
-                <span>
-                  {product.price}{" "}
-                  <span className="text-sm font-medium text-gray-500">EGP</span>{" "}
-                  x {product.quantity}
-                </span>
-                <span>
-                  ${(product.price * product.quantity).toFixed(2)}
-                  <span className="text-sm font-medium text-gray-500">EGP</span>
-                </span>
+      {orders.length === 0 ? (
+        <div className="py-10 mt-4 bg-secondaryBg rounded-lg">
+          <p className="no-data text-center text-xl font-semibold text-gray-700">
+            No Orders Found
+          </p>
+        </div>
+      ) : (
+        <>
+          {/* order products modal */}
+          <Modal show={selectedOrder} onClose={closeModal}>
+            <Modal.Header>Order Products</Modal.Header>
+            <Modal.Body>
+              <div className="flex flex-col gap-3">
+                {selectedOrder?.products.map((product) => (
+                  <div
+                    key={product.productId}
+                    className="p-3 flex justify-between items-center gap-3 border border-gray-300 rounded-lg">
+                    <img src={product.image} className="w-12 h-12" alt="" />
+                    <span>{product.name}</span>
+                    <span>
+                      {product.price}{" "}
+                      <span className="text-sm font-medium text-gray-500">
+                        EGP
+                      </span>{" "}
+                      x {product.quantity}
+                    </span>
+                    <span>
+                      ${(product.price * product.quantity).toFixed(2)}
+                      <span className="text-sm font-medium text-gray-500">
+                        EGP
+                      </span>
+                    </span>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button color="gray" onClick={closeModal}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button color="gray" onClick={closeModal}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
 
-      <Table>
-        <Table.Head>
-          <Table.HeadCell>ID</Table.HeadCell>
-          <Table.HeadCell>Products</Table.HeadCell>
-          <Table.HeadCell>Total</Table.HeadCell>
-          <Table.HeadCell>Status</Table.HeadCell>
-          <Table.HeadCell>Date</Table.HeadCell>
-          <Table.HeadCell>
-            <span className="sr-only">Edit</span>
-          </Table.HeadCell>
-        </Table.Head>
-        <Table.Body className="divide-y">
-          {orders.map((order) => (
-            <Table.Row
-              key={order.id}
-              className="bg-white dark:border-gray-700 dark:bg-gray-800"
-            >
-              <Table.Cell>{order.id}</Table.Cell>
-              <Table.Cell>
-                <FaExternalLinkAlt
-                  size={20}
-                  className="text-gray-500 cursor-pointer transition-all duration-300 hover:text-primary"
-                  onClick={() => openModal(order)}
-                />
-              </Table.Cell>
-              <Table.Cell>
-                {order.totalAmount + " "}
-                <span>EGP</span>
-              </Table.Cell>
-              <Table.Cell>{order.status}</Table.Cell>
-              <Table.Cell>
-                {new Date(order.createdAt).toLocaleDateString()}
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
+          <Table>
+            <Table.Head>
+              <Table.HeadCell>ID</Table.HeadCell>
+              <Table.HeadCell>Products</Table.HeadCell>
+              <Table.HeadCell>Total</Table.HeadCell>
+              <Table.HeadCell>Status</Table.HeadCell>
+              <Table.HeadCell>Date</Table.HeadCell>
+              <Table.HeadCell>
+                <span className="sr-only">Edit</span>
+              </Table.HeadCell>
+            </Table.Head>
+            <Table.Body className="divide-y">
+              {orders.map((order) => (
+                <Table.Row
+                  key={order.id}
+                  className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Cell>{order.id}</Table.Cell>
+                  <Table.Cell>
+                    <FaExternalLinkAlt
+                      size={20}
+                      className="text-gray-500 cursor-pointer transition-all duration-300 hover:text-primary"
+                      onClick={() => openModal(order)}
+                    />
+                  </Table.Cell>
+                  <Table.Cell>
+                    {order.totalAmount + " "}
+                    <span>EGP</span>
+                  </Table.Cell>
+                  <Table.Cell>{order.status}</Table.Cell>
+                  <Table.Cell>
+                    {new Date(order.createdAt).toLocaleDateString()}
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        </>
+      )}
     </div>
   );
 };
