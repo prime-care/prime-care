@@ -8,12 +8,29 @@ import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { IoIosLogOut } from "react-icons/io";
 
 import { NavLink } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { clearUser } from "../../../redux/slices/userSlice";
+import { auth } from "../../../services/firebase";
+import { useNavigate } from "react-router-dom";
 
 export function DashSideBar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+
+      dispatch(clearUser());
+
+      navigate("/auth/login");
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    }
   };
 
   return (
@@ -22,7 +39,8 @@ export function DashSideBar() {
         onClick={toggleSidebar}
         className={`md:hidden p-4 ${
           isSidebarOpen ? "hidden" : "block"
-        } text-gray-500 focus:outline-none`}>
+        } text-gray-500 focus:outline-none`}
+      >
         <MdKeyboardDoubleArrowRight size={24} />
       </button>
 
@@ -30,14 +48,16 @@ export function DashSideBar() {
       <div
         className={`bg-white  w-52 border-r border-gray-200 transition-transform transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 md:block fixed md:static h-full md:h-auto z-40`}>
+        } md:translate-x-0 md:block fixed md:static h-full md:h-auto z-40`}
+      >
         <div className="flex  flex-col p-4 space-y-4">
           {/* Main items */}
           <div className="space-y-2 border-b">
             <NavLink
               to="/dashboard"
               className="flex items-center text-gray-500 hover:bg-primary hover:text-slate-200 p-2 rounded"
-              onClick={toggleSidebar}>
+              onClick={toggleSidebar}
+            >
               <RxDashboard className="mr-3" />
               Dashboard
             </NavLink>
@@ -50,7 +70,8 @@ export function DashSideBar() {
                     : "text-gray-500 hover:bg-primary hover:text-slate-200"
                 }`
               }
-              onClick={toggleSidebar}>
+              onClick={toggleSidebar}
+            >
               <LuUsers className="mr-3" />
               Customers
             </NavLink>
@@ -63,7 +84,8 @@ export function DashSideBar() {
                     : "text-gray-500 hover:bg-primary hover:text-slate-200"
                 }`
               }
-              onClick={toggleSidebar}>
+              onClick={toggleSidebar}
+            >
               <GiMedicines className="mr-3" />
               Products
             </NavLink>
@@ -76,7 +98,8 @@ export function DashSideBar() {
                     : "text-gray-500 hover:bg-primary hover:text-slate-200"
                 }`
               }
-              onClick={toggleSidebar}>
+              onClick={toggleSidebar}
+            >
               <TbCategoryPlus className="mr-3" />
               Categories
             </NavLink>
@@ -89,7 +112,8 @@ export function DashSideBar() {
                     : "text-gray-500 hover:bg-primary hover:text-slate-200"
                 }`
               }
-              onClick={toggleSidebar}>
+              onClick={toggleSidebar}
+            >
               <BiShoppingBag className="mr-3" />
               Orders
             </NavLink>
@@ -97,7 +121,10 @@ export function DashSideBar() {
 
           {/* Additional items */}
           <div className="space-y-2 mt-auto">
-            <div className="flex items-center text-gray-500 hover:bg-primary hover:text-slate-200 p-2 rounded transition-all duration-200 cursor-pointer">
+            <div
+              onClick={handleLogout}
+              className="flex items-center text-gray-500 hover:bg-primary hover:text-slate-200 p-2 rounded transition-all duration-200 cursor-pointer"
+            >
               <IoIosLogOut className="mr-3" />
               Logout
             </div>
