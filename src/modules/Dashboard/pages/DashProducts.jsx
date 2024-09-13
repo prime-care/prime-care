@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Checkbox, Table } from "flowbite-react";
-import { MdOutlineModeEdit, MdOutlineDeleteSweep } from "react-icons/md";
+import { useState, useEffect } from "react";
+import { Table, Button, Spinner } from "flowbite-react";
+import { Modal } from "flowbite-react";
+import { FaPencilAlt } from "react-icons/fa";
+import { FaTrashAlt } from "react-icons/fa";
 import AddProductModal from "../components/AddProductModal";
 import { db } from "../../../services/firebase";
 import {
@@ -21,10 +23,15 @@ export default function DashProducts() {
   const [categories, setCategories] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editProduct, setEditProduct] = useState(null);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [productToDelete, setProductToDelete] = useState();
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setLoading(true);
         const productsCollection = collection(db, "products");
         const productsSnapshot = await getDocs(productsCollection);
         const productsList = productsSnapshot.docs.map((doc) => ({
@@ -34,6 +41,8 @@ export default function DashProducts() {
         setProducts(productsList);
       } catch (error) {
         console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -72,12 +81,20 @@ export default function DashProducts() {
     }
   };
 
-  const handleDelete = async (productId) => {
+  const openDeleteProductModal = (categoryId) => {
+    setProductToDelete(categoryId);
+    setDeleteModal(true);
+  };
+
+  const handleDelete = async () => {
     try {
-      await deleteDoc(doc(db, "products", productId));
-      setProducts(products.filter((product) => product.id !== productId));
+      await deleteDoc(doc(db, "products", productToDelete));
+      setProducts(products.filter((product) => product.id !== productToDelete));
+      setDeleteModal(false);
     } catch (error) {
       console.error("Error deleting product:", error);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -97,73 +114,91 @@ export default function DashProducts() {
 
   return (
     <div>
-      <div className="overflow-x-auto">
+      {/* delete product modal */}
+      <Modal show={deleteModal} onClose={() => setDeleteModal(false)}>
+        <Modal.Header>Delete Product</Modal.Header>
+        <Modal.Body>
+          <p>Are you sure you want to delete this product?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            color="failure"
+            onClick={() => handleDelete()}
+            disabled={isDeleting}>
+            {isDeleting ? "Deleting..." : "Yes, delete"}{" "}
+          </Button>
+          <Button color="gray" onClick={() => setDeleteModal(false)}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <div className="flex justify-between items-center mb-4">
         <Search onSearch={handleSearch} resetPage={resetPage} />
         <button
-          className="bg-primary mb-3 text-white px-4 py-2 rounded-lg hover:bg-secondary transition"
           onClick={() => setIsModalOpen(true)}
-        >
-          Add Product
+          className="bg-[#1f5373] text-white px-4 py-3  text-sm rounded ">
+          Add New Product
         </button>
-        <Table hoverable>
-          <Table.Head className="p-4 text-primary">
-            <Table.HeadCell className="p-4">
-              <Checkbox />
-            </Table.HeadCell>
-            <Table.HeadCell>Product Id</Table.HeadCell>
-            <Table.HeadCell>name</Table.HeadCell>
-
-            <Table.HeadCell>image</Table.HeadCell>
-            <Table.HeadCell>category name</Table.HeadCell>
-            <Table.HeadCell>Price</Table.HeadCell>
-            <Table.HeadCell>bestSeller</Table.HeadCell>
-            <Table.HeadCell>actions</Table.HeadCell>
-          </Table.Head>
-          <Table.Body className="divide-y">
-            {currentItems.map((product) => (
-              <Table.Row
-                className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                key={product.id}
-              >
-                <Table.Cell className="p-4">
-                  <Checkbox />
-                </Table.Cell>
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {product.productId}
-                </Table.Cell>
-                <Table.Cell>{product.name}</Table.Cell>
-
-                <Table.Cell>
-                  <img src={product.image} width={50}></img>
-                </Table.Cell>
-                <Table.Cell>{product.categoryName}</Table.Cell>
-                <Table.Cell>{product.price} LE</Table.Cell>
-                <Table.Cell>{product.bestSeller ? "Yes" : "No"}</Table.Cell>
-                <Table.Cell className="flex gap-4 items-center ">
-                  <button
-                    className="text-secondary text-xl"
-                    onClick={() => handleEdit(product)}
-                  >
-                    <MdOutlineModeEdit />
-                  </button>
-                  <button
-                    className="text-pink-700 text-xl"
-                    onClick={() => handleDelete(product.id)}
-                  >
-                    <MdOutlineDeleteSweep />
-                  </button>
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
       </div>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-        className="mt-4"
-      />
+
+      <div className="overflow-x-auto">
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <Spinner aria-label="Loading spinner" size="xl" />
+          </div>
+        ) : (
+          <>
+            <Table hoverable className="mb-3">
+              <Table.Head className="p-4 text-primary">
+                <Table.HeadCell>image</Table.HeadCell>
+                <Table.HeadCell>name</Table.HeadCell>
+                <Table.HeadCell>category name</Table.HeadCell>
+                <Table.HeadCell>Price</Table.HeadCell>
+                <Table.HeadCell>bestSeller</Table.HeadCell>
+                <Table.HeadCell>actions</Table.HeadCell>
+              </Table.Head>
+              <Table.Body className="divide-y">
+                {currentItems.map((product) => (
+                  <Table.Row
+                    className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                    key={product.id}>
+                    <Table.Cell>
+                      <img src={product.image} width={50}></img>
+                    </Table.Cell>
+                    <Table.Cell>{product.name}</Table.Cell>
+                    <Table.Cell>{product.categoryName}</Table.Cell>
+                    <Table.Cell>{product.price} LE</Table.Cell>
+                    <Table.Cell>{product.bestSeller ? "Yes" : "No"}</Table.Cell>
+                    <Table.Cell className="flex gap-4 items-center ">
+                      <Button
+                        color="success"
+                        onClick={() => handleEdit(product)}>
+                        <FaPencilAlt />
+                      </Button>
+
+                      <Button
+                        color="failure"
+                        onClick={() => openDeleteProductModal(product.id)}>
+                        <FaTrashAlt />
+                      </Button>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+
+            {!loading && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            )}
+          </>
+        )}
+      </div>
+
       {isModalOpen && (
         <AddProductModal
           onClose={() => {
