@@ -163,29 +163,4 @@ primecare@hotmail.com`,
       },
     ],
   },
-  {
-    title: "Customer Care",
-    links: [
-      {
-        name: "My Account",
-        link: "/",
-      },
-      {
-        name: "My Orders",
-        link: "/",
-      },
-      {
-        name: "Track Your Order",
-        link: "/",
-      },
-      {
-        name: "Wishlist",
-        link: "/",
-      },
-      {
-        name: "FAQs",
-        link: "/",
-      },
-    ],
-  },
 ];
