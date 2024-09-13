@@ -108,7 +108,7 @@ export default function DashCategories() {
         <Search onSearch={handleSearch} resetPage={resetPage} />
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-[#1f5373] text-white px-4 py-2 rounded mb-4">
+          className="bg-[#1f5373] text-white px-4 py-3  text-sm rounded ">
           Add New Category
         </button>
       </div>
