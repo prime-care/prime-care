@@ -115,11 +115,18 @@ const LoginPage = () => {
               </Form>
             )}
           </Formik>
-          <div className="text-center mt-8">
-            <span className="text-gray-500">Don’t have an account? </span>
-            <Link to="/auth/signup" className="text-purple-600 hover:underline">
-              Sign up
+
+          <div className="mt-4 flex justify-between items-center gap-4">
+            <Link to="/" className="text-primary hover:underline">
+              Back To Home
             </Link>
+
+            <div className="text-center">
+              <span className="text-gray-500">Don’t have an account? </span>
+              <Link to="/auth/signup" className="text-primary hover:underline">
+                Sign up
+              </Link>
+            </div>
           </div>
         </div>
       </div>

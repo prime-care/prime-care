@@ -8,7 +8,7 @@ import { db } from "../../../../services/firebase";
 const ProductReviews = ({ productId }) => {
   const [reviews, setReviews] = useState([]);
 
-  // fetch reviews and user's names who reviewd this product
+  // fetch reviews and user's names who reviewed this product
   useEffect(() => {
     const fetchReviewsAndUsers = async () => {
       const reviewsQuery = query(
@@ -47,13 +47,20 @@ const ProductReviews = ({ productId }) => {
   }, [productId]);
 
   return (
-    <div className="bg-gray-100 p-4 rounded-lg">
-      <h3 className="text-xl font-semibold mb-4">User Reviews:</h3>
+    <div className="container mb-8">
+      <h3 className="mb-4 text-xl font-semibold text-gray-700">
+        User Reviews:
+      </h3>
       {reviews.length > 0 ? (
         reviews.map((review, index) => (
-          <div key={index} className="mb-4">
-            <p className="text-teal-600 font-medium">{review.userName}</p>
-            <p className="text-gray-700">{review.comment}</p>
+          <div
+            key={index}
+            className={`mb-3 flex flex-col gap-1 pb-3 max-w-96 ${
+              index !== reviews.length - 1 ? "border-b border-gray-300" : ""
+            }`}>
+            <p className="text-base font-medium text-primary ">
+              {review.userName}
+            </p>
             <div className="flex items-center">
               <Rating>
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -61,6 +68,9 @@ const ProductReviews = ({ productId }) => {
                 ))}
               </Rating>
             </div>
+            <p className="text-base font-normal text-gray-700">
+              {review.comment}
+            </p>
           </div>
         ))
       ) : (
