@@ -39,11 +39,6 @@ export default function Footer() {
                   About Us
                 </Link>
               </li>
-              <li>
-                <Link to="/contact" className="hover:text-indigo-300">
-                  Contact
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -52,23 +47,13 @@ export default function Footer() {
             <h3 className="font-semibold mb-2 text-secondary">Support</h3>
             <ul className="text-sm space-y-1">
               <li>
-                <Link to="/faqs" className="hover:text-indigo-300">
+                <Link to="/help-center" className="hover:text-indigo-300">
                   FAQs
                 </Link>
               </li>
               <li>
-                <Link to="/shipping-returns" className="hover:text-indigo-300">
-                  Shipping & Returns
-                </Link>
-              </li>
-              <li>
-                <Link to="/privacy-policy" className="hover:text-indigo-300">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/terms" className="hover:text-indigo-300">
-                  Terms of Service
+                <Link to="/contact-us" className="hover:text-indigo-300">
+                  Contact Us
                 </Link>
               </li>
             </ul>
@@ -78,9 +63,9 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold mb-2 text-secondary">Contact Us</h3>
             <p className="text-sm text-secondary mb-1">
-              Email: support@pharmaco.com
+              Email: support@primecare.com
             </p>
-            <p className="text-sm text-secondary">Phone: +1 800 123 456</p>
+            <p className="text-sm text-secondary">Phone: +20 1201456635</p>
           </div>
         </div>
 
