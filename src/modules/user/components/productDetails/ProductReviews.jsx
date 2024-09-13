@@ -11,6 +11,7 @@ const ProductReviews = ({ productId }) => {
   // fetch reviews and user's names who reviewed this product
   useEffect(() => {
     const fetchReviewsAndUsers = async () => {
+      // Fetching reviews
       const reviewsQuery = query(
         collection(db, "reviews"),
         where("productId", "==", productId)
@@ -18,29 +19,38 @@ const ProductReviews = ({ productId }) => {
       const reviewsSnapshot = await getDocs(reviewsQuery);
       const fetchedReviews = reviewsSnapshot.docs
         .map((doc) => doc.data())
-        .filter((review) => review.comment !== ""); // fetchedReviews => reviews who has comments in this product
+        .filter((review) => review.comment !== ""); // fetchedReviews => reviews with comments
 
-      // Fetching user details
+      // If no reviews with comments, return an empty array
+      if (fetchedReviews.length === 0) {
+        setReviews([]);
+        return;
+      }
+
+      // Fetching user details only if there are reviews
       const userIds = fetchedReviews.map((review) => review.userId);
-      const usersQuery = query(
-        collection(db, "users"),
-        where("userId", "in", userIds)
-      );
-      const usersSnapshot = await getDocs(usersQuery); // usersSnapshot.docs.map(doc=>doc.data) => array of users who had reviewed the product
 
-      const usersData = {};
-      usersSnapshot.docs.forEach((doc) => {
-        const user = doc.data();
-        usersData[user.userId] = user.name; // {u1: moamen, u2:omar, ...}
-      });
+      // Check if userIds array is not empty
+      if (userIds.length > 0) {
+        const usersQuery = query(
+          collection(db, "users"),
+          where("userId", "in", userIds)
+        );
+        const usersSnapshot = await getDocs(usersQuery);
 
-      const reviewsWithUserNames = fetchedReviews.map((review) => ({
-        ...review,
-        userName: usersData[review.userId], // userName : userData.u1 (moamen)
-      }));
-      //ex: reviewsWithUserNames =>[{...review data + username : moamen },{{...review data + username : omar} ...]
+        const usersData = {};
+        usersSnapshot.docs.forEach((doc) => {
+          const user = doc.data();
+          usersData[user.userId] = user.name; // Mapping user IDs to names
+        });
 
-      setReviews(reviewsWithUserNames);
+        const reviewsWithUserNames = fetchedReviews.map((review) => ({
+          ...review,
+          userName: usersData[review.userId], // Adding userName to review
+        }));
+
+        setReviews(reviewsWithUserNames);
+      }
     };
 
     fetchReviewsAndUsers();
@@ -57,7 +67,8 @@ const ProductReviews = ({ productId }) => {
             key={index}
             className={`mb-3 flex flex-col gap-1 pb-3 max-w-96 ${
               index !== reviews.length - 1 ? "border-b border-gray-300" : ""
-            }`}>
+            }`}
+          >
             <p className="text-base font-medium text-primary ">
               {review.userName}
             </p>

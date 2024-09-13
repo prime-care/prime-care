@@ -12,11 +12,16 @@ import {
 import { db } from "../../../services/firebase";
 // uuid
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 
 const useWishlist = (userId, productId) => {
     const [isInWishlist, setIsInWishlist] = useState(false);
     // state to save the wishListId to delete it if the user decide to remove it from his wish list
     const [wishListDocId, setWishListDocId] = useState(null);
+
+
+    const navigate = useNavigate();
+
 
     // check if the current user already has this product in his wishlist
     useEffect(() => {
@@ -42,6 +47,11 @@ const useWishlist = (userId, productId) => {
 
     // function to add or remove the product from user's wish list
     const toggleWishlist = async () => {
+
+        if (!userId) {
+            navigate("/auth/login");
+            return;
+        }
 
         // if its there => remove it
         if (isInWishlist) {

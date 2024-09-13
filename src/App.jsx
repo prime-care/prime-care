@@ -30,8 +30,6 @@ const App = () => {
     <>
       <ScrollToTop />
       <Routes>
-        <Route path="*" element={<NotFound/>} />
-
         {/* Public Routes */}
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Home />} />
@@ -65,6 +63,8 @@ const App = () => {
             <Route path="orders" element={<DashOrdes />} />
           </Route>
         </Route>
+        {/* Not found */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../../../redux/slices/userSlice";
 
 // firebase
-import { auth } from "../../../services/firebase";
+import { auth, db } from "../../../services/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 // components
@@ -16,6 +16,7 @@ import * as Yup from "yup";
 
 // link
 import { Link } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -44,7 +45,18 @@ const LoginPage = () => {
         password
       );
       const user = userCredential.user;
-      dispatch(setUser({ uid: user.uid, email: user.email }));
+
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      const userData = userDoc.data();
+
+      dispatch(
+        setUser({
+          uid: user.uid,
+          email: user.email,
+          name: userData.name,
+          role: userData.role,
+        })
+      );
     } catch (error) {
       console.error("Error logging in:", error);
     } finally {
@@ -65,7 +77,8 @@ const LoginPage = () => {
           <Formik
             initialValues={initialValues}
             onSubmit={handleLogin}
-            validationSchema={validationSchema}>
+            validationSchema={validationSchema}
+          >
             {({ isSubmitting }) => (
               <Form>
                 {/* Email Field */}
@@ -109,7 +122,8 @@ const LoginPage = () => {
                 <Button
                   className="w-full"
                   type="submit"
-                  disabled={isSubmitting}>
+                  disabled={isSubmitting}
+                >
                   {isSubmitting ? "Logging in..." : "Login"}
                 </Button>
               </Form>

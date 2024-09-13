@@ -88,7 +88,7 @@ const ProductRating = ({ productId }) => {
   return (
     <div className="container pb-4 mb-4 border-b border-gray-300">
       <h3 className="mb-4 text-xl font-semibold text-gray-700">
-        Rate this product:
+        Rate this product
       </h3>
       <div className="flex items-center mb-4">
         <Rating>
@@ -118,10 +118,11 @@ const ProductRating = ({ productId }) => {
 
       <button
         onClick={handleRatingSubmit}
-        disabled={loading} // disable button while loading
+        disabled={loading || rating == 0}
         className={`mt-4 px-4 py-2 bg-[#0e7490] text-white rounded-md hover:bg-[#0c6373] ${
-          loading ? "cursor-not-allowed opacity-50" : ""
-        }`}>
+          loading || rating == 0 ? "cursor-not-allowed opacity-50" : ""
+        }`}
+      >
         {loading ? "Submitting..." : "Submit Review"}
       </button>
     </div>

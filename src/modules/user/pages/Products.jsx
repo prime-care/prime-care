@@ -143,7 +143,7 @@ const Products = () => {
 
   // pagination logic
   const { currentItems, currentPage, totalPages, handlePageChange, resetPage } =
-    usePagination(filteredProducts, 8);
+    usePagination(filteredProducts, 9);
 
   return (
     <div className="products-page p-4">
