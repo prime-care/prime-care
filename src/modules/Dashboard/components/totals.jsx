@@ -72,7 +72,7 @@ export default function Totals() {
           </h2>
           <p className="text-xl sm:text-2xl font-semibold">
             {totalUsers}{" "}
-            <span className="text-base font-medium text-gray-500">EGP</span>
+            <span className="text-base font-medium text-gray-500">$</span>
           </p>
         </div>
       </div>

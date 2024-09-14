@@ -173,7 +173,7 @@ const ProductDetails = () => {
 
             <span className="block my-4 text-xl font-semibold text-primary">
               {product.price + " "}
-              <span className="text-base font-semibold text-gray-500">EGP</span>
+              <span className="text-base font-semibold text-gray-500">$</span>
             </span>
 
             <p className="mb-7 text-base font-medium text-gray-500 leading-6">
@@ -201,8 +201,7 @@ const ProductDetails = () => {
                 </div>
                 <Button
                   className="flex justify-center items-center"
-                  onClick={handleAddToCart}
-                >
+                  onClick={handleAddToCart}>
                   <BsCartPlus className="mr-2 h-5 w-5" />
                   Add To Cart
                 </Button>
@@ -226,8 +225,7 @@ const ProductDetails = () => {
               {features.map((feature) => (
                 <div
                   key={feature.id}
-                  className="feature flex justify-start items-center gap-4"
-                >
+                  className="feature flex justify-start items-center gap-4">
                   {feature?.icon}
                   <div className="flex flex-col">
                     <span className="text-base font-semibold text-gray-900">

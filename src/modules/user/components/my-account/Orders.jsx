@@ -107,14 +107,14 @@ const Orders = () => {
                     <span>
                       {product.price}{" "}
                       <span className="text-sm font-medium text-gray-500">
-                        EGP
+                        $
                       </span>{" "}
                       x {product.quantity}
                     </span>
                     <span>
                       ${(product.price * product.quantity).toFixed(2)}
                       <span className="text-sm font-medium text-gray-500">
-                        EGP
+                        $
                       </span>
                     </span>
                   </div>
@@ -154,7 +154,7 @@ const Orders = () => {
                   </Table.Cell>
                   <Table.Cell>
                     {order.totalAmount + " "}
-                    <span>EGP</span>
+                    <span>$</span>
                   </Table.Cell>
                   <Table.Cell>{order.status}</Table.Cell>
                   <Table.Cell>

@@ -32,14 +32,14 @@ export default function CartSummary() {
           <span className="font-semibold py-6 px-8">Subtotal</span>
           <span className="text-xl font-bold text-primary">
             {total}
-            <span className="text-sm font-medium text-gray-500"> EGP</span>
+            <span className="text-sm font-medium text-gray-500"> $</span>
           </span>
         </div>
         <div className="my-4 border-t pt-4 text-[#46a69c] font-semibold">
           <span className="py-6 px-8 ">Total</span>
           <span className="text-xl font-bold">
             {total}
-            <span className="text-sm font-medium text-gray-500"> EGP</span>
+            <span className="text-sm font-medium text-gray-500"> $</span>
           </span>
         </div>
         <Link to={"/checkout"}>

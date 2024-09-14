@@ -62,7 +62,7 @@ export default function CartItems() {
                     {item.price}
                     <span className="text-sm font-medium text-gray-500">
                       {" "}
-                      EGP
+                      $
                     </span>
                   </span>
                 </td>
