@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 // redux
 import { useSelector } from "react-redux";
-import { selectTotal } from "../../../redux/slices/cartSlice";
+import { clearCart, selectTotal } from "../../../redux/slices/cartSlice";
 
 // icons
 import { FiUser } from "react-icons/fi"; // user icon
@@ -73,7 +73,7 @@ export default function Header() {
       await signOut(auth);
 
       dispatch(clearUser());
-
+      dispatch(clearCart());
       navigate("/");
     } catch (error) {
       console.error("Error signing out: ", error);
