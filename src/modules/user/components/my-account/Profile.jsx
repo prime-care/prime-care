@@ -75,9 +75,10 @@ const Profile = () => {
         toast.success("User information updated successfully");
       } else {
         console.error("No user data found!");
+        toast.error("No user data found!");
       }
     } catch (error) {
-      console.error("Error updating user data:", error);
+      toast.error("Error updating user data:", error);
     }
 
     setIsUpdating(false);

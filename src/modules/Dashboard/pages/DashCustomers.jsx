@@ -8,6 +8,7 @@ import Search from "../../common/components/Search";
 import useSearch from "../../common/hooks/useSearch";
 import { Modal } from "flowbite-react";
 import { FaTrashAlt } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function DashCustomers() {
   const [users, setUsers] = useState([]);
@@ -57,8 +58,9 @@ export default function DashCustomers() {
       await deleteDoc(doc(db, "users", customerToDelete));
       setUsers(users.filter((user) => user.id !== customerToDelete));
       setDeleteModal(false);
+      toast.success("User deleted successfully");
     } catch (error) {
-      console.error("Error deleting user:", error);
+      toast.error("Error deleting user");
     } finally {
       setIsDeleting(false);
     }

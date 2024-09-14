@@ -1,17 +1,28 @@
 import { useEffect, useState } from "react";
 import { FaProductHunt } from "react-icons/fa";
-import { FaMoneyBill1Wave } from "react-icons/fa6";
 import { FaShoppingBag } from "react-icons/fa";
+import { HiMiniUsers } from "react-icons/hi2";
 import { BiCategory } from "react-icons/bi";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../services/firebase";
 
 export default function Totals() {
+  const [totalUsers, setTotalUsers] = useState(0);
   const [totalProducts, setTotalProducts] = useState(0);
   const [totalCategories, setTotalCategories] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
 
   useEffect(() => {
+    // Fetch users count
+    const fetchUsersCount = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "users"));
+        setTotalUsers(querySnapshot.size); // Get the number of documents in the users collection
+      } catch (error) {
+        console.error("Error fetching users count:", error);
+      }
+    };
+
     // Fetch products count
     const fetchProductsCount = async () => {
       try {
@@ -42,6 +53,7 @@ export default function Totals() {
       }
     };
 
+    fetchUsersCount();
     fetchProductsCount();
     fetchCategoriesCount();
     fetchOrdersCount();
@@ -52,12 +64,14 @@ export default function Totals() {
       {/* Total Sales */}
       <div className="flex items-center space-x-4 p-3 sm:p-4 px-6 sm:px-8 bg-white rounded-lg shadow">
         <div className="text-secondary flex justify-center items-center h-8 w-8 sm:h-10 sm:w-10 text-2xl sm:text-3xl rounded-lg bg-gray-100">
-          <FaMoneyBill1Wave />
+          <HiMiniUsers />
         </div>
         <div>
-          <h2 className="text-gray-500 text-sm sm:text-base">Total Sales</h2>
+          <h2 className="text-gray-500 text-sm sm:text-base">
+            Total Customers
+          </h2>
           <p className="text-xl sm:text-2xl font-semibold">
-            1250{" "}
+            {totalUsers}{" "}
             <span className="text-base font-medium text-gray-500">EGP</span>
           </p>
         </div>
