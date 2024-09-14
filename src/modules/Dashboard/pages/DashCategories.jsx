@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Table, Button, Spinner } from "flowbite-react";
 import { Modal } from "flowbite-react";
+import { toast } from "react-toastify";
 import {
   collection,
   getDocs,
@@ -58,8 +59,10 @@ export default function DashCategories() {
         categories.filter((category) => category.id !== categoryToDelete)
       );
       setDeleteModal(false);
+      toast.success("Category deleted successfully");
     } catch (error) {
       console.error("Error deleting category:", error);
+      toast.error("Error deleting category");
     } finally {
       setIsDeleting(false);
     }
@@ -69,8 +72,10 @@ export default function DashCategories() {
     try {
       await addDoc(collection(db, "categories"), categoryData);
       setIsModalOpen(false);
+      toast.success("Category added successfully");
     } catch (error) {
       console.error("Error adding category:", error);
+      toast.error("Error adding category");
     }
   };
 

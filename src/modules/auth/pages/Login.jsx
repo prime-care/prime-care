@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 // redux
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../redux/slices/userSlice";
@@ -57,6 +59,7 @@ const LoginPage = () => {
           role: userData.role,
         })
       );
+      toast.success("Logged in successfully");
     } catch (error) {
       if (error.code === "auth/invalid-credential") {
         // Message for wrong password
@@ -65,6 +68,7 @@ const LoginPage = () => {
         console.error("Error logging in:", error);
         setFieldError("email", "An error occurred. Please try again.");
       }
+      toast.error("Error logging in");
     } finally {
       setSubmitting(false); // stop the submitting/loading state
     }
@@ -83,8 +87,7 @@ const LoginPage = () => {
           <Formik
             initialValues={initialValues}
             onSubmit={handleLogin}
-            validationSchema={validationSchema}
-          >
+            validationSchema={validationSchema}>
             {({ isSubmitting }) => (
               <Form>
                 {/* Email Field */}
@@ -128,8 +131,7 @@ const LoginPage = () => {
                 <Button
                   className="w-full"
                   type="submit"
-                  disabled={isSubmitting}
-                >
+                  disabled={isSubmitting}>
                   {isSubmitting ? "Logging in..." : "Login"}
                 </Button>
               </Form>

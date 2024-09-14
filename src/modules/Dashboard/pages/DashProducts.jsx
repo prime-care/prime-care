@@ -5,6 +5,7 @@ import { FaPencilAlt } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
 import AddProductModal from "../components/AddProductModal";
 import { db } from "../../../services/firebase";
+import { toast } from "react-toastify";
 import {
   collection,
   getDocs,
@@ -70,14 +71,16 @@ export default function DashProducts() {
         // Update the existing product
         const productDoc = doc(db, "products", editProduct.id);
         await updateDoc(productDoc, productData);
+        toast.success("Product updated successfully");
       } else {
         // Add a new product
         await addDoc(collection(db, "products"), productData);
+        toast.success("Product added successfully");
       }
       setIsModalOpen(false); // Close modal after adding/updating the product
       setEditProduct(null); // Clear editProduct state
     } catch (error) {
-      console.error("Error adding/updating product:", error);
+      toast.error("Error adding/updating product");
     }
   };
 
@@ -91,8 +94,9 @@ export default function DashProducts() {
       await deleteDoc(doc(db, "products", productToDelete));
       setProducts(products.filter((product) => product.id !== productToDelete));
       setDeleteModal(false);
+      toast.success("Product deleted successfully");
     } catch (error) {
-      console.error("Error deleting product:", error);
+      toast.error("Error deleting product");
     } finally {
       setIsDeleting(false);
     }
