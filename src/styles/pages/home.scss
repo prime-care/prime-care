@@ -2,7 +2,7 @@
   .products {
     display: flex;
     flex-wrap: nowrap;
-    gap: 18px;
+    gap: 9px;
 
     @media screen and (max-width: 1200px) {
       grid-template-columns: 1fr 1fr;

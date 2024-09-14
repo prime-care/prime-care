@@ -1,5 +1,6 @@
 import { footerLinks, socialMedia } from "../../../constants";
 import logo from "../../../../public/images/logo.png";
+import { Link } from "react-router-dom";
 
 const Footer = () => (
   <section
@@ -11,7 +12,7 @@ const Footer = () => (
       <div className="flex-[1] flex flex-col justify-start mr-10">
         <img
           src={logo}
-          alt="hoobank"
+          alt="prime care"
           className="w-[266px] h-[72.14px] object-contain"
         />
         <p
@@ -34,12 +35,13 @@ const Footer = () => (
             <ul className="list-none mt-4">
               {footerlink.links.map((link, index) => (
                 <li
-                  dangerouslySetInnerHTML={{ __html: link.name }}
                   key={link.name}
                   className={` text-gray-400 font-normal text-[16px] leading-[24px] text-dimWhite duration-200 hover:text-white cursor-pointer ${
                     index !== footerlink.links.length - 1 ? "mb-4" : "mb-0"
                   }`}
-                ></li>
+                >
+                  <Link to={link.link}>{link.name}</Link>
+                </li>
               ))}
             </ul>
           </div>

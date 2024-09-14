@@ -11,8 +11,14 @@ import { IoCartOutline } from "react-icons/io5"; // cart icon
 import { FiMenu, FiX } from "react-icons/fi"; // burger and close icons
 import { useEffect, useState } from "react";
 
+import { signOut } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { clearUser } from "../../../redux/slices/userSlice";
+import { auth } from "../../../services/firebase";
+
 export default function Header() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // select total and the cart from redux
   const total = useSelector(selectTotal);
@@ -61,6 +67,19 @@ export default function Header() {
     setMenuOpen((prevState) => !prevState);
   };
 
+  // handle logout
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+
+      dispatch(clearUser());
+
+      navigate("/");
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    }
+  };
+
   return (
     <>
       <header className="px-4 sm:px-8 lg:px-11 py-2 flex justify-between items-center text-white bg-primary">
@@ -107,7 +126,23 @@ export default function Header() {
               </span>
             )}
           </button>
+          {/* login, logout and sign up buttons */}
+
+          {user ? (
+            <button onClick={handleLogout}>Logout</button>
+          ) : (
+            <div>
+              <button
+                className=" mr-2 "
+                onClick={() => navigate("/auth/login")}
+              >
+                Login
+              </button>
+              <button onClick={() => navigate("/auth/signup")}>Sign Up</button>
+            </div>
+          )}
           {/* Burger Icon */}
+
           <div className="md:hidden">
             <button onClick={toggleMenu}>
               {menuOpen ? (

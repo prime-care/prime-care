@@ -36,7 +36,7 @@ const LoginPage = () => {
     password: "",
   };
 
-  const handleLogin = async (values, { setSubmitting }) => {
+  const handleLogin = async (values, { setSubmitting, setFieldError }) => {
     const { email, password } = values;
     try {
       const userCredential = await signInWithEmailAndPassword(
@@ -58,7 +58,13 @@ const LoginPage = () => {
         })
       );
     } catch (error) {
-      console.error("Error logging in:", error);
+      if (error.code === "auth/invalid-credential") {
+        // Message for wrong password
+        setFieldError("password", "Incorrect password. Please try again.");
+      } else {
+        console.error("Error logging in:", error);
+        setFieldError("email", "An error occurred. Please try again.");
+      }
     } finally {
       setSubmitting(false); // stop the submitting/loading state
     }
