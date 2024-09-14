@@ -3,6 +3,7 @@ import { Table, Modal, Button, Spinner } from "flowbite-react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 import { db } from "../../../services/firebase";
 import {
@@ -76,7 +77,9 @@ export default function DashOrders() {
       await deleteDoc(doc(db, "orders", orderToDelete));
       setOrders(orders.filter((order) => order.id !== orderToDelete));
       setDeleteModal(false);
+      toast.success("Order deleted successfully");
     } catch (error) {
+      toast.error("Error deleting order");
       console.error("Error deleting order:", error);
     } finally {
       setIsDeleting(false);
@@ -107,10 +110,13 @@ export default function DashOrders() {
           order.orderId === orderId ? { ...order, status: newStatus } : order
         );
         setOrders(updatedOrders);
+        toast.success("Order status updated successfully");
       } else {
+        toast.error("Order not found");
         console.error("Order not found");
       }
     } catch (error) {
+      toast.error("Error updating order status");
       console.error("Error updating order status:", error);
     }
   };

@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../redux/slices/userSlice";
 
@@ -63,12 +65,13 @@ const Signup = () => {
       dispatch(
         setUser({ uid: user.uid, email: user.email, name, role: "user" })
       );
+      toast.success("Sign up successful");
       navigate("/", { replace: true });
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         setFieldError("email", "This email is already in use.");
       } else {
-        console.error("Error signing up:", error);
+        toast.error("Error signing up");
       }
     } finally {
       setSubmitting(false);
@@ -88,8 +91,7 @@ const Signup = () => {
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={handleSignUp}
-          >
+            onSubmit={handleSignUp}>
             {({ isSubmitting }) => (
               <Form className="space-y-6">
                 {/* Name Field */}
@@ -133,8 +135,7 @@ const Signup = () => {
                 <div>
                   <label
                     htmlFor="password"
-                    className="block mb-1 text-gray-700"
-                  >
+                    className="block mb-1 text-gray-700">
                     Password
                   </label>
                   <Field
@@ -155,8 +156,7 @@ const Signup = () => {
                 <Button
                   className="w-full"
                   type="submit"
-                  disabled={isSubmitting}
-                >
+                  disabled={isSubmitting}>
                   {isSubmitting ? "Signing up..." : "Sign Up"}
                 </Button>
               </Form>
