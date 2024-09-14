@@ -136,11 +136,11 @@ export const footerLinks = [
       },
       {
         name: "Shop",
-        link: "/shop",
+        link: "/products",
       },
       {
         name: "Contact Us",
-        link: "/contact",
+        link: "/contact-us",
       },
     ],
   },
@@ -149,7 +149,7 @@ export const footerLinks = [
 `,
     links: [
       {
-        name: "Address: El-Arish - Elmsaied - Dawaran Shobra, <br/> Ismailia - Elkhamsa - Mustafa Al Attar St",
+        name: "Address: El-Arish - Elmsaied - Dawaran Shobra",
         link: "/",
       },
       {
