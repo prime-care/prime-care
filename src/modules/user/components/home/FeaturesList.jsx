@@ -4,10 +4,10 @@ import { features } from "../../../../constants";
 
 const FeaturesList = () => {
   return (
-    <section className="bg-[#f6f8f8] px-11 py-8 mb-24">
+    <section className="bg-[#f6f8f8] px-11 py-8 my-24">
       <div className="container grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-3">
         {features.map((feature, index) => (
-          <div key={index} className="flex gap-4 items-center">
+          <div key={index} className="mb-3 flex gap-4 items-center">
             <div className="icon-wrapper">
               <img
                 src={feature.icon}

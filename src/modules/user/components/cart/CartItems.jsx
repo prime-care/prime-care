@@ -45,13 +45,11 @@ export default function CartItems() {
           {cartItems.map((item) => (
             <tr
               key={item.id}
-              className="border-b hover:bg-[#f6f8f8] duration-200"
-            >
+              className="border-b hover:bg-[#f6f8f8] duration-200">
               <td className="px-4 py-7 flex gap-6 items-center font-bold text-[#26658c] ">
                 <Link
                   to={`/products/${item.id}`}
-                  className="flex gap-3 flex-col md:flex-row items-center"
-                >
+                  className="flex gap-3 flex-col md:flex-row items-center">
                   <img
                     src={item.image}
                     alt={item.name}
@@ -74,16 +72,14 @@ export default function CartItems() {
                   {/* minus */}
                   <button
                     className="hover:text-red-600 transition-all duration-300"
-                    onClick={() => handleDecreaseQuantity(item.id)}
-                  >
+                    onClick={() => handleDecreaseQuantity(item.id)}>
                     <AiOutlineMinus />
                   </button>
                   <span>{item.quantity}</span>
                   {/* plus */}
                   <button
                     className="hover:text-green-600 transition-all duration-300"
-                    onClick={() => handleIncreaseQuantity(item.id)}
-                  >
+                    onClick={() => handleIncreaseQuantity(item.id)}>
                     <AiOutlinePlus />
                   </button>
                 </div>
@@ -93,8 +89,7 @@ export default function CartItems() {
                 {/* delete */}
                 <Button
                   color="failure"
-                  onClick={() => handleRemoveItem(item.id)}
-                >
+                  onClick={() => handleRemoveItem(item.id)}>
                   <AiOutlineDelete className="mr-2 h-5 w-5" />
                   Delete
                 </Button>
@@ -103,22 +98,6 @@ export default function CartItems() {
           ))}
         </tbody>
       </table>
-
-      <div className="py-5 px-7 flex items-center flex-col lg:flex-row gap-2 justify-between hover:bg-[#f6f8f8] duration-200">
-        <div className="flex w-full fle max-w-[36rem]">
-          <input
-            type="text"
-            placeholder="Enter coupon code"
-            className="h-12 border border-gray-300 p-3 w-full rounded-l-[1rem]"
-          />
-          <button className="min-w-48 h-12 bg-[#4abfd9] hover:bg-[#41a8bf] font-semibold text-lg text-white rounded-r-[1rem] duration-300">
-            Apply Coupon
-          </button>
-        </div>
-        <button className="hover:bg-primary hover:text-white duration-300 bg-[#edf1f2] px-6 py-3 rounded-[1rem] font-semibold md:text-lg ">
-          Update Cart
-        </button>
-      </div>
     </div>
   );
 }
